@@ -18,7 +18,9 @@ module.exports = {
    
   },
 
-  rules: {},
+  rules: {
+    'vue/multi-word-component-names': 0
+  },
 
   'extends': [
     'plugin:vue/essential',
