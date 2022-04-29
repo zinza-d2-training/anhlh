@@ -10,7 +10,7 @@
         </div>
         <div class="form mt">
           <v-col cols="12" class="form__cmnd">
-            <label for="cmnd" class="title font-weight-regular">
+            <label for="cmnd" class="subtitle-1 font-weight-regular">
               Chứng minh nhân dân/Căn cước công dân</label
             >
             <v-text-field
@@ -20,7 +20,7 @@
               outlined></v-text-field>
           </v-col>
           <v-col cols="12" class="form__pw">
-            <label for="password" class="title font-weight-regular">Mật khẩu</label>
+            <label for="password" class="subtitle-1 font-weight-regular">Mật khẩu</label>
             <v-text-field
               class="input input-cmnd"
               type="password"
@@ -42,10 +42,8 @@
         <div class="container__text d-flex justify-center mt">
           <div class="subtitle-1">Hoặc đăng ký tài khoản nếu bạn chưa có!</div>
         </div>
-        <div class="container__register mt">
-          <div class="container__register-flex d-flex flex-column align-start">
-            <div class="btn-register subtitle-2 body-2 font-weight-bold">Đăng ký</div>
-          </div>
+        <div class="container__register mt d-flex flex-column align-start">
+          <div class="container__register-flex subtitle-2 body-2 font-weight-bold">Đăng ký</div>
         </div>
       </div>
     </div>
@@ -63,11 +61,12 @@ export default class LoginComponent extends Vue {
 }
 </script>
 <style>
+.html {
+  font-size: 16px;
+}
 #container {
   width: 1400px;
   height: 983px;
-  margin: 0 auto;
-  border: 1px solid #ccc;
 }
 .container__right {
   width: 700px;
@@ -196,9 +195,11 @@ export default class LoginComponent extends Vue {
   bottom: 26%;
   width: 387px;
   height: 24px;
+  text-align: center;
+  color: #9ccc65;
 }
-.btn-register {
+/* .btn-register {
   color: #9ccc65;
   margin: 0 43%;
-}
+} */
 </style>
