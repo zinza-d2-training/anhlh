@@ -54,7 +54,7 @@
 
 <script lang="ts">
 import { Component, Vue, Prop } from 'vue-property-decorator';
-
+//a
 @Component({})
 export default class LoginComponent extends Vue {
   @Prop() count!: number;
