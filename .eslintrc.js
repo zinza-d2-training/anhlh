@@ -18,12 +18,5 @@ module.exports = {
 
   rules: {
     'vue/multi-word-component-names': 0
-  },
-
-  extends: [
-    'plugin:vue/essential',
-    'plugin:prettier/recommended',
-    'eslint:recommended',
-    '@vue/typescript'
-  ]
+  }
 };
