@@ -15,7 +15,7 @@
             >
             <v-text-field
               class="input input-cmnd"
-              label="cmnd"
+              placeholder="123456789"
               hide-details="false"
               outlined></v-text-field>
           </v-col>
@@ -25,7 +25,7 @@
               class="input input-cmnd"
               type="password"
               outlined
-              label="password"
+              placeholder="*************"
               hide-details="false"
               hint="false"></v-text-field>
           </v-col>
