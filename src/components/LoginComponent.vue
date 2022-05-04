@@ -15,7 +15,7 @@
             >
             <v-text-field
               class="input input-cmnd"
-              label="số cmnd"
+              label="cmnd"
               hide-details="false"
               outlined></v-text-field>
           </v-col>
@@ -24,8 +24,8 @@
             <v-text-field
               class="input input-cmnd"
               type="password"
-              label="Password"
               outlined
+              label="password"
               hide-details="false"
               hint="false"></v-text-field>
           </v-col>
@@ -65,16 +65,22 @@ export default class LoginComponent extends Vue {
   font-size: 16px;
 }
 #container {
-  width: 1400px;
-  height: 983px;
+  width: 100%;
+  /* height: 100vh; */
+  box-sizing: border-box;
+  flex-flow: row wrap;
 }
 .container__right {
   width: 700px;
-  height: 983px;
+  height: 100vh;
 }
 .container__left {
   width: 700px;
-  height: 983px;
+  height: 100vh;
+}
+.container__left img {
+  height: 100vh;
+  width: 100%;
 }
 .container__right .container {
   width: 387px;
@@ -82,7 +88,7 @@ export default class LoginComponent extends Vue {
   padding: 0 0;
   position: relative;
   left: 156.5px;
-  top: 253.5px;
+  top: 124px;
   margin-right: 0;
   margin-left: 0;
 }
@@ -103,6 +109,9 @@ export default class LoginComponent extends Vue {
   flex: 0 0 0;
   padding: 0;
 }
+/* .form .v-text-field.v-text-field--enclosed {
+  margin-top: 8px;
+} */
 .form .col {
   padding: 0;
 }
@@ -121,6 +130,7 @@ export default class LoginComponent extends Vue {
   margin-top: 16px;
 }
 .form .v-input {
+  /* margin-top: 8px; */
   height: 50px;
 }
 .form .v-input__control {
@@ -136,9 +146,9 @@ export default class LoginComponent extends Vue {
 .form .v-text-field--outlined > .v-input__control > .v-input__slot {
   min-height: 50px;
 }
-.form .input-cmnd {
+/* .form .input-cmnd {
   margin-bottom: 16px;
-}
+} */
 .form .col-12 .v-application .headline,
 .form .col-12 .v-application .title {
   line-height: 0;

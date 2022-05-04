@@ -2,27 +2,25 @@ module.exports = {
   root: true,
 
   env: {
-    node: true,
-  
+    node: true
   },
 
   extends: [
-    "plugin:vue/essential",
-    "plugin:prettier/recommended",
-    "eslint:recommended",
-    "@vue/typescript",
+    'plugin:vue/essential',
+    'plugin:prettier/recommended',
+    'eslint:recommended',
+    '@vue/typescript'
   ],
 
   parserOptions: {
-    parser: '@typescript-eslint/parser',
-   
+    parser: '@typescript-eslint/parser'
   },
 
   rules: {
     'vue/multi-word-component-names': 0
   },
 
-  'extends': [
+  extends: [
     'plugin:vue/essential',
     'plugin:prettier/recommended',
     'eslint:recommended',
