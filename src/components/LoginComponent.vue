@@ -37,13 +37,13 @@
           </div>
         </div>
         <div class="container__login mt">
-          <button class="btn-login">Đăng nhập</button>
+          <button class="btn-login">ĐĂNG NHẬP</button>
         </div>
         <div class="container__text d-flex justify-center mt">
           <div class="subtitle-1">Hoặc đăng ký tài khoản nếu bạn chưa có!</div>
         </div>
         <div class="container__register mt d-flex flex-column align-start">
-          <div class="container__register-flex subtitle-2 body-2 font-weight-bold">Đăng ký</div>
+          <div class="container__register-flex subtitle-2 body-2 font-weight-bold">ĐĂNG KÝ</div>
         </div>
       </div>
     </div>
@@ -61,26 +61,43 @@ export default class LoginComponent extends Vue {
 }
 </script>
 <style>
-.html {
+html {
   font-size: 16px;
+}
+/* body {
+  height: 100%;
+} */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
 }
 #container {
   width: 100%;
+
+  /* height: 100vh; */
   /* height: 100vh; */
   box-sizing: border-box;
   flex-flow: row wrap;
 }
 .container__right {
-  width: 700px;
-  height: 100vh;
+  flex-basis: 50%;
+  -webkit-box-flex: 0;
+  flex-grow: 0;
+  max-width: 50%;
 }
 .container__left {
-  width: 700px;
-  height: 100vh;
+  flex-basis: 50%;
+  -webkit-box-flex: 0;
+  flex-grow: 0;
+  max-width: 50%;
 }
 .container__left img {
-  height: 100vh;
   width: 100%;
+  height: 100vh;
+
+  object-fit: cover;
+  vertical-align: middle;
 }
 .container__right .container {
   width: 387px;
@@ -91,6 +108,8 @@ export default class LoginComponent extends Vue {
   top: 124px;
   margin-right: 0;
   margin-left: 0;
+  display: flex;
+  flex-flow: column wrap;
 }
 .container .mt {
   margin-top: 24px;
@@ -174,10 +193,9 @@ export default class LoginComponent extends Vue {
 }
 .btn-login {
   position: absolute;
-  left: 39.48%;
-  right: 39.19%;
-  top: 30%;
-  bottom: 32%;
+  left: 147.945px;
+  /* right: 39.19%; */
+  top: 15.5px;
 
   font-family: 'Roboto';
   font-style: normal;
@@ -198,14 +216,9 @@ export default class LoginComponent extends Vue {
   margin-top: 24px;
 }
 .container__register-flex {
-  position: relative;
-  left: 0%;
-  right: 0%;
-  top: 26%;
-  bottom: 26%;
-  width: 387px;
-  height: 24px;
-  text-align: center;
+  margin-left: 163.106px;
+  color: #9ccc65;
+  margin-top: 15px;
   color: #9ccc65;
 }
 /* .btn-register {
