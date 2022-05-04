@@ -84,7 +84,7 @@ export default class LoginComponent extends Vue {
 }
 .container__right .container {
   width: 387px;
-  height: 477px;
+  height: 493px;
   padding: 0 0;
   position: relative;
   left: 156.5px;
@@ -104,28 +104,28 @@ export default class LoginComponent extends Vue {
   line-height: 123.5%;
 }
 .form {
-  height: 174px;
+  height: 190px;
   width: 387px;
   flex: 0 0 0;
   padding: 0;
 }
-/* .form .v-text-field.v-text-field--enclosed {
+.form .v-text-field.v-text-field--enclosed {
   margin-top: 8px;
-} */
+}
 .form .col {
   padding: 0;
 }
 .form .col-12 {
   width: 387px;
-  height: 79px;
+  height: 87px;
   padding: 0;
 }
 
-.form__cmnd {
+/* .form__cmnd {
   width: 387px;
-  height: 79px;
+  height: 87px;
   padding: 0;
-}
+} */
 .form__pw {
   margin-top: 16px;
 }
