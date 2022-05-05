@@ -10,22 +10,22 @@
         </div>
         <div class="form mt">
           <v-col cols="12" class="form__cmnd">
-            <label for="cmnd" class="title font-weight-regular">
+            <label for="cmnd" class="subtitle-1 font-weight-regular">
               Chứng minh nhân dân/Căn cước công dân</label
             >
             <v-text-field
               class="input input-cmnd"
-              label="số cmnd"
+              placeholder="123456789"
               hide-details="false"
               outlined></v-text-field>
           </v-col>
           <v-col cols="12" class="form__pw">
-            <label for="password" class="title font-weight-regular">Mật khẩu</label>
+            <label for="password" class="subtitle-1 font-weight-regular">Mật khẩu</label>
             <v-text-field
               class="input input-cmnd"
               type="password"
-              label="Password"
               outlined
+              placeholder="*************"
               hide-details="false"
               hint="false"></v-text-field>
           </v-col>
@@ -42,10 +42,8 @@
         <div class="container__text d-flex justify-center mt">
           <div class="subtitle-1">Hoặc đăng ký tài khoản nếu bạn chưa có!</div>
         </div>
-        <div class="container__register mt">
-          <div class="container__register-flex d-flex flex-column align-start">
-            <div class="btn-register subtitle-2 body-2 font-weight-bold">Đăng ký</div>
-          </div>
+        <div class="container__register mt d-flex flex-column align-start">
+          <div class="container__register-flex subtitle-2 body-2 font-weight-bold">Đăng ký</div>
         </div>
       </div>
     </div>
@@ -63,27 +61,34 @@ export default class LoginComponent extends Vue {
 }
 </script>
 <style>
+.html {
+  font-size: 16px;
+}
 #container {
-  width: 1400px;
-  height: 983px;
-  margin: 0 auto;
-  border: 1px solid #ccc;
+  width: 100%;
+  /* height: 100vh; */
+  box-sizing: border-box;
+  flex-flow: row wrap;
 }
 .container__right {
   width: 700px;
-  height: 983px;
+  height: 100vh;
 }
 .container__left {
   width: 700px;
-  height: 983px;
+  height: 100vh;
+}
+.container__left img {
+  height: 100vh;
+  width: 100%;
 }
 .container__right .container {
   width: 387px;
-  height: 477px;
+  height: 493px;
   padding: 0 0;
   position: relative;
   left: 156.5px;
-  top: 253.5px;
+  top: 124px;
   margin-right: 0;
   margin-left: 0;
 }
@@ -99,29 +104,33 @@ export default class LoginComponent extends Vue {
   line-height: 123.5%;
 }
 .form {
-  height: 174px;
+  height: 190px;
   width: 387px;
   flex: 0 0 0;
   padding: 0;
+}
+.form .v-text-field.v-text-field--enclosed {
+  margin-top: 8px;
 }
 .form .col {
   padding: 0;
 }
 .form .col-12 {
   width: 387px;
-  height: 79px;
+  height: 87px;
   padding: 0;
 }
 
-.form__cmnd {
+/* .form__cmnd {
   width: 387px;
-  height: 79px;
+  height: 87px;
   padding: 0;
-}
+} */
 .form__pw {
   margin-top: 16px;
 }
 .form .v-input {
+  /* margin-top: 8px; */
   height: 50px;
 }
 .form .v-input__control {
@@ -137,9 +146,9 @@ export default class LoginComponent extends Vue {
 .form .v-text-field--outlined > .v-input__control > .v-input__slot {
   min-height: 50px;
 }
-.form .input-cmnd {
+/* .form .input-cmnd {
   margin-bottom: 16px;
-}
+} */
 .form .col-12 .v-application .headline,
 .form .col-12 .v-application .title {
   line-height: 0;
@@ -196,9 +205,11 @@ export default class LoginComponent extends Vue {
   bottom: 26%;
   width: 387px;
   height: 24px;
+  text-align: center;
+  color: #9ccc65;
 }
-.btn-register {
+/* .btn-register {
   color: #9ccc65;
   margin: 0 43%;
-}
+} */
 </style>
