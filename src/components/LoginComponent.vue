@@ -8,42 +8,63 @@
         <div class="container__header">
           <div class="display-1 font-weight-bold">Đăng nhập vào tài khoản</div>
         </div>
-        <div class="form mt">
-          <v-col cols="12" class="form__cmnd">
-            <label for="cmnd" class="subtitle-1 font-weight-regular">
-              Chứng minh nhân dân/Căn cước công dân</label
-            >
-            <v-text-field
-              class="input input-cmnd"
-              placeholder="123456789"
-              hide-details="false"
-              outlined></v-text-field>
-          </v-col>
-          <v-col cols="12" class="form__pw">
-            <label for="password" class="subtitle-1 font-weight-regular">Mật khẩu</label>
-            <v-text-field
-              class="input input-cmnd"
-              type="password"
-              outlined
-              placeholder="*************"
-              hide-details="false"
-              hint="false"></v-text-field>
-          </v-col>
-        </div>
+        <ValidationObserver ref="form" v-slot="{ invalid }">
+          <form @submit.prevent="onSubmit">
+            <div class="form mt">
+              <ValidationProvider
+                name="cmnd"
+                rules="requiredCmnd|numeric|countCmnd"
+                v-slot="{ errors }">
+                <v-col cols="12" class="form__cmnd">
+                  <label for="cmnd" class="subtitle-1 font-weight-regular">
+                    Chứng minh nhân dân/Căn cước công dân</label
+                  >
+                  <v-text-field
+                    name="cmnd"
+                    class="input input-cmnd"
+                    placeholder="123456789"
+                    hide-details="false"
+                    v-model="cmnd"
+                    outlined></v-text-field>
+                  <span>{{ errors[0] }}</span>
+                </v-col>
+              </ValidationProvider>
+              <ValidationProvider
+                name="password"
+                rules="requiredPw|alphaSpaces|min:8"
+                v-slot="{ errors }">
+                <v-col cols="12" class="form__pw">
+                  <label for="password" class="subtitle-1 font-weight-regular">Mật khẩu</label>
+                  <v-text-field
+                    class="input input-cmnd"
+                    type="password"
+                    outlined
+                    placeholder="*************"
+                    hide-details="false"
+                    v-model="password"
+                    hint="false"></v-text-field>
+                </v-col>
+                <span>{{ errors[0] }}</span>
+              </ValidationProvider>
+            </div>
 
-        <div class="container__links d-flex justify-end align-center mt">
-          <div class="container__links-text">
-            <a href="" class="body-2">Quên mật khẩu</a>
-          </div>
-        </div>
-        <div class="container__login mt">
-          <button class="btn-login subtitle-2 body-2 font-weight-bold">ĐĂNG NHẬP</button>
-        </div>
+            <div class="container__links d-flex justify-end align-center mt">
+              <div class="container__links-text">
+                <a href="" class="body-2">Quên mật khẩu</a>
+              </div>
+            </div>
+            <div class="container__login mt" :class="{ disabled: invalid, abc: a }">
+              <button type="submit" class="btn-login subtitle-2 body-2 font-weight-bold">
+                ĐĂNG NHẬP
+              </button>
+            </div>
+          </form>
+        </ValidationObserver>
         <div class="container__text d-flex justify-center mt">
           <div class="subtitle-1">Hoặc đăng ký tài khoản nếu bạn chưa có!</div>
         </div>
         <div class="container__register mt d-flex flex-column align-start">
-          <div class="container__register-flex subtitle-2 body-2 font-weight-bold">ĐĂNG KÝ</div>
+          <a class="container__register-flex subtitle-2 body-2 font-weight-bold"> ĐĂNG KÝ </a>
         </div>
       </div>
     </div>
@@ -51,13 +72,62 @@
 </template>
 
 <script lang="ts">
-import { Component, Vue, Prop } from 'vue-property-decorator';
-//a
+import { Component, Vue } from 'vue-property-decorator';
+import { extend } from 'vee-validate';
+import { required, numeric, min } from 'vee-validate/dist/rules';
+// import { Validator } from 'vee-validate';
+extend('requiredCmnd', {
+  ...required,
+  message: 'Bắt buộc nhập số!'
+});
+extend('requiredPw', {
+  ...required,
+  message: 'Bắt buộc password!'
+});
+extend('alphaSpaces', {
+  message: (field) => `${field}` + ' ' + 'không được nhập dấu cách',
+  validate: (value) => {
+    for (let i = 0; i < value.length - 1; i++) {
+      let c = value.charAt(i);
+      if (c == ' ') {
+        return false;
+      }
+      // console.log(c);
+    }
+    return true;
+  }
+});
+// var countMessage;
+extend('countCmnd', {
+  message: (field) => 'bắt buộc' + `${field}` + 'là 9 số hoặc 12 số',
+  validate: (value) => {
+    if (value.length == 9 || value.length == 12) {
+      return true;
+    }
+    return false;
+  }
+});
+extend('numeric', {
+  ...numeric,
+  message: 'bắt buộc phải là số'
+});
+extend('min', {
+  ...min,
+  message: 'bắt buộc 8 kí tự'
+});
 @Component({})
 export default class LoginComponent extends Vue {
-  @Prop() count!: number;
+  // @Prop(Number) readonly invalid: number | undefined;
 
-  mounted() {}
+  data() {
+    return {
+      cmnd: '',
+      password: ''
+    };
+  }
+  async onSubmit() {
+    // console.log(this.invalid);
+  }
 }
 </script>
 <style>
@@ -186,9 +256,13 @@ export default class LoginComponent extends Vue {
   justify-content: center;
   align-items: center;
 }
-.btn-login {
+.container__login.disabled {
+  background: rgb(224 224 224);
+}
+.container__login .btn-login {
   color: #ffffff;
 }
+
 .container__text {
   width: 387px;
   height: 24px;
