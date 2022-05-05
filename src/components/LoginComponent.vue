@@ -37,7 +37,7 @@
           </div>
         </div>
         <div class="container__login mt">
-          <button class="btn-login">ĐĂNG NHẬP</button>
+          <button class="btn-login subtitle-2 body-2 font-weight-bold">ĐĂNG NHẬP</button>
         </div>
         <div class="container__text d-flex justify-center mt">
           <div class="subtitle-1">Hoặc đăng ký tài khoản nếu bạn chưa có!</div>
@@ -63,6 +63,7 @@ export default class LoginComponent extends Vue {
 <style>
 html {
   font-size: 16px;
+  font-family: Roboto, sans-serif;
 }
 /* body {
   height: 100%;
@@ -74,11 +75,8 @@ html {
 }
 #container {
   width: 100%;
-
-  /* height: 100vh; */
-  /* height: 100vh; */
   box-sizing: border-box;
-  flex-flow: row wrap;
+  flex-flow: row nowrap;
 }
 .container__right {
   flex-basis: 50%;
@@ -101,7 +99,7 @@ html {
 }
 .container__right .container {
   width: 387px;
-  height: 493px;
+  /* height: 493px; */
   padding: 0 0;
   position: relative;
   left: 156.5px;
@@ -109,21 +107,21 @@ html {
   margin-right: 0;
   margin-left: 0;
   display: flex;
-  flex-flow: column wrap;
+  flex-flow: column nowrap;
 }
 .container .mt {
   margin-top: 24px;
 }
 .container__header {
   width: 387px;
-  height: 39px;
+  /* height: 39px; */
   font-style: normal;
   font-weight: 700;
   font-size: 34px;
   line-height: 123.5%;
 }
 .form {
-  height: 190px;
+  /* height: 190px; */
   width: 387px;
   flex: 0 0 0;
   padding: 0;
@@ -136,7 +134,7 @@ html {
 }
 .form .col-12 {
   width: 387px;
-  height: 87px;
+  /* height: 87px; */
   padding: 0;
 }
 
@@ -187,21 +185,23 @@ html {
   position: relative;
   width: 387px;
   height: 50px;
-
   background-color: #66bb6a;
   border-radius: 5px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 .btn-login {
-  position: absolute;
-  left: 147.945px;
-  /* right: 39.19%; */
-  top: 15.5px;
-
-  font-family: 'Roboto';
+  /* position: absolute;
+  left: 147.9375px;
+  right: 147.9375px;
+  top: 15.5px; */
+  /* text-align: center; */
+  /* font-family: 'Roboto';
   font-style: normal;
-  font-weight: 700;
-  font-size: 16px;
-  line-height: 19px;
+  font-weight: 700; */
+  /* font-size: 16px; */
+  /* line-height: 19px; */
   color: #ffffff;
 }
 .container__text {
@@ -213,13 +213,12 @@ html {
   height: 50px;
   border-radius: 5px;
   border: 1px solid #9ccc65;
-  margin-top: 24px;
+  /* margin-top: 24px; */
 }
 .container__register-flex {
   margin-left: 163.106px;
   color: #9ccc65;
   margin-top: 15px;
-  color: #9ccc65;
 }
 /* .btn-register {
   color: #9ccc65;
