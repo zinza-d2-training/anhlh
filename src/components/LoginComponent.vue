@@ -61,17 +61,13 @@ export default class LoginComponent extends Vue {
 }
 </script>
 <style>
-html {
-  font-size: 16px;
-  font-family: Roboto, sans-serif;
-}
-/* body {
-  height: 100%;
-} */
 * {
   box-sizing: border-box;
   margin: 0;
   padding: 0;
+}
+::-webkit-scrollbar {
+  display: none;
 }
 #container {
   width: 100%;
@@ -83,6 +79,13 @@ html {
   -webkit-box-flex: 0;
   flex-grow: 0;
   max-width: 50%;
+  display: flex;
+  justify-content: center;
+  flex-direction: row;
+  overflow: auto;
+  overflow-y: auto !important;
+  min-height: min-content;
+  position: relative;
 }
 .container__left {
   flex-basis: 50%;
@@ -99,29 +102,29 @@ html {
 }
 .container__right .container {
   width: 387px;
-  /* height: 493px; */
+  position: absolute;
+
   padding: 0 0;
   position: relative;
-  left: 156.5px;
+
   top: 124px;
   margin-right: 0;
   margin-left: 0;
   display: flex;
-  flex-flow: column nowrap;
+  flex-flow: column wrap;
 }
 .container .mt {
   margin-top: 24px;
 }
 .container__header {
   width: 387px;
-  /* height: 39px; */
+
   font-style: normal;
   font-weight: 700;
   font-size: 34px;
   line-height: 123.5%;
 }
 .form {
-  /* height: 190px; */
   width: 387px;
   flex: 0 0 0;
   padding: 0;
@@ -134,20 +137,14 @@ html {
 }
 .form .col-12 {
   width: 387px;
-  /* height: 87px; */
+
   padding: 0;
 }
 
-/* .form__cmnd {
-  width: 387px;
-  height: 87px;
-  padding: 0;
-} */
 .form__pw {
   margin-top: 16px;
 }
 .form .v-input {
-  /* margin-top: 8px; */
   height: 50px;
 }
 .form .v-input__control {
@@ -163,9 +160,7 @@ html {
 .form .v-text-field--outlined > .v-input__control > .v-input__slot {
   min-height: 50px;
 }
-/* .form .input-cmnd {
-  margin-bottom: 16px;
-} */
+
 .form .col-12 .v-application .headline,
 .form .col-12 .v-application .title {
   line-height: 0;
@@ -192,16 +187,6 @@ html {
   align-items: center;
 }
 .btn-login {
-  /* position: absolute;
-  left: 147.9375px;
-  right: 147.9375px;
-  top: 15.5px; */
-  /* text-align: center; */
-  /* font-family: 'Roboto';
-  font-style: normal;
-  font-weight: 700; */
-  /* font-size: 16px; */
-  /* line-height: 19px; */
   color: #ffffff;
 }
 .container__text {
@@ -213,15 +198,10 @@ html {
   height: 50px;
   border-radius: 5px;
   border: 1px solid #9ccc65;
-  /* margin-top: 24px; */
 }
 .container__register-flex {
   margin-left: 163.106px;
   color: #9ccc65;
   margin-top: 15px;
 }
-/* .btn-register {
-  color: #9ccc65;
-  margin: 0 43%;
-} */
 </style>
