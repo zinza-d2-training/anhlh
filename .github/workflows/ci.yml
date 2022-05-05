@@ -19,7 +19,7 @@ jobs:
           cache: 'yarn'
       - name: Install JS dependencies
         run: yarn install --frozen-lockfile --prefer-offline
-      - name: ESLint & Prettier & Tests
-        run: yarn eslint && yarn prettier && CI=true yarn test
+      - name: ESLint & Prettier
+        run: yarn eslint && yarn prettier
       - name: Typescript
         run: yarn tsc --noEmit
