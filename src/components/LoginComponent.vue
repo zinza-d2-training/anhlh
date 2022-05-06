@@ -53,7 +53,7 @@
                 <router-link to="/forgot-password" class="body-2">Quên mật khẩu</router-link>
               </div>
             </div>
-            <div class="container__login mt" :class="{ disabled: invalid, abc: a }">
+            <div class="container__login mt" :class="{ disabled: invalid }">
               <button type="submit" class="btn-login subtitle-2 body-2 font-weight-bold">
                 ĐĂNG NHẬP
               </button>
