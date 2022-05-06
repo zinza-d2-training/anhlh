@@ -8,44 +8,63 @@
         <div class="container__header">
           <div class="display-1 font-weight-bold">Đăng nhập vào tài khoản</div>
         </div>
-        <div class="form mt">
-          <v-col cols="12" class="form__cmnd">
-            <label for="cmnd" class="title font-weight-regular">
-              Chứng minh nhân dân/Căn cước công dân</label
-            >
-            <v-text-field
-              class="input input-cmnd"
-              label="số cmnd"
-              hide-details="false"
-              outlined></v-text-field>
-          </v-col>
-          <v-col cols="12" class="form__pw">
-            <label for="password" class="title font-weight-regular">Mật khẩu</label>
-            <v-text-field
-              class="input input-cmnd"
-              type="password"
-              label="Password"
-              outlined
-              hide-details="false"
-              hint="false"></v-text-field>
-          </v-col>
-        </div>
+        <ValidationObserver ref="form" v-slot="{ invalid }">
+          <form @submit.prevent="onSubmit">
+            <div class="form mt">
+              <ValidationProvider
+                name="cmnd"
+                rules="requiredCmnd|numeric|countCmnd"
+                v-slot="{ errors }">
+                <v-col cols="12" class="form__cmnd">
+                  <label for="cmnd" class="subtitle-1 font-weight-regular">
+                    Chứng minh nhân dân/Căn cước công dân</label
+                  >
+                  <v-text-field
+                    name="cmnd"
+                    class="input input-cmnd"
+                    placeholder="123456789"
+                    hide-details="false"
+                    v-model="cmnd"
+                    outlined></v-text-field>
+                  <span class="messageError">{{ errors[0] }}</span>
+                </v-col>
+              </ValidationProvider>
+              <ValidationProvider
+                name="password"
+                rules="requiredPw|alphaSpaces|min:8"
+                v-slot="{ errors }">
+                <v-col cols="12" class="form__pw">
+                  <label for="password" class="subtitle-1 font-weight-regular">Mật khẩu</label>
+                  <v-text-field
+                    class="input input-cmnd"
+                    type="password"
+                    outlined
+                    placeholder="*************"
+                    hide-details="false"
+                    v-model="password"
+                    hint="false"></v-text-field>
+                </v-col>
+                <span class="messageError">{{ errors[0] }}</span>
+              </ValidationProvider>
+            </div>
 
-        <div class="container__links d-flex justify-end align-center mt">
-          <div class="container__links-text">
-            <a href="" class="body-2">Quên mật khẩu</a>
-          </div>
-        </div>
-        <div class="container__login mt">
-          <button class="btn-login">Đăng nhập</button>
-        </div>
+            <div class="container__links d-flex justify-end align-center mt">
+              <div class="container__links-text">
+                <router-link to="/forgot-password" class="body-2">Quên mật khẩu</router-link>
+              </div>
+            </div>
+            <div class="container__login mt" :class="{ disabled: invalid }">
+              <button type="submit" class="btn-login subtitle-2 body-2 font-weight-bold">
+                ĐĂNG NHẬP
+              </button>
+            </div>
+          </form>
+        </ValidationObserver>
         <div class="container__text d-flex justify-center mt">
           <div class="subtitle-1">Hoặc đăng ký tài khoản nếu bạn chưa có!</div>
         </div>
-        <div class="container__register mt">
-          <div class="container__register-flex d-flex flex-column align-start">
-            <div class="btn-register subtitle-2 body-2 font-weight-bold">Đăng ký</div>
-          </div>
+        <div class="container__register mt d-flex flex-column align-start">
+          <a class="container__register-link subtitle-2 body-2 font-weight-bold"> ĐĂNG KÝ </a>
         </div>
       </div>
     </div>
@@ -53,71 +72,151 @@
 </template>
 
 <script lang="ts">
-import { Component, Vue, Prop } from 'vue-property-decorator';
-//a
+import { Component, Vue } from 'vue-property-decorator';
+import { extend } from 'vee-validate';
+import { required, numeric, min } from 'vee-validate/dist/rules';
+
+extend('requiredCmnd', {
+  ...required,
+  message: 'Bắt buộc nhập số!'
+});
+extend('requiredPw', {
+  ...required,
+  message: 'Bắt buộc password!'
+});
+extend('alphaSpaces', {
+  message: (field) => `${field}` + ' ' + 'không được nhập dấu cách',
+  validate: (value) => {
+    for (let i = 0; i < value.length - 1; i++) {
+      let input = value.charAt(i);
+      if (input == ' ') {
+        return false;
+      }
+    }
+    return true;
+  }
+});
+
+extend('countCmnd', {
+  message: (field) => 'bắt buộc' + `${field}` + ' ' + 'là 9 số hoặc 12 số',
+  validate: (value) => {
+    if (value.length == 9 || value.length == 12) {
+      return true;
+    }
+    return false;
+  }
+});
+extend('numeric', {
+  ...numeric,
+  message: 'bắt buộc phải là số'
+});
+extend('min', {
+  ...min,
+  message: 'bắt buộc 8 kí tự'
+});
 @Component({})
 export default class LoginComponent extends Vue {
-  @Prop() count!: number;
+  $router: any;
 
-  mounted() {}
+  data() {
+    return {
+      cmnd: '',
+      password: ''
+    };
+  }
+  delay(time: number) {
+    return new Promise<void>((resolve) => {
+      setTimeout(() => {
+        resolve();
+      }, time);
+    });
+  }
+  async onSubmit() {
+    await this.delay(2000);
+    this.$router.push('/user');
+  }
 }
 </script>
 <style>
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+::-webkit-scrollbar {
+  display: none;
+}
 #container {
-  width: 1400px;
-  height: 983px;
-  margin: 0 auto;
-  border: 1px solid #ccc;
+  width: 100%;
+  box-sizing: border-box;
+  flex-flow: row nowrap;
 }
 .container__right {
-  width: 700px;
-  height: 983px;
+  flex-basis: 50%;
+  -webkit-box-flex: 0;
+  flex-grow: 0;
+  max-width: 50%;
+  display: flex;
+  justify-content: center;
+  flex-direction: row;
+  overflow: auto;
+  overflow-y: auto !important;
+  min-height: min-content;
+  position: relative;
 }
 .container__left {
-  width: 700px;
-  height: 983px;
+  flex-basis: 50%;
+  -webkit-box-flex: 0;
+  flex-grow: 0;
+  max-width: 50%;
+}
+.container__left img {
+  width: 100%;
+  height: 100vh;
+
+  object-fit: cover;
+  vertical-align: middle;
 }
 .container__right .container {
   width: 387px;
-  height: 477px;
+
   padding: 0 0;
   position: relative;
-  left: 156.5px;
-  top: 253.5px;
+
+  top: 124px;
   margin-right: 0;
   margin-left: 0;
+  display: flex;
+  flex-flow: column wrap;
 }
 .container .mt {
   margin-top: 24px;
 }
 .container__header {
   width: 387px;
-  height: 39px;
+
   font-style: normal;
   font-weight: 700;
   font-size: 34px;
   line-height: 123.5%;
 }
 .form {
-  height: 174px;
   width: 387px;
   flex: 0 0 0;
   padding: 0;
+}
+.form .v-text-field.v-text-field--enclosed {
+  margin-top: 8px;
 }
 .form .col {
   padding: 0;
 }
 .form .col-12 {
   width: 387px;
-  height: 79px;
+
   padding: 0;
 }
 
-.form__cmnd {
-  width: 387px;
-  height: 79px;
-  padding: 0;
-}
 .form__pw {
   margin-top: 16px;
 }
@@ -137,12 +236,14 @@ export default class LoginComponent extends Vue {
 .form .v-text-field--outlined > .v-input__control > .v-input__slot {
   min-height: 50px;
 }
-.form .input-cmnd {
-  margin-bottom: 16px;
-}
+
 .form .col-12 .v-application .headline,
 .form .col-12 .v-application .title {
   line-height: 0;
+}
+.form .messageError {
+  color: red;
+  font-size: 12px;
 }
 .container__links {
   width: 387px;
@@ -159,24 +260,19 @@ export default class LoginComponent extends Vue {
   position: relative;
   width: 387px;
   height: 50px;
-
   background-color: #66bb6a;
   border-radius: 5px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
-.btn-login {
-  position: absolute;
-  left: 39.48%;
-  right: 39.19%;
-  top: 30%;
-  bottom: 32%;
-
-  font-family: 'Roboto';
-  font-style: normal;
-  font-weight: 700;
-  font-size: 16px;
-  line-height: 19px;
+.container__login.disabled {
+  background: rgb(224 224 224);
+}
+.container__login .btn-login {
   color: #ffffff;
 }
+
 .container__text {
   width: 387px;
   height: 24px;
@@ -186,19 +282,10 @@ export default class LoginComponent extends Vue {
   height: 50px;
   border-radius: 5px;
   border: 1px solid #9ccc65;
-  margin-top: 24px;
 }
-.container__register-flex {
-  position: relative;
-  left: 0%;
-  right: 0%;
-  top: 26%;
-  bottom: 26%;
-  width: 387px;
-  height: 24px;
-}
-.btn-register {
-  color: #9ccc65;
-  margin: 0 43%;
+.container__register-link {
+  margin-left: 163.106px;
+  color: #9ccc65 !important;
+  margin-top: 15px;
 }
 </style>
