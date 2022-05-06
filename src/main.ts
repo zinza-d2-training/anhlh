@@ -1,9 +1,9 @@
-import Vue from 'vue';
+import Vue, { ComponentOptions } from 'vue';
 import App from './App.vue';
 import vuetify from '@/plugins/vuetify';
 import { ValidationObserver, ValidationProvider, extend } from 'vee-validate';
 import * as rules from 'vee-validate/dist/rules';
-// import VueEllipseProgress from 'vue-ellipse-progress';
+import { router } from './router';
 
 for (const [rule, validation] of Object.entries(rules)) {
   extend(rule, {
@@ -14,9 +14,9 @@ for (const [rule, validation] of Object.entries(rules)) {
 Vue.component('ValidationObserver', ValidationObserver);
 Vue.component('ValidationProvider', ValidationProvider);
 
-// Vue.use(VueEllipseProgress);
 Vue.config.productionTip = false;
 new Vue({
+  router,
   vuetify,
   render: (h) => h(App)
 }).$mount('#app');

@@ -26,7 +26,7 @@
                     hide-details="false"
                     v-model="cmnd"
                     outlined></v-text-field>
-                  <span>{{ errors[0] }}</span>
+                  <span class="messageError">{{ errors[0] }}</span>
                 </v-col>
               </ValidationProvider>
               <ValidationProvider
@@ -44,13 +44,13 @@
                     v-model="password"
                     hint="false"></v-text-field>
                 </v-col>
-                <span>{{ errors[0] }}</span>
+                <span class="messageError">{{ errors[0] }}</span>
               </ValidationProvider>
             </div>
 
             <div class="container__links d-flex justify-end align-center mt">
               <div class="container__links-text">
-                <a href="" class="body-2">Quên mật khẩu</a>
+                <router-link to="/forgot-password" class="body-2">Quên mật khẩu</router-link>
               </div>
             </div>
             <div class="container__login mt" :class="{ disabled: invalid, abc: a }">
@@ -64,7 +64,7 @@
           <div class="subtitle-1">Hoặc đăng ký tài khoản nếu bạn chưa có!</div>
         </div>
         <div class="container__register mt d-flex flex-column align-start">
-          <a class="container__register-flex subtitle-2 body-2 font-weight-bold"> ĐĂNG KÝ </a>
+          <a class="container__register-link subtitle-2 body-2 font-weight-bold"> ĐĂNG KÝ </a>
         </div>
       </div>
     </div>
@@ -75,7 +75,7 @@
 import { Component, Vue } from 'vue-property-decorator';
 import { extend } from 'vee-validate';
 import { required, numeric, min } from 'vee-validate/dist/rules';
-// import { Validator } from 'vee-validate';
+
 extend('requiredCmnd', {
   ...required,
   message: 'Bắt buộc nhập số!'
@@ -88,18 +88,17 @@ extend('alphaSpaces', {
   message: (field) => `${field}` + ' ' + 'không được nhập dấu cách',
   validate: (value) => {
     for (let i = 0; i < value.length - 1; i++) {
-      let c = value.charAt(i);
-      if (c == ' ') {
+      let input = value.charAt(i);
+      if (input == ' ') {
         return false;
       }
-      // console.log(c);
     }
     return true;
   }
 });
-// var countMessage;
+
 extend('countCmnd', {
-  message: (field) => 'bắt buộc' + `${field}` + 'là 9 số hoặc 12 số',
+  message: (field) => 'bắt buộc' + `${field}` + ' ' + 'là 9 số hoặc 12 số',
   validate: (value) => {
     if (value.length == 9 || value.length == 12) {
       return true;
@@ -117,7 +116,7 @@ extend('min', {
 });
 @Component({})
 export default class LoginComponent extends Vue {
-  // @Prop(Number) readonly invalid: number | undefined;
+  $router: any;
 
   data() {
     return {
@@ -125,8 +124,16 @@ export default class LoginComponent extends Vue {
       password: ''
     };
   }
+  delay(time: number) {
+    return new Promise<void>((resolve) => {
+      setTimeout(() => {
+        resolve();
+      }, time);
+    });
+  }
   async onSubmit() {
-    // console.log(this.invalid);
+    await this.delay(2000);
+    this.$router.push('/user');
   }
 }
 </script>
@@ -172,7 +179,6 @@ export default class LoginComponent extends Vue {
 }
 .container__right .container {
   width: 387px;
-  position: absolute;
 
   padding: 0 0;
   position: relative;
@@ -235,6 +241,10 @@ export default class LoginComponent extends Vue {
 .form .col-12 .v-application .title {
   line-height: 0;
 }
+.form .messageError {
+  color: red;
+  font-size: 12px;
+}
 .container__links {
   width: 387px;
   height: 20px;
@@ -273,9 +283,9 @@ export default class LoginComponent extends Vue {
   border-radius: 5px;
   border: 1px solid #9ccc65;
 }
-.container__register-flex {
+.container__register-link {
   margin-left: 163.106px;
-  color: #9ccc65;
+  color: #9ccc65 !important;
   margin-top: 15px;
 }
 </style>
