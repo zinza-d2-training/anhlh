@@ -8,6 +8,7 @@
         <div class="container__header">
           <p class="container__header-text">
             Để khôi phục mật khẩu,vui lòng nhập đúng email bạn đã dùng để đăng ký
+            <span style="color: red">(*)</span>
           </p>
         </div>
         <div class="container__form css-form">
@@ -28,9 +29,9 @@
                 </v-col>
               </ValidationProvider>
               <div class="container__dialogactions">
-                <button class="btn btn-refesh">Quay lại</button>
+                <button class="btn btn-refesh">QUAY LẠI</button>
                 <button class="btn btn-send" type="submit" :class="{ disabled: invalid }">
-                  Gửi
+                  GỬI
                 </button>
               </div>
             </form>
@@ -132,13 +133,16 @@ export default class ForgotPassword extends Vue {
   font-style: normal;
   margin-top: 24px;
 }
+.container__right .container .btn {
+  border-radius: 8px 8px 8px 0px;
+}
 .container__right .container__dialogactions .btn-refesh {
   width: 101px;
   height: 36px;
 
   color: #303f9f;
   border: 1px solid #303f9f;
-  border-radius: 8px 8px 8px 0px;
+
   margin-right: 16px;
 }
 .container__right .container__dialogactions .btn-send {
