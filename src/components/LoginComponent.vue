@@ -11,21 +11,17 @@
         <ValidationObserver ref="form" v-slot="{ invalid }">
           <form @submit.prevent="onSubmit">
             <div class="form mt">
-              <ValidationProvider
-                name="cmnd"
-                rules="requiredCmnd|numeric|countCmnd"
-                v-slot="{ errors }">
+              <ValidationProvider name="email" rules="requiredCmnd|email" v-slot="{ errors }">
                 <v-col cols="12" class="form__cmnd">
-                  <label for="cmnd" class="subtitle-1 font-weight-regular">
-                    Chứng minh nhân dân/Căn cước công dân</label
-                  >
+                  <label for="email" class="subtitle-1 font-weight-regular"> Email</label>
                   <v-text-field
-                    name="cmnd"
+                    name="email"
                     class="input input-cmnd"
-                    placeholder="123456789"
+                    placeholder="vd:anh@gmail.com"
                     hide-details="false"
-                    v-model="cmnd"
+                    v-model="user.email"
                     outlined></v-text-field>
+                  <h1>{{ user.email }}</h1>
                   <span class="messageError">{{ errors[0] }}</span>
                 </v-col>
               </ValidationProvider>
@@ -41,7 +37,7 @@
                     outlined
                     placeholder="*************"
                     hide-details="false"
-                    v-model="password"
+                    v-model="user.password"
                     hint="false"></v-text-field>
                 </v-col>
                 <span class="messageError">{{ errors[0] }}</span>
@@ -74,11 +70,13 @@
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
 import { extend } from 'vee-validate';
-import { required, numeric, min } from 'vee-validate/dist/rules';
-
+import { required, min, email } from 'vee-validate/dist/rules';
+import { mapMutations, mapState } from 'vuex';
+import { userMutation } from '../store/user/mutations';
+// import { UserState } from '../store/user/type';
 extend('requiredCmnd', {
   ...required,
-  message: 'Bắt buộc nhập số!'
+  message: 'Bắt buộc phải nhập email!'
 });
 extend('requiredPw', {
   ...required,
@@ -96,34 +94,29 @@ extend('alphaSpaces', {
     return true;
   }
 });
-
-extend('countCmnd', {
-  message: (field) => 'bắt buộc' + `${field}` + ' ' + 'là 9 số hoặc 12 số',
-  validate: (value) => {
-    if (value.length == 9 || value.length == 12) {
-      return true;
-    }
-    return false;
-  }
-});
-extend('numeric', {
-  ...numeric,
-  message: 'bắt buộc phải là số'
+extend('email', {
+  ...email,
+  message: 'bắt buộc phải là email'
 });
 extend('min', {
   ...min,
   message: 'bắt buộc 8 kí tự'
 });
-@Component({})
+@Component({
+  computed: {
+    ...mapState({ user: (state) => state })
+  },
+  methods: {
+    ...mapMutations([userMutation.SET_USER])
+  }
+})
 export default class LoginComponent extends Vue {
   $router: any;
+  // user!: UserState;
 
-  data() {
-    return {
-      cmnd: '',
-      password: ''
-    };
-  }
+  // eslint-disable-next-line no-unused-vars
+  // [userMutation.SET_USER]: (user: UserState) => void;
+
   delay(time: number) {
     return new Promise<void>((resolve) => {
       setTimeout(() => {
@@ -132,6 +125,9 @@ export default class LoginComponent extends Vue {
     });
   }
   async onSubmit() {
+    let token = '12345678';
+    localStorage.setItem('token', token);
+    console.log(this);
     await this.delay(2000);
     this.$router.push('/user');
   }
