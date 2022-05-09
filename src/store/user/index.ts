@@ -5,7 +5,8 @@ import { getters } from './getters';
 import { mutations } from './mutations';
 const state: UserState = {
   email: '',
-  password: ''
+  password: '',
+  token: ''
 };
 
 export const user: Module<UserState, RootState> = {

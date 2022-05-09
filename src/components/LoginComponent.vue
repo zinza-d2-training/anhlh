@@ -73,7 +73,7 @@ import { extend } from 'vee-validate';
 import { required, min, email } from 'vee-validate/dist/rules';
 import { mapMutations, mapState } from 'vuex';
 import { userMutation } from '../store/user/mutations';
-// import { UserState } from '../store/user/type';
+import { UserState } from '../store/user/type';
 extend('requiredCmnd', {
   ...required,
   message: 'Bắt buộc phải nhập email!'
@@ -107,15 +107,15 @@ extend('min', {
     ...mapState({ user: (state) => state })
   },
   methods: {
-    ...mapMutations([userMutation.SET_USER])
+    ...mapMutations([userMutation.SET_USER, userMutation.SET_TOKEN])
   }
 })
 export default class LoginComponent extends Vue {
   $router: any;
-  // user!: UserState;
+  user!: UserState;
 
   // eslint-disable-next-line no-unused-vars
-  // [userMutation.SET_USER]: (user: UserState) => void;
+  [userMutation.SET_TOKEN]: (token: string) => void;
 
   delay(time: number) {
     return new Promise<void>((resolve) => {
@@ -127,7 +127,7 @@ export default class LoginComponent extends Vue {
   async onSubmit() {
     let token = '12345678';
     localStorage.setItem('token', token);
-    console.log(this);
+    this[userMutation.SET_TOKEN](token);
     await this.delay(2000);
     this.$router.push('/user');
   }
