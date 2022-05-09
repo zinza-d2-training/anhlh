@@ -21,7 +21,6 @@
                     hide-details="false"
                     v-model="user.email"
                     outlined></v-text-field>
-                  <h1>{{ user.email }}</h1>
                   <span class="messageError">{{ errors[0] }}</span>
                 </v-col>
               </ValidationProvider>
@@ -115,6 +114,8 @@ export default class LoginComponent extends Vue {
   user!: UserState;
 
   // eslint-disable-next-line no-unused-vars
+  [userMutation.SET_USER]: (user: UserState) => void;
+  // eslint-disable-next-line no-unused-vars
   [userMutation.SET_TOKEN]: (token: string) => void;
 
   delay(time: number) {
@@ -127,6 +128,7 @@ export default class LoginComponent extends Vue {
   async onSubmit() {
     let token = '12345678';
     localStorage.setItem('token', token);
+    this[userMutation.SET_USER](this.user);
     this[userMutation.SET_TOKEN](token);
     await this.delay(2000);
     this.$router.push('/user');
