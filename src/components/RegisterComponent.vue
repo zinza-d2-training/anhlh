@@ -234,8 +234,6 @@ export default class UserComponent extends Vue {
 }
 </script>
 <style>
-.container.css-register {
-}
 .container__left.css-register {
   position: fixed;
   width: 100%;
@@ -287,12 +285,7 @@ export default class UserComponent extends Vue {
 .v-text-field--full-width .v-input__prepend-outer {
   margin-top: 14px;
 }
-/* .v-text-field.v-text-field--enclosed .v-text-field__details,
-.v-text-field.v-text-field--enclosed:not(.v-text-field--rounded)
-  > .v-input__control
-  > .v-input__slot {
-  padding: 8px 0 0 0;
-} */
+
 .container__right.css-register .v-text-field__details {
   padding: 8px 0 0 0;
 }
