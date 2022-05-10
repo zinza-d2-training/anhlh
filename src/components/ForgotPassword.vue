@@ -137,6 +137,9 @@ export default class ForgotPassword extends Vue {
   font-style: normal;
   margin-top: 24px;
 }
+.container__right .container__dialogactions .btn-send.disabled {
+  background: rgb(224 224 224);
+}
 .container__right .container .btn {
   border-radius: 8px 8px 8px 0px;
 }
