@@ -69,7 +69,6 @@ export default class ForgotPassword extends Vue {
     });
   }
   async onSubmit() {
-    console.log('ok');
     await this.delay(2000);
     this.$router.push('/login');
   }
