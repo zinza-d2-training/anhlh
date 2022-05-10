@@ -59,7 +59,11 @@
           <div class="subtitle-1">Hoặc đăng ký tài khoản nếu bạn chưa có!</div>
         </div>
         <div class="container__register mt d-flex flex-column align-start">
-          <a class="container__register-link subtitle-2 body-2 font-weight-bold"> ĐĂNG KÝ </a>
+          <router-link
+            to="/register"
+            class="container__register-link subtitle-2 body-2 font-weight-bold">
+            ĐĂNG KÝ
+          </router-link>
         </div>
       </div>
     </div>
