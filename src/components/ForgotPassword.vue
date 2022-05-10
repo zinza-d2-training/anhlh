@@ -14,7 +14,7 @@
         <div class="container__form css-form">
           <ValidationObserver ref="form" v-slot="{ invalid }">
             <form @submit.prevent="onSubmit">
-              <ValidationProvider name="email" rules="email" v-slot="{ errors }">
+              <ValidationProvider name="email" rules="requiredEmail|email" v-slot="{ errors }">
                 <v-col cols="12" class="form__email css-form">
                   <v-text-field
                     name="email"
@@ -44,10 +44,14 @@
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
 import { extend } from 'vee-validate';
-import { email } from 'vee-validate/dist/rules';
+import { email, required } from 'vee-validate/dist/rules';
 extend('email', {
   ...email,
   message: 'bắt buộc phải là email'
+});
+extend('requiredEmail', {
+  ...required,
+  message: 'Bắt buộc phải nhập email!'
 });
 @Component({})
 export default class ForgotPassword extends Vue {
