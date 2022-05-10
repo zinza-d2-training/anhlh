@@ -1,6 +1,6 @@
 <template>
-  <div id="container" class="d-flex flex-row">
-    <div class="container__left">
+  <div id="container " class="d-flex flex-row">
+    <div class="container__left css-register">
       <img src="@/assets/image1.png" alt="" />
     </div>
     <div class="container__right css-register">
@@ -9,142 +9,172 @@
           <p class="container__header-text css-register">Đăng ký tài khoản</p>
         </div>
         <div class="container__gird">
-          <form action="">
-            <v-col cols="12" class="form__email css-form">
-              <label for="password" class="subtitle-1 font-weight-regular"
-                >Số CMND/CCCD <span class="start">(*)</span></label
-              >
-              <v-text-field
-                name="email"
-                class="input input-cmnd"
-                type="email"
-                outlined
-                placeholder="Số CMND/CCCD"
-                v-model="email"
-                hide-details="false"
-                hint="false"></v-text-field>
-            </v-col>
-            <v-col cols="12" class="form__email css-form">
-              <label for="password" class="subtitle-1 font-weight-regular"
-                >Email <span class="start">(*)</span></label
-              >
-              <v-text-field
-                name="email"
-                class="input input-cmnd"
-                type="email"
-                outlined
-                placeholder="Email"
-                v-model="email"
-                hide-details="false"
-                hint="false"></v-text-field>
-            </v-col>
-            <v-col cols="12" class="form__email css-form">
-              <label for="password" class="subtitle-1 font-weight-regular"
-                >Mật khẩu <span class="start">(*)</span></label
-              >
-              <v-text-field
-                name="email"
-                class="input input-cmnd"
-                type="email"
-                outlined
-                placeholder="********"
-                v-model="email"
-                hide-details="false"
-                hint="false"></v-text-field>
-            </v-col>
-            <v-col cols="12" class="form__email css-form">
-              <label for="password" class="subtitle-1 font-weight-regular"
-                >Họ và tên <span class="start">(*)</span></label
-              >
-              <v-text-field
-                name="email"
-                class="input input-cmnd"
-                type="email"
-                outlined
-                placeholder="Họ và tên"
-                v-model="email"
-                hide-details="false"
-                hint="false"></v-text-field>
-            </v-col>
-            <v-col cols="12" class="form__email css-form">
-              <label for="password" class="subtitle-1 font-weight-regular"
-                >Ngày sinh <span class="start">(*)</span></label
-              >
-              <v-text-field
-                name="email"
-                class="input input-cmnd"
-                type="email"
-                outlined
-                placeholder="Ngày/Tháng/Năm"
-                v-model="email"
-                hide-details="false"
-                hint="false"></v-text-field>
-            </v-col>
-            <v-col cols="12" class="form__email css-form">
-              <label for="password" class="subtitle-1 font-weight-regular"
-                >Giới tính <span class="start">(*)</span></label
-              >
-              <v-text-field
-                name="email"
-                class="input input-cmnd"
-                type="email"
-                outlined
-                placeholder="Giới tính"
-                v-model="email"
-                hide-details="false"
-                hint="false"></v-text-field>
-            </v-col>
-            <v-col cols="12" class="form__email css-form">
-              <label for="password" class="subtitle-1 font-weight-regular"
-                >Tỉnh/Thành phố <span class="start">(*)</span></label
-              >
-              <i class="bx bxs-down-arrow"></i>
-              <v-text-field
-                name="email"
-                class="input input-cmnd"
-                type="email"
-                outlined
-                placeholder="Tỉnh/Thành phố"
-                v-model="email"
-                hide-details="false"
-                hint="false"></v-text-field>
-            </v-col>
-            <v-col cols="12" class="form__email css-form">
-              <label for="password" class="subtitle-1 font-weight-regular"
-                >Quận/Huyện <span class="start">(*)</span></label
-              >
-              <i class="bx bxs-down-arrow"></i>
-
-              <v-text-field
-                name="email"
-                class="input input-cmnd"
-                type="email"
-                outlined
-                placeholder="Quận/Huyện"
-                v-model="email"
-                hide-details="false"
-                hint="false"></v-text-field>
-            </v-col>
-            <v-col cols="12" class="form__email css-form">
-              <label for="password" class="subtitle-1 font-weight-regular"
-                >Xã/Phường <span class="start">(*)</span></label
-              >
-              <i class="bx bxs-down-arrow"></i>
-              <v-text-field
-                name="email"
-                class="input input-cmnd"
-                type="email"
-                outlined
-                placeholder="Xã/Phường"
-                v-model="email"
-                hide-details="false"
-                hint="false"></v-text-field>
-            </v-col>
-          </form>
-        </div>
-        <div class="container__dialogactions css-register">
-          <router-link to="/" class="css-register">TIẾP TỤC</router-link>
-          <i class="bx bx-right-arrow-alt"></i>
+          <ValidationObserver ref="form" v-slot="{ invalid }" @submit.prevent="onSubmit()">
+            <form>
+              <ValidationProvider name="cmnd" rules="required" v-slot="{ errors }">
+                <v-col cols="12" class="form__email css-form">
+                  <label for="password" class="subtitle-1 font-weight-regular"
+                    >Số CMND/CCCD <span class="start">(*)</span></label
+                  >
+                  <v-text-field
+                    name="cmnd"
+                    class="input input-cmnd"
+                    type="text"
+                    v-model="cmnd"
+                    outlined
+                    :error-messages="errors"
+                    placeholder="Số CMND/CCCD"
+                    hide-details="false"
+                    hint="false"></v-text-field>
+                  <span class="messageError">{{ errors[0] }}</span>
+                </v-col>
+              </ValidationProvider>
+              <ValidationProvider name="email" rules="requiredEmail|email" v-slot="{ errors }">
+                <v-col cols="12" class="form__email css-form">
+                  <label for="password" class="subtitle-1 font-weight-regular"
+                    >Email <span class="start">(*)</span></label
+                  >
+                  <v-text-field
+                    name="email"
+                    class="input input-cmnd"
+                    type="email"
+                    outlined
+                    :error-messages="errors"
+                    v-model="email"
+                    placeholder="Email"
+                    hide-details="false"
+                    hint="false"></v-text-field>
+                  <span class="messageError">{{ errors[0] }}</span>
+                </v-col>
+              </ValidationProvider>
+              <ValidationProvider name="password" rules="requiredPw|min:8" v-slot="{ errors }">
+                <v-col cols="12" class="form__email css-form">
+                  <label for="password" class="subtitle-1 font-weight-regular"
+                    >Mật khẩu <span class="start">(*)</span></label
+                  >
+                  <v-text-field
+                    name="password"
+                    class="input input-cmnd"
+                    type="password"
+                    outlined
+                    :error-messages="errors"
+                    v-model="password"
+                    placeholder="********"
+                    hide-details="false"
+                    hint="false"></v-text-field>
+                  <span class="messageError">{{ errors[0] }}</span>
+                </v-col>
+              </ValidationProvider>
+              <ValidationProvider name="fullname" rules="required" v-slot="{ errors }">
+                <v-col cols="12" class="form__email css-form">
+                  <label for="password" class="subtitle-1 font-weight-regular"
+                    >Họ và tên <span class="start">(*)</span></label
+                  >
+                  <v-text-field
+                    name="fullname"
+                    class="input input-cmnd"
+                    type="text"
+                    outlined
+                    :error-messages="errors"
+                    v-model="fullname"
+                    placeholder="Họ và tên"
+                    hide-details="false"
+                    hint="false"></v-text-field>
+                  <span class="messageError">{{ errors[0] }}</span>
+                </v-col>
+              </ValidationProvider>
+              <ValidationProvider name="birthday" rules="required" v-slot="{ errors }">
+                <v-col cols="12" class="form__email css-form">
+                  <label for="birthday" class="subtitle-1 font-weight-regular"
+                    >Ngày sinh <span class="start">(*)</span></label
+                  >
+                  <v-text-field
+                    name="birthday"
+                    class="input input-cmnd"
+                    type="text"
+                    outlined
+                    :error-messages="errors"
+                    v-model="birthday"
+                    placeholder="Ngày/Tháng/Năm"
+                    hide-details="false"
+                    hint="false"></v-text-field>
+                  <span class="messageError">{{ errors[0] }}</span>
+                </v-col>
+              </ValidationProvider>
+              <ValidationProvider name="gender" rules="required" v-slot="{ errors }">
+                <v-col cols="12" class="form__email css-form">
+                  <label for="gender" class="subtitle-1 font-weight-regular"
+                    >Giới tính <span class="start">(*)</span></label
+                  >
+                  <v-text-field
+                    name="gender"
+                    class="input input-cmnd"
+                    type="text"
+                    outlined
+                    :error-messages="errors"
+                    v-model="gender"
+                    placeholder="Giới tính"
+                    hide-details="false"
+                    hint="false"></v-text-field>
+                  <span class="messageError">{{ errors[0] }}</span>
+                </v-col>
+              </ValidationProvider>
+              <ValidationProvider name="tinh" rules="required" v-slot="{ errors }">
+                <div class="mt">
+                  <label for="password" class="subtitle-1 font-weight-regular"
+                    >Xã/Phường <span class="start">(*)</span></label
+                  >
+                  <v-col class="d-flex" cols="12" sm="6" name="tinh">
+                    <v-select
+                      :items="items"
+                      label="Tỉnh/Thành phố"
+                      outlined
+                      data-name="tinh"
+                      v-model="tinh"
+                      :error-messages="errors"></v-select>
+                  </v-col>
+                </div>
+              </ValidationProvider>
+              <ValidationProvider name="huyen" rules="required" v-slot="{ errors }">
+                <div class="mt">
+                  <label for="password" class="subtitle-1 font-weight-regular"
+                    >Quận/Huyện <span class="start">(*)</span></label
+                  >
+                  <v-col class="d-flex" cols="12" sm="6" name="huyen">
+                    <v-select
+                      :items="items"
+                      label="Quận/Huyện"
+                      outlined
+                      data-name="huyen"
+                      v-model="huyen"
+                      :error-messages="errors"></v-select>
+                  </v-col>
+                </div>
+              </ValidationProvider>
+              <ValidationProvider name="xa" rules="required" v-slot="{ errors }">
+                <div class="mt">
+                  <label for="password" class="subtitle-1 font-weight-regular"
+                    >Xã/Phường <span class="start">(*)</span></label
+                  >
+                  <v-col class="d-flex" cols="12" sm="6" name="xa">
+                    <v-select
+                      :items="items"
+                      label="Xã/Phường"
+                      outlined
+                      data-name="xa"
+                      v-model="xa"
+                      :error-messages="errors"></v-select>
+                  </v-col>
+                </div>
+              </ValidationProvider>
+              <div class="container__dialogactions css-register">
+                <v-btn :disabled="invalid" type="submit">
+                  TIẾP TỤC
+                  <i class="bx bx-right-arrow-alt"></i>
+                </v-btn>
+              </div>
+            </form>
+          </ValidationObserver>
         </div>
       </div>
     </div>
@@ -152,16 +182,64 @@
 </template>
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
+import { required, min, email } from 'vee-validate/dist/rules';
+import { extend } from 'vee-validate';
+extend('requiredEmail', {
+  ...required,
+  message: 'Bắt buộc phải nhập email!'
+});
+extend('required', {
+  ...required,
+  message: 'bắt buộc phải nhập'
+});
+extend('requiredPw', {
+  ...required,
+  message: 'Bắt buộc password!'
+});
+extend('email', {
+  ...email,
+  message: 'bắt buộc phải là email'
+});
+extend('min', {
+  ...min,
+  message: 'bắt buộc 8 kí tự'
+});
 @Component({})
 export default class UserComponent extends Vue {
-  data() {
-    return {
-      email: ''
-    };
+  $router: any;
+  cmnd = '';
+  email = '';
+  password = '';
+  fullname = '';
+  birthday = '';
+  gender = '';
+  xa = '';
+  huyen = '';
+  tinh = '';
+  items = ['A', 'B', 'C', 'D'];
+  delay(time: number) {
+    return new Promise<void>((resolve) => {
+      setTimeout(() => {
+        resolve();
+      }, time);
+    });
+  }
+  async onSubmit() {
+    await this.delay(2000);
+    this.$router.push('/user');
   }
 }
 </script>
 <style>
+.container__left.css-register {
+  position: fixed;
+  width: 100%;
+}
+.container__right.css-register {
+  width: 100%;
+  margin-left: 50%;
+  z-index: 1;
+}
 .container.css-register {
   display: flex;
   flex-direction: column;
@@ -169,7 +247,6 @@ export default class UserComponent extends Vue {
   width: 400px;
   position: relative;
   top: 200px;
-  height: 1500px;
 }
 .container.css-register .container__header.css-register {
   width: 400px;
@@ -182,13 +259,36 @@ export default class UserComponent extends Vue {
 
   margin-top: 12px;
 }
+.container__right.css-register .messageError {
+  color: red;
+  font-size: 12px;
+}
 .v-application p {
   margin-bottom: 0px !important;
 }
 .container.css-register .container__gird {
   width: 400px;
 }
+.v-text-field--outlined .v-label {
+  top: 16px;
+}
+.v-text-field--enclosed .v-input__append-inner,
+.v-text-field--enclosed .v-input__append-outer,
+.v-text-field--enclosed .v-input__prepend-inner,
+.v-text-field--enclosed .v-input__prepend-outer,
+.v-text-field--full-width .v-input__append-inner,
+.v-text-field--full-width .v-input__append-outer,
+.v-text-field--full-width .v-input__prepend-inner,
+.v-text-field--full-width .v-input__prepend-outer {
+  margin-top: 14px;
+}
 
+.container__right.css-register .v-text-field__details {
+  padding: 8px 0 0 0;
+}
+.theme--light.v-btn.v-btn--has-bg {
+  background: #fff;
+}
 .container.css-register .container__gird .col {
   padding: 16px 0 0 0;
   position: relative;
@@ -196,7 +296,7 @@ export default class UserComponent extends Vue {
 .container.css-register .container__gird .bxs-down-arrow {
   position: absolute;
   left: 95%;
-  top: 71%;
+  top: 7%;
   font-size: 10px;
   color: #000000;
 }
@@ -217,13 +317,43 @@ export default class UserComponent extends Vue {
   justify-content: flex-end;
   margin-top: 16px;
 }
-.container a {
-  text-decoration: none;
+.theme--light.v-btn.v-btn--disabled.v-btn--has-bg {
+  background: none !important;
+}
+.v-btn__content {
+  padding-top: 4px;
+  color: #3f51b5;
+}
+.v-btn:not(.v-btn--round).v-size--default {
+  padding: 0;
+}
+.container__right .container__dialogactions.css-register p {
   font-size: 14px;
   font-weight: medium;
 }
 .container__right .container__dialogactions.css-register .bx-right-arrow-alt {
   color: #3f51b5;
   margin-left: 8px;
+
+  font-size: 15px;
+}
+.container__right.css-register .mt {
+  margin-top: 16px;
+}
+.col-sm-6 {
+  max-width: 100% !important;
+  padding: 0px !important;
+}
+.v-input__slot {
+  margin-bottom: 0px !important;
+}
+.v-text-field__details {
+  min-height: 0px !important;
+}
+.v-messages {
+  min-height: 0;
+}
+.v-text-field.v-text-field--enclosed .v-text-field__details {
+  margin-bottom: 0;
 }
 </style>
