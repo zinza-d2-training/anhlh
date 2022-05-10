@@ -29,10 +29,10 @@
                 </v-col>
               </ValidationProvider>
               <div class="container__dialogactions">
-                <button class="btn btn-refesh">QUAY LẠI</button>
-                <button class="btn btn-send" type="submit" :class="{ disabled: invalid }">
+                <v-btn class="btn btn-refesh">QUAY LẠI</v-btn>
+                <v-btn class="btn btn-send" type="submit" :disabled="{ disabled: invalid }">
                   GỬI
-                </button>
+                </v-btn>
               </div>
             </form>
           </ValidationObserver>
