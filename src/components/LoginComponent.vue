@@ -140,30 +140,20 @@ export default class LoginComponent extends Vue {
 }
 </script>
 <style>
-* {
-  box-sizing: border-box;
-  margin: 0;
-  padding: 0;
-}
-::-webkit-scrollbar {
-  display: none;
-}
 #container {
   width: 100%;
   box-sizing: border-box;
   flex-flow: row nowrap;
 }
 .container__right {
+  overflow-y: auto;
   flex-basis: 50%;
-  -webkit-box-flex: 0;
   flex-grow: 0;
   max-width: 50%;
   display: flex;
+  /* margin-top: 124px; */
   justify-content: center;
   flex-direction: row;
-  overflow: auto;
-  overflow-y: auto !important;
-  min-height: min-content;
   position: relative;
 }
 .container__left {
@@ -181,11 +171,9 @@ export default class LoginComponent extends Vue {
 }
 .container__right .container {
   width: 387px;
-
   padding: 0 0;
   position: relative;
-
-  top: 124px;
+  margin-top: 124px;
   margin-right: 0;
   margin-left: 0;
   display: flex;
@@ -254,8 +242,10 @@ export default class LoginComponent extends Vue {
 .container__links-text {
   width: 101px;
 }
-.container__links-text a {
+.container a {
   text-decoration: none;
+}
+.container__links-text a {
   color: #3949ab;
 }
 .container__login {

@@ -12,9 +12,9 @@
           </p>
         </div>
         <div class="container__form css-form">
-          <ValidationObserver ref="form" v-slot="{ invalid }">
-            <form @submit.prevent="onSubmit">
-              <ValidationProvider name="email" rules="email" v-slot="{ errors }">
+          <ValidationObserver ref="observer" v-slot="{ invalid }">
+            <form @submit.prevent="onSubmit()">
+              <ValidationProvider name="email" rules="requiredEmail|email" v-slot="{ errors }">
                 <v-col cols="12" class="form__email css-form">
                   <v-text-field
                     name="email"
@@ -22,15 +22,15 @@
                     type="email"
                     outlined
                     placeholder="Email"
-                    v-model="email"
                     hide-details="false"
+                    v-model="email"
                     hint="false"></v-text-field>
                   <span class="messageError">{{ errors[0] }}</span>
                 </v-col>
               </ValidationProvider>
               <div class="container__dialogactions">
                 <v-btn class="btn btn-refesh">QUAY LẠI</v-btn>
-                <v-btn class="btn btn-send" type="submit" :disabled="{ disabled: invalid }">
+                <v-btn class="btn btn-send" type="submit" :disabled="invalid || disabled">
                   GỬI
                 </v-btn>
               </div>
@@ -44,16 +44,22 @@
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
 import { extend } from 'vee-validate';
-import { email } from 'vee-validate/dist/rules';
+import { email, required } from 'vee-validate/dist/rules';
 extend('email', {
   ...email,
   message: 'bắt buộc phải là email'
 });
+extend('requiredEmail', {
+  ...required,
+  message: 'Bắt buộc phải nhập email!'
+});
 @Component({})
 export default class ForgotPassword extends Vue {
   $router: any;
+  $validator: any;
+  disabled: boolean = false;
   email = '';
-  delay(time: number): Promise<void> {
+  delay(time: number) {
     return new Promise<void>((resolve) => {
       setTimeout(() => {
         resolve();
@@ -61,7 +67,9 @@ export default class ForgotPassword extends Vue {
     });
   }
   async onSubmit() {
+    this.disabled = true;
     await this.delay(2000);
+    this.disabled = false;
     this.$router.push('/login');
   }
 }
@@ -72,7 +80,7 @@ export default class ForgotPassword extends Vue {
   justify-content: center;
   align-items: center;
   position: static;
-  /* top: 0; */
+
   margin: auto 0;
   height: 206px;
   width: 479px;
@@ -128,6 +136,7 @@ export default class ForgotPassword extends Vue {
   font-style: normal;
   margin-top: 24px;
 }
+
 .container__right .container .btn {
   border-radius: 8px 8px 8px 0px;
 }
@@ -137,14 +146,14 @@ export default class ForgotPassword extends Vue {
 
   color: #303f9f;
   border: 1px solid #303f9f;
-
+  background: #ffffff !important;
   margin-right: 16px;
 }
+
 .container__right .container__dialogactions .btn-send {
   width: 91px;
   height: 36px;
-  background: #303f9f;
-
+  background: #303f9f !important;
   color: #ffffff;
 }
 </style>

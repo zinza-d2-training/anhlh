@@ -240,14 +240,13 @@ export default class UserComponent extends Vue {
   width: 100%;
   margin-left: 50%;
   z-index: 1;
+  overflow-y: auto;
 }
 .container.css-register {
   display: flex;
   flex-direction: column;
   align-items: center;
   width: 400px;
-  position: relative;
-  top: 200px;
 }
 .container.css-register .container__header.css-register {
   width: 400px;
@@ -288,6 +287,7 @@ export default class UserComponent extends Vue {
 .theme--light.v-btn.v-btn--has-bg {
   background: #fff;
 }
+
 .container.css-register .container__gird .col {
   padding: 16px 0 0 0;
   position: relative;
@@ -319,14 +319,16 @@ export default class UserComponent extends Vue {
 .container__right.css-register .theme--light.v-btn.v-btn--disabled.v-btn--has-bg {
   background: none !important;
 }
-.v-btn__content {
+.container__right.css-register .v-btn__content {
   padding-top: 4px;
   color: #3f51b5 !important;
 }
 .v-btn:not(.v-btn--round).v-size--default {
   padding: 0 !important;
 }
-.container__right .container__dialogactions.css-register p {
+
+.container a {
+  text-decoration: none;
   font-size: 14px;
   font-weight: medium;
 }
