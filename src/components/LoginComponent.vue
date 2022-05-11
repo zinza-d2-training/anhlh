@@ -241,8 +241,10 @@ export default class LoginComponent extends Vue {
 .container__links-text {
   width: 101px;
 }
-.container__links-text a {
+.container a {
   text-decoration: none;
+}
+.container__links-text a {
   color: #3949ab;
 }
 .container__login {
