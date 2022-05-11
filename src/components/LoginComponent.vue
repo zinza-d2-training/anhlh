@@ -151,7 +151,7 @@ export default class LoginComponent extends Vue {
   flex-grow: 0;
   max-width: 50%;
   display: flex;
-  /* margin-top: 124px; */
+
   justify-content: center;
   flex-direction: row;
   position: relative;

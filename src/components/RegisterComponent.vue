@@ -240,7 +240,6 @@ export default class UserComponent extends Vue {
   width: 100%;
   margin-left: 50%;
   z-index: 1;
-  overflow-y: auto;
 }
 .container.css-register {
   display: flex;
@@ -269,23 +268,6 @@ export default class UserComponent extends Vue {
 }
 .container.css-register .container__gird {
   width: 400px;
-}
-.v-text-field--outlined .v-label {
-  top: 16px !important;
-}
-.v-text-field--enclosed .v-input__append-inner,
-.v-text-field--enclosed .v-input__append-outer,
-.v-text-field--enclosed .v-input__prepend-inner,
-.v-text-field--enclosed .v-input__prepend-outer,
-.v-text-field--full-width .v-input__append-inner,
-.v-text-field--full-width .v-input__append-outer,
-.v-text-field--full-width .v-input__prepend-inner,
-.v-text-field--full-width .v-input__prepend-outer {
-  margin-top: 14px !important;
-}
-
-.theme--light.v-btn.v-btn--has-bg {
-  background: #fff;
 }
 
 .container.css-register .container__gird .col {
