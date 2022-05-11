@@ -52,12 +52,8 @@ extend('email', {
 @Component({})
 export default class ForgotPassword extends Vue {
   $router: any;
-  data() {
-    return {
-      email: ''
-    };
-  }
-  delay(time: number) {
+  email = '';
+  delay(time: number): Promise<void> {
     return new Promise<void>((resolve) => {
       setTimeout(() => {
         resolve();
@@ -65,7 +61,6 @@ export default class ForgotPassword extends Vue {
     });
   }
   async onSubmit() {
-    console.log('ok');
     await this.delay(2000);
     this.$router.push('/login');
   }

@@ -122,7 +122,7 @@
               <ValidationProvider name="tinh" rules="required" v-slot="{ errors }">
                 <div class="mt">
                   <label for="password" class="subtitle-1 font-weight-regular"
-                    >Xã/Phường <span class="start">(*)</span></label
+                    >Tỉnh/Thành phố <span class="start">(*)</span></label
                   >
                   <v-col class="d-flex" cols="12" sm="6" name="tinh">
                     <v-select
@@ -163,6 +163,7 @@
                       outlined
                       data-name="xa"
                       v-model="xa"
+                      hide-details="auto"
                       :error-messages="errors"></v-select>
                   </v-col>
                 </div>
@@ -233,7 +234,7 @@ export default class UserComponent extends Vue {
 <style>
 .container__left.css-register {
   position: fixed;
-  width: 100%;
+  width: 50%;
 }
 .container__right.css-register {
   width: 100%;
@@ -262,6 +263,7 @@ export default class UserComponent extends Vue {
 .container__right.css-register .messageError {
   color: red;
   font-size: 12px;
+  padding: 0 0 12px;
 }
 .v-application p {
   margin-bottom: 0px !important;
@@ -270,7 +272,7 @@ export default class UserComponent extends Vue {
   width: 400px;
 }
 .v-text-field--outlined .v-label {
-  top: 16px;
+  top: 16px !important;
 }
 .v-text-field--enclosed .v-input__append-inner,
 .v-text-field--enclosed .v-input__append-outer,
@@ -280,12 +282,9 @@ export default class UserComponent extends Vue {
 .v-text-field--full-width .v-input__append-outer,
 .v-text-field--full-width .v-input__prepend-inner,
 .v-text-field--full-width .v-input__prepend-outer {
-  margin-top: 14px;
+  margin-top: 14px !important;
 }
 
-.container__right.css-register .v-text-field__details {
-  padding: 8px 0 0 0;
-}
 .theme--light.v-btn.v-btn--has-bg {
   background: #fff;
 }
@@ -317,15 +316,15 @@ export default class UserComponent extends Vue {
   justify-content: flex-end;
   margin-top: 16px;
 }
-.theme--light.v-btn.v-btn--disabled.v-btn--has-bg {
+.container__right.css-register .theme--light.v-btn.v-btn--disabled.v-btn--has-bg {
   background: none !important;
 }
 .v-btn__content {
   padding-top: 4px;
-  color: #3f51b5;
+  color: #3f51b5 !important;
 }
 .v-btn:not(.v-btn--round).v-size--default {
-  padding: 0;
+  padding: 0 !important;
 }
 .container__right .container__dialogactions.css-register p {
   font-size: 14px;
@@ -351,9 +350,10 @@ export default class UserComponent extends Vue {
   min-height: 0px !important;
 }
 .v-messages {
-  min-height: 0;
+  min-height: 0 !important;
 }
 .v-text-field.v-text-field--enclosed .v-text-field__details {
-  margin-bottom: 0;
+  margin-bottom: 0 !important;
+  padding-top: 0;
 }
 </style>
