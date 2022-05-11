@@ -23,6 +23,7 @@
                     outlined
                     placeholder="Email"
                     hide-details="false"
+                    v-model="email"
                     hint="false"></v-text-field>
                   <span class="messageError">{{ errors[0] }}</span>
                 </v-col>
@@ -57,9 +58,7 @@ export default class ForgotPassword extends Vue {
   $router: any;
   $validator: any;
   disabled: boolean = false;
-  isTrue(value: boolean) {
-    return value;
-  }
+  email = '';
   delay(time: number) {
     return new Promise<void>((resolve) => {
       setTimeout(() => {
@@ -137,9 +136,7 @@ export default class ForgotPassword extends Vue {
   font-style: normal;
   margin-top: 24px;
 }
-/* .container__right .container__dialogactions .btn-send.disabled {
-  background: rgb(224 224 224);
-} */
+
 .container__right .container .btn {
   border-radius: 8px 8px 8px 0px;
 }
