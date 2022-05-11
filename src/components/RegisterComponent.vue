@@ -11,7 +11,10 @@
         <div class="container__gird">
           <ValidationObserver ref="form" v-slot="{ invalid }" @submit.prevent="onSubmit()">
             <form>
-              <ValidationProvider name="cmnd" rules="required" v-slot="{ errors }">
+              <ValidationProvider
+                name="cmnd"
+                rules="required|numeric|requiredCmnd"
+                v-slot="{ errors }">
                 <v-col cols="12" class="form__email css-form">
                   <label for="password" class="subtitle-1 font-weight-regular"
                     >Số CMND/CCCD <span class="start">(*)</span></label
@@ -47,7 +50,10 @@
                   <span class="messageError">{{ errors[0] }}</span>
                 </v-col>
               </ValidationProvider>
-              <ValidationProvider name="password" rules="requiredPw|min:8" v-slot="{ errors }">
+              <ValidationProvider
+                name="password"
+                rules="requiredPw|alphaSpaces|min:8"
+                v-slot="{ errors }">
                 <v-col cols="12" class="form__email css-form">
                   <label for="password" class="subtitle-1 font-weight-regular"
                     >Mật khẩu <span class="start">(*)</span></label
@@ -183,8 +189,12 @@
 </template>
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
-import { required, min, email } from 'vee-validate/dist/rules';
+import { required, min, email, numeric } from 'vee-validate/dist/rules';
 import { extend } from 'vee-validate';
+extend('numeric', {
+  ...numeric,
+  message: 'bắt buộc phải là số'
+});
 extend('requiredEmail', {
   ...required,
   message: 'Bắt buộc phải nhập email!'
@@ -205,10 +215,31 @@ extend('min', {
   ...min,
   message: 'bắt buộc 8 kí tự'
 });
+extend('alphaSpaces', {
+  message: (field) => `${field}` + ' ' + 'không được nhập dấu cách',
+  validate: (value) => {
+    for (let i = 0; i < value.length - 1; i++) {
+      let input = value.charAt(i);
+      if (input == ' ') {
+        return false;
+      }
+    }
+    return true;
+  }
+});
+extend('requiredCmnd', {
+  message: (field) => `${field}` + ' ' + 'phải 9 hoặc 12 số',
+  validate: (value) => {
+    if (value.length == 9 || value.length == 12) {
+      return true;
+    }
+    return false;
+  }
+});
 @Component({})
 export default class UserComponent extends Vue {
   $router: any;
-  cmnd = '';
+  cmnd = undefined;
   email = '';
   password = '';
   fullname = '';
