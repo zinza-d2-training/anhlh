@@ -347,24 +347,25 @@ export default class UserComponent extends Vue {
   @Watch('selectProvincial')
   onchangeProvincials() {
     if (this.selectProvincial) {
-      let nameProvincial = this.items.find((e) => e.name == this.selectProvincial['name']);
-      if (!nameProvincial) {
-        return;
+      let nameProvincial = this.items.find(
+        (e) => e.name == this.selectProvincial['name' as unknown as any]
+      );
+
+      if (nameProvincial) {
+        this.districts = nameProvincial.districts!;
       }
-      this.districts = nameProvincial.districts;
     }
   }
   @Watch('selectDistricts')
   onchangeDistricts() {
     if (this.selectDistricts) {
       let nameDistricts = this.districts.find((e) => e.name);
-      if (!nameDistricts) {
-        return;
+      if (nameDistricts) {
+        this.wards = nameDistricts.wards!;
       }
-      this.wards = nameDistricts.wards;
     }
   }
-  requiredRules = [(v: any) => !!v || 'This field is required'];
+
   delay(time: number) {
     return new Promise<void>((resolve) => {
       setTimeout(() => {
