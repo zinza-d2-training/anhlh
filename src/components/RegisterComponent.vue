@@ -89,22 +89,39 @@
                   <span class="messageError">{{ errors[0] }}</span>
                 </v-col>
               </ValidationProvider>
-              <ValidationProvider name="birthday" rules="required" v-slot="{ errors }">
+              <ValidationProvider name="date" :rules="'required'" v-slot="{ errors }" slim>
                 <v-col cols="12" class="form__email css-form">
                   <label for="birthday" class="subtitle-1 font-weight-regular"
                     >Ngày sinh <span class="start">(*)</span></label
                   >
-                  <v-text-field
+                  <v-menu
                     name="birthday"
-                    class="input input-cmnd"
-                    type="text"
-                    outlined
-                    :error-messages="errors"
-                    v-model="birthday"
-                    placeholder="Ngày/Tháng/Năm"
-                    hide-details="false"
-                    hint="false"></v-text-field>
-                  <span class="messageError">{{ errors[0] }}</span>
+                    ref="menu"
+                    :rules="[(v) => !!v || 'Required']"
+                    v-model="menu"
+                    :close-on-content-click="false"
+                    :return-value.sync="birthday"
+                    transition="scale-transition"
+                    offset-y
+                    min-width="auto">
+                    <template v-slot:activator="{ on }">
+                      <v-text-field
+                        name="birthday"
+                        v-model="birthday"
+                        label="ngày/tháng/năm"
+                        append-icon="mdi-calendar"
+                        outlined
+                        v-on="on"
+                        readonly
+                        :rules="[(v) => !!v || 'đây là trường bắt buộc']"
+                        :error-messages="errors[0]"></v-text-field>
+                    </template>
+                    <v-date-picker v-model="birthday" data-vv-as="birthday" no-title scrollable>
+                      <v-spacer></v-spacer>
+                      <v-btn text color="primary" @click="menu = false"> Cancel </v-btn>
+                      <v-btn text color="primary" @click="$refs.menu.save(birthday)"> OK </v-btn>
+                    </v-date-picker>
+                  </v-menu>
                 </v-col>
               </ValidationProvider>
               <ValidationProvider name="gender" rules="required" v-slot="{ errors }">
@@ -112,64 +129,68 @@
                   <label for="gender" class="subtitle-1 font-weight-regular"
                     >Giới tính <span class="start">(*)</span></label
                   >
-                  <v-text-field
-                    name="gender"
-                    class="input input-cmnd"
-                    type="text"
-                    outlined
-                    :error-messages="errors"
-                    v-model="gender"
-                    placeholder="Giới tính"
-                    hide-details="false"
-                    hint="false"></v-text-field>
+
+                  <v-radio-group v-model="gender" row>
+                    <v-radio label="nam" value="radio-1"></v-radio>
+                    <v-radio label="nữ" value="radio-2"></v-radio>
+                  </v-radio-group>
                   <span class="messageError">{{ errors[0] }}</span>
                 </v-col>
               </ValidationProvider>
-              <ValidationProvider name="tinh" rules="required" v-slot="{ errors }">
+              <ValidationProvider name="selectProvincial" rules="required" v-slot="{ errors }">
                 <div class="mt">
                   <label for="password" class="subtitle-1 font-weight-regular"
                     >Tỉnh/Thành phố <span class="start">(*)</span></label
                   >
-                  <v-col class="d-flex" cols="12" sm="6" name="tinh">
+                  <v-col class="d-flex" cols="12" sm="6" name="selectProvincial">
                     <v-select
                       :items="items"
                       label="Tỉnh/Thành phố"
                       outlined
-                      data-name="tinh"
-                      v-model="tinh"
-                      :error-messages="errors"></v-select>
+                      hide-details="auto"
+                      data-name="selectProvincial"
+                      v-model="selectProvincial"
+                      :error-messages="errors"
+                      return-object
+                      item-text="name"
+                      item-value="id">
+                    </v-select>
                   </v-col>
                 </div>
               </ValidationProvider>
-              <ValidationProvider name="huyen" rules="required" v-slot="{ errors }">
+              <ValidationProvider name="selectDistricts" rules="required" v-slot="{ errors }">
                 <div class="mt">
                   <label for="password" class="subtitle-1 font-weight-regular"
                     >Quận/Huyện <span class="start">(*)</span></label
                   >
-                  <v-col class="d-flex" cols="12" sm="6" name="huyen">
+                  <v-col class="d-flex" cols="12" sm="6" name="selectDistricts">
                     <v-select
-                      :items="items"
+                      :items="districts"
                       label="Quận/Huyện"
                       outlined
-                      data-name="huyen"
-                      v-model="huyen"
-                      :error-messages="errors"></v-select>
+                      data-name="selectDistricts"
+                      v-model="selectDistricts"
+                      :error-messages="errors"
+                      item-text="name"
+                      item-value="id"></v-select>
                   </v-col>
                 </div>
               </ValidationProvider>
-              <ValidationProvider name="xa" rules="required" v-slot="{ errors }">
+              <ValidationProvider name="selectWards" rules="required" v-slot="{ errors }">
                 <div class="mt">
                   <label for="password" class="subtitle-1 font-weight-regular"
                     >Xã/Phường <span class="start">(*)</span></label
                   >
-                  <v-col class="d-flex" cols="12" sm="6" name="xa">
+                  <v-col class="d-flex" cols="12" sm="6" name="selectWards">
                     <v-select
-                      :items="items"
+                      :items="wards"
                       label="Xã/Phường"
                       outlined
-                      data-name="xa"
-                      v-model="xa"
+                      data-name="selectWards"
+                      v-model="selectWards"
                       hide-details="auto"
+                      item-text="name"
+                      item-value="id"
                       :error-messages="errors"></v-select>
                   </v-col>
                 </div>
@@ -188,9 +209,11 @@
   </div>
 </template>
 <script lang="ts">
-import { Component, Vue } from 'vue-property-decorator';
+import { Component, Vue, Watch } from 'vue-property-decorator';
+
 import { required, min, email, numeric } from 'vee-validate/dist/rules';
 import { extend } from 'vee-validate';
+import { WardSetInput, DistrictsSetInput, ProvincialSetInput } from '../components/type';
 extend('numeric', {
   ...numeric,
   message: 'bắt buộc phải là số'
@@ -236,19 +259,105 @@ extend('requiredCmnd', {
     return false;
   }
 });
+
 @Component({})
 export default class UserComponent extends Vue {
   $router: any;
-  cmnd = undefined;
+  menu = false;
+  cmnd = '';
   email = '';
   password = '';
   fullname = '';
   birthday = '';
-  gender = '';
-  xa = '';
-  huyen = '';
-  tinh = '';
-  items = ['A', 'B', 'C', 'D'];
+  gender = 'radio-1';
+  selectWards = '';
+  selectProvincial = '';
+  selectDistricts = '';
+  wards: WardSetInput[] = [];
+  districts: DistrictsSetInput[] = [];
+  items: ProvincialSetInput[] = [
+    {
+      id: 1,
+      name: 'thaibinh',
+      districts: [
+        {
+          id: 1,
+          name: 'thaithuy',
+          wards: [
+            {
+              id: 1,
+              name: 'diem dien'
+            },
+            {
+              id: 2,
+              name: 'thuy truong'
+            }
+          ]
+        },
+        {
+          id: 2,
+          name: 'kienxuong',
+          wards: [
+            {
+              id: 1,
+              name: 'diem dien1'
+            },
+            {
+              id: 2,
+              name: 'thuy truong1'
+            }
+          ]
+        }
+      ]
+    },
+    {
+      id: 2,
+      name: 'hanoi',
+      districts: [
+        {
+          id: 1,
+          name: 'hk',
+          wards: [
+            {
+              id: 1,
+              name: 'truong dinh'
+            },
+            {
+              id: 2,
+              name: 'traica'
+            }
+          ]
+        },
+        {
+          id: 2,
+          name: 'caugiay',
+          wards: [
+            {
+              id: 1,
+              name: 'truong dinh1'
+            },
+            {
+              id: 2,
+              name: 'traica1'
+            }
+          ]
+        }
+      ]
+    }
+  ];
+  @Watch('selectProvincial')
+  onchangeProvincials() {
+    if (this.selectProvincial) {
+      this.districts = this.items.find((e) => e.name == this.selectProvincial['name']).districts;
+    }
+  }
+  @Watch('selectDistricts')
+  onchangeDistricts() {
+    if (this.selectDistricts) {
+      this.wards = this.districts.find((e) => e.name).wards;
+    }
+  }
+  requiredRules = [(v: any) => !!v || 'This field is required'];
   delay(time: number) {
     return new Promise<void>((resolve) => {
       setTimeout(() => {
@@ -317,6 +426,29 @@ export default class UserComponent extends Vue {
 }
 .container.css-register .container__gird .start {
   color: red;
+}
+.v-text-field--outlined .v-label {
+  top: 15px !important;
+}
+.v-text-field--enclosed .v-input__append-inner,
+.v-text-field--enclosed .v-input__append-outer,
+.v-text-field--enclosed .v-input__prepend-inner,
+.v-text-field--enclosed .v-input__prepend-outer,
+.v-text-field--full-width .v-input__append-inner,
+.v-text-field--full-width .v-input__append-outer,
+.v-text-field--full-width .v-input__prepend-inner,
+.v-text-field--full-width .v-input__prepend-outer {
+  margin-top: 13.5px !important;
+}
+.v-input--radio-group__input {
+  border: none;
+  cursor: default;
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+}
+.v-input--selection-controls {
+  margin-top: 0 !important;
 }
 .v-text-field--filled > .v-input__control > .v-input__slot,
 .v-text-field--full-width > .v-input__control > .v-input__slot,
