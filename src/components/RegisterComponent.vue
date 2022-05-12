@@ -129,7 +129,6 @@
                   <label for="gender" class="subtitle-1 font-weight-regular"
                     >Giới tính <span class="start">(*)</span></label
                   >
-
                   <v-radio-group v-model="gender" row>
                     <v-radio label="nam" value="radio-1"></v-radio>
                     <v-radio label="nữ" value="radio-2"></v-radio>
@@ -348,13 +347,21 @@ export default class UserComponent extends Vue {
   @Watch('selectProvincial')
   onchangeProvincials() {
     if (this.selectProvincial) {
-      this.districts = this.items.find((e) => e.name == this.selectProvincial['name']).districts;
+      let nameProvincial = this.items.find((e) => e.name == this.selectProvincial['name']);
+      if (!nameProvincial) {
+        return;
+      }
+      this.districts = nameProvincial.districts;
     }
   }
   @Watch('selectDistricts')
   onchangeDistricts() {
     if (this.selectDistricts) {
-      this.wards = this.districts.find((e) => e.name).wards;
+      let nameDistricts = this.districts.find((e) => e.name);
+      if (!nameDistricts) {
+        return;
+      }
+      this.wards = nameDistricts.wards;
     }
   }
   requiredRules = [(v: any) => !!v || 'This field is required'];
