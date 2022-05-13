@@ -213,7 +213,7 @@
   </div>
 </template>
 <script lang="ts">
-import { Component, Vue } from 'vue-property-decorator';
+import { Component, Vue, Watch } from 'vue-property-decorator';
 
 import { required, min, email, numeric } from 'vee-validate/dist/rules';
 import { extend } from 'vee-validate';
@@ -359,7 +359,15 @@ export default class UserComponent extends Vue {
   get wards(): Ward[] {
     return this.selectDistrict?.wards ?? [];
   }
-
+  @Watch('selectedProvince')
+  onchangeSlectedprovince() {
+    this.selectDistrict = null;
+    this.selectWard = null;
+  }
+  @Watch('selectDistrict')
+  onchangeSelectDistrict() {
+    this.selectWard = null;
+  }
   delay(time: number) {
     return new Promise<void>((resolve) => {
       setTimeout(() => {
@@ -505,3 +513,5 @@ export default class UserComponent extends Vue {
   padding-top: 0;
 }
 </style>
+
+function onchangeSlectedprovince() { throw new Error('Function not implemented.'); }
