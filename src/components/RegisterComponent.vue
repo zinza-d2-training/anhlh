@@ -89,7 +89,7 @@
                   <span class="messageError">{{ errors[0] }}</span>
                 </v-col>
               </ValidationProvider>
-              <ValidationProvider name="date" :rules="'required'" v-slot="{ errors }" slim>
+              <ValidationProvider name="birthday" :rules="'required'" v-slot="{ errors }" slim>
                 <v-col cols="12" class="form__email css-form">
                   <label for="birthday" class="subtitle-1 font-weight-regular"
                     >Ngày sinh <span class="start">(*)</span></label
@@ -129,26 +129,26 @@
                   <label for="gender" class="subtitle-1 font-weight-regular"
                     >Giới tính <span class="start">(*)</span></label
                   >
-                  <v-radio-group v-model="gender" row>
-                    <v-radio label="nam" value="radio-1"></v-radio>
-                    <v-radio label="nữ" value="radio-2"></v-radio>
+                  <v-radio-group v-model="gender" row name="gender">
+                    <v-radio label="nam" value="1"></v-radio>
+                    <v-radio label="nữ" value="2"></v-radio>
                   </v-radio-group>
                   <span class="messageError">{{ errors[0] }}</span>
                 </v-col>
               </ValidationProvider>
-              <ValidationProvider name="selectProvincial" rules="required" v-slot="{ errors }">
+              <ValidationProvider name="province" rules="required" v-slot="{ errors }">
                 <div class="mt">
-                  <label for="password" class="subtitle-1 font-weight-regular"
+                  <label for="province" class="subtitle-1 font-weight-regular"
                     >Tỉnh/Thành phố <span class="start">(*)</span></label
                   >
-                  <v-col class="d-flex" cols="12" sm="6" name="selectProvincial">
+                  <v-col class="d-flex" cols="12" sm="6" name="province">
                     <v-select
-                      :items="items"
+                      :items="provinces"
                       label="Tỉnh/Thành phố"
                       outlined
                       hide-details="auto"
-                      data-name="selectProvincial"
-                      v-model="selectProvincial"
+                      data-name="province"
+                      v-model="selectedProvince"
                       :error-messages="errors"
                       return-object
                       item-text="name"
@@ -157,37 +157,38 @@
                   </v-col>
                 </div>
               </ValidationProvider>
-              <ValidationProvider name="selectDistricts" rules="required" v-slot="{ errors }">
+              <ValidationProvider name="district" rules="required" v-slot="{ errors }">
                 <div class="mt">
-                  <label for="password" class="subtitle-1 font-weight-regular"
+                  <label for="district" class="subtitle-1 font-weight-regular"
                     >Quận/Huyện <span class="start">(*)</span></label
                   >
-                  <v-col class="d-flex" cols="12" sm="6" name="selectDistricts">
+                  <v-col class="d-flex" cols="12" sm="6" name="district">
                     <v-select
-                      :items="districts"
+                      :items="district"
                       label="Quận/Huyện"
                       outlined
-                      data-name="selectDistricts"
-                      v-model="selectDistricts"
+                      data-name="district"
+                      v-model="selectDistrict"
                       :error-messages="errors"
+                      return-object
                       item-text="name"
                       item-value="id"></v-select>
                   </v-col>
                 </div>
               </ValidationProvider>
-              <ValidationProvider name="selectWards" rules="required" v-slot="{ errors }">
+              <ValidationProvider name="ward" rules="required" v-slot="{ errors }">
                 <div class="mt">
-                  <label for="password" class="subtitle-1 font-weight-regular"
+                  <label for="ward" class="subtitle-1 font-weight-regular"
                     >Xã/Phường <span class="start">(*)</span></label
                   >
-                  <v-col class="d-flex" cols="12" sm="6" name="selectWards">
+                  <v-col class="d-flex" cols="12" sm="6" name="ward">
                     <v-select
-                      :items="wards"
+                      :items="ward"
                       label="Xã/Phường"
                       outlined
-                      data-name="selectWards"
-                      v-model="selectWards"
-                      hide-details="auto"
+                      data-name="ward"
+                      v-model="selectWard"
+                      return-object
                       item-text="name"
                       item-value="id"
                       :error-messages="errors"></v-select>
@@ -208,11 +209,11 @@
   </div>
 </template>
 <script lang="ts">
-import { Component, Vue, Watch } from 'vue-property-decorator';
+import { Component, Vue } from 'vue-property-decorator';
 
 import { required, min, email, numeric } from 'vee-validate/dist/rules';
 import { extend } from 'vee-validate';
-import { WardSetInput, DistrictsSetInput, ProvincialSetInput } from '../components/type';
+import { Province, Gender } from '../components/type';
 extend('numeric', {
   ...numeric,
   message: 'bắt buộc phải là số'
@@ -268,13 +269,13 @@ export default class UserComponent extends Vue {
   password = '';
   fullname = '';
   birthday = '';
-  gender = 'radio-1';
-  selectWards = '';
-  selectProvincial = '';
-  selectDistricts = '';
-  wards: WardSetInput[] = [];
-  districts: DistrictsSetInput[] = [];
-  items: ProvincialSetInput[] = [
+  genders = [Gender.MALE, Gender.FEMALE];
+  gender = Gender.MALE;
+  selectWard = '';
+  selectedProvince = '';
+  selectDistrict = '';
+
+  provinces: Province[] = [
     {
       id: 1,
       name: 'thaibinh',
@@ -344,26 +345,11 @@ export default class UserComponent extends Vue {
       ]
     }
   ];
-  @Watch('selectProvincial')
-  onchangeProvincials() {
-    if (this.selectProvincial) {
-      let nameProvincial = this.items.find(
-        (e) => e.name == this.selectProvincial['name' as unknown as any]
-      );
-
-      if (nameProvincial) {
-        this.districts = nameProvincial.districts!;
-      }
-    }
+  get district() {
+    return this.selectedProvince?.['districts' as unknown as any] ?? [];
   }
-  @Watch('selectDistricts')
-  onchangeDistricts() {
-    if (this.selectDistricts) {
-      let nameDistricts = this.districts.find((e) => e.name);
-      if (nameDistricts) {
-        this.wards = nameDistricts.wards!;
-      }
-    }
+  get ward() {
+    return this.selectDistrict?.['wards' as unknown as any] ?? [];
   }
 
   delay(time: number) {
@@ -403,7 +389,6 @@ export default class UserComponent extends Vue {
   font-size: 34px;
   font-weight: bold;
   text-align: center;
-
   margin-top: 12px;
 }
 .container__right.css-register .messageError {

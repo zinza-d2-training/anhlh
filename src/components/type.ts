@@ -1,15 +1,15 @@
-interface IdName {
+interface PropertyWardDistrictProvince {
   id: number;
   name: string;
 }
-export interface Ward extends IdName {}
-export interface District extends IdName {
+export interface Ward extends PropertyWardDistrictProvince {}
+export interface District extends PropertyWardDistrictProvince {
   wards: Ward[];
 }
-export interface Provincial extends IdName {
+export interface Province extends PropertyWardDistrictProvince {
   districts: District[];
 }
-export type wards = Pick<District, 'id' | 'name'>;
-export type WardSetInput = Partial<Ward>;
-export type DistrictsSetInput = Partial<District>;
-export type ProvincialSetInput = Partial<Provincial>;
+export enum Gender {
+  MALE = '1',
+  FEMALE = '2'
+}
