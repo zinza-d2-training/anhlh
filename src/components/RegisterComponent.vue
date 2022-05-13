@@ -129,9 +129,13 @@
                   <label for="gender" class="subtitle-1 font-weight-regular"
                     >Giới tính <span class="start">(*)</span></label
                   >
-                  <v-radio-group v-model="gender" row name="gender">
-                    <v-radio label="nam" value="1"></v-radio>
-                    <v-radio label="nữ" value="2"></v-radio>
+                  <v-radio-group
+                    row
+                    v-model="gender"
+                    name="gender"
+                    v-for="(_gender, index) in genders"
+                    :key="index">
+                    <v-radio :label="getLabelGender(_gender)" :value="_gender"></v-radio>
                   </v-radio-group>
                   <span class="messageError">{{ errors[0] }}</span>
                 </v-col>
@@ -164,7 +168,7 @@
                   >
                   <v-col class="d-flex" cols="12" sm="6" name="district">
                     <v-select
-                      :items="district"
+                      :items="districts"
                       label="Quận/Huyện"
                       outlined
                       data-name="district"
@@ -183,7 +187,7 @@
                   >
                   <v-col class="d-flex" cols="12" sm="6" name="ward">
                     <v-select
-                      :items="ward"
+                      :items="wards"
                       label="Xã/Phường"
                       outlined
                       data-name="ward"
@@ -213,7 +217,7 @@ import { Component, Vue } from 'vue-property-decorator';
 
 import { required, min, email, numeric } from 'vee-validate/dist/rules';
 import { extend } from 'vee-validate';
-import { Province, Gender } from '../components/type';
+import { Province, Gender, Ward, District, labelFromGender } from '../components/type';
 extend('numeric', {
   ...numeric,
   message: 'bắt buộc phải là số'
@@ -271,9 +275,13 @@ export default class UserComponent extends Vue {
   birthday = '';
   genders = [Gender.MALE, Gender.FEMALE];
   gender = Gender.MALE;
-  selectWard = '';
-  selectedProvince = '';
-  selectDistrict = '';
+  selectWard: Ward | null = null;
+  selectedProvince: Province | null = null;
+  selectDistrict: District | null = null;
+
+  getLabelGender(gender: Gender) {
+    return labelFromGender(gender);
+  }
 
   provinces: Province[] = [
     {
@@ -345,11 +353,11 @@ export default class UserComponent extends Vue {
       ]
     }
   ];
-  get district() {
-    return this.selectedProvince?.['districts' as unknown as any] ?? [];
+  get districts() {
+    return this.selectedProvince?.districts ?? [];
   }
-  get ward() {
-    return this.selectDistrict?.['wards' as unknown as any] ?? [];
+  get wards(): Ward[] {
+    return this.selectDistrict?.wards ?? [];
   }
 
   delay(time: number) {

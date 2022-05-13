@@ -10,6 +10,17 @@ export interface Province extends PropertyWardDistrictProvince {
   districts: District[];
 }
 export enum Gender {
-  MALE = '1',
-  FEMALE = '2'
+  MALE = 'nam',
+  FEMALE = 'nu'
+}
+
+export function labelFromGender(gender: Gender) {
+  switch (gender) {
+    case Gender.MALE:
+      return 'Nam';
+    case Gender.FEMALE:
+      return 'Nữ';
+    default:
+      '';
+  }
 }
