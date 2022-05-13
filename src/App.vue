@@ -10,13 +10,15 @@
 import LoginComponent from './components/LoginComponent.vue';
 import ForgotPassword from './components/ForgotPassword.vue';
 import UserComponent from './components/UserComponent.vue';
+import RegisterComponent from './components/RegisterComponent.vue';
 import { Component, Vue } from 'vue-property-decorator';
 
 @Component({
   components: {
     LoginComponent,
     UserComponent,
-    ForgotPassword
+    ForgotPassword,
+    RegisterComponent
   }
 })
 export default class App extends Vue {}

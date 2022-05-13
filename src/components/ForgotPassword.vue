@@ -80,7 +80,7 @@ export default class ForgotPassword extends Vue {
   justify-content: center;
   align-items: center;
   position: static;
-  /* top: 0; */
+
   margin: auto 0;
   height: 206px;
   width: 479px;
