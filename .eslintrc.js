@@ -17,7 +17,6 @@ module.exports = {
   },
 
   rules: {
-    'vue/multi-word-component-names': 0,
-    'object-literal-shorthand': [true, { property: 'never' }]
+    'vue/multi-word-component-names': 0
   }
 };

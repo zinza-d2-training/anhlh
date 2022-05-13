@@ -7,6 +7,5 @@
   "endOfLine": "lf",
   "semi": true,
   "arrowParens": "always",
-  "vueIndentScriptAndStyle": false,
-  "closeOnSelect": "closeOnSelect"
+  "vueIndentScriptAndStyle": false
 }
