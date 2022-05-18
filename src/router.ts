@@ -45,9 +45,9 @@ const router = new VueRouter({
   ]
 });
 router.beforeEach((to, _from, next) => {
-  console.log(store);
+
   if (to.matched.some((record) => record.meta.requiresAuth)) {
-    if (!store.state?.user?.token) {
+    if (!localStorage.getItem('token')) {
       next('/login');
     } else {
       next();
