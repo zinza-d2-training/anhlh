@@ -3,7 +3,7 @@
     <div class="container css-header">
       <div class="container__brand">
         <div class="container__brand-logo">
-          <img src="@/assets/Logo.png" alt="" />
+          <img src="@/assets/logo.png" alt="" />
         </div>
         <div class="container__brand-typography">
           <h6>CỔNG THÔNG TIN TIÊM CHỦNG COVID-19</h6>
