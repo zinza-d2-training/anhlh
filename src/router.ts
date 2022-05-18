@@ -1,21 +1,21 @@
 import Vue, { ComponentOptions } from 'vue';
 import VueRouter from 'vue-router';
-import ForgotPassword from './components/ForgotPassword.vue';
-import LoginComponent from './components/LoginComponent.vue';
+import ForgotPassword from './views/auth/ForgotPassword.vue';
+import LoginComponent from './views/auth/LoginComponent.vue';
 import UserComponent from './components/UserComponent.vue';
-import RegisterComponent from './components/RegisterComponent.vue';
+import RegisterComponent from './views/auth/RegisterComponent.vue';
+import SideBarTop from './views/homes/SideBarTop.vue';
+import Dasboard from './layouts/Dasboard.vue';
+import store from './store';
+import { getters } from './store/user/getters';
 Vue.use(VueRouter);
 
-export const router = new VueRouter({
+const router = new VueRouter({
   mode: 'history',
   routes: [
     {
       path: '/login',
       component: LoginComponent as ComponentOptions<Vue>
-    },
-    {
-      path: '/user',
-      component: UserComponent as ComponentOptions<Vue>
     },
     {
       path: '/forgot-password',
@@ -24,6 +24,38 @@ export const router = new VueRouter({
     {
       path: '/register',
       component: RegisterComponent as ComponentOptions<Vue>
+    },
+    {
+      path: '/',
+      component: Dasboard as ComponentOptions<Vue>,
+      redirect: '/home',
+      meta: { requiresAuth: true },
+      children: [
+        {
+          path: '/home',
+          component: SideBarTop as ComponentOptions<Vue>,
+          meta: { requiresAuth: true }
+        },
+        {
+          path: '/user',
+          component: UserComponent as ComponentOptions<Vue>
+        }
+      ]
     }
   ]
 });
+router.beforeEach((to, _from, next) => {
+  if (to.matched.some((record) => record.meta.requiresAuth)) {
+    if (!store.state?.user?.token) {
+      console.log('a', store);
+      console.log('ok');
+      next('/login');
+    } else {
+      next();
+    }
+  } else {
+    console.log('ok1222');
+    next();
+  }
+});
+export default router;

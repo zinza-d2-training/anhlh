@@ -7,5 +7,8 @@ export const getters: GetterTree<UserState, any> = {
   },
   getPassword(state): string {
     return state.password;
+  },
+  getToken(state): string {
+    return state.token;
   }
 };
