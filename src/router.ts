@@ -7,7 +7,7 @@ import RegisterComponent from './views/auth/RegisterComponent.vue';
 import SideBarTop from './views/homes/SideBarTop.vue';
 import Dasboard from './layouts/Dasboard.vue';
 import store from './store';
-import { getters } from './store/user/getters';
+
 Vue.use(VueRouter);
 
 const router = new VueRouter({
@@ -47,14 +47,11 @@ const router = new VueRouter({
 router.beforeEach((to, _from, next) => {
   if (to.matched.some((record) => record.meta.requiresAuth)) {
     if (!store.state?.user?.token) {
-      console.log('a', store);
-      console.log('ok');
       next('/login');
     } else {
       next();
     }
   } else {
-    console.log('ok1222');
     next();
   }
 });

@@ -51,8 +51,6 @@
           :width="width"
           :height="height" />
       </div>
-      <!-- </div>
-    <div class="sidebar"> -->
       <div class="sidebar-footer">
         <div class="content css-sidebar-footer">
           <div class="content__header"><p>Tra cứu điểm tiêm theo địa bàn</p></div>
@@ -120,7 +118,7 @@ import {
   CategoryScale,
   PointElement
 } from 'chart.js';
-import { Province, Gender, Ward, District, labelFromGender } from './type';
+import { Province, Gender, Ward, District, labelFromGender, Desserts } from './type';
 ChartJS.register(Title, Tooltip, Legend, LineElement, LinearScale, CategoryScale, PointElement);
 
 import { Component, Vue, Prop, Watch } from 'vue-property-decorator';
@@ -206,18 +204,18 @@ export default class UserComponent extends Vue {
       filterable: false,
       value: 'name'
     },
-    { text: 'Số nhà, tên đường', value: 'calories' },
+    { text: 'Số nhà, tên đường', value: 'street' },
     { text: 'Xã/phường', value: 'ward.name' },
     { text: 'Quận/Huyện', value: 'district.name' },
     { text: 'Tỉnh/Thành phố', value: 'province.name' },
     { text: 'Người đứng đầu cơ sở tiêm chủng', value: 'top' },
     { text: 'Số bàn tiêm', value: 'table' }
   ];
-  desserts = [
+  desserts: Desserts[] = [
     {
       id: 1,
       name: 'Bệnh viện trung ương huyết họ',
-      calories: '42-44 Nghĩa Dũng',
+      street: '42-44 Nghĩa Dũng',
       ward: {
         id: 1,
         name: 'diem dien'
@@ -231,12 +229,12 @@ export default class UserComponent extends Vue {
         name: 'thaibinh'
       },
       top: 'Nguyễn Thị Kim L',
-      table: '1'
+      table: 1
     },
     {
       id: 2,
       name: 'Bệnh viện trung ương huyết học',
-      calories: '42-44 Nghĩa Dũng',
+      street: '42-44 Nghĩa Dũng',
       ward: {
         id: 2,
         name: 'thuy truong'
@@ -251,12 +249,12 @@ export default class UserComponent extends Vue {
       },
       top: 'Nguyễn Thị Kim L',
 
-      table: '1'
+      table: 1
     },
     {
       id: 3,
-      name: 'Bệnh viện trung ương huyết calories',
-      calories: '42-44 Nghĩa Dũng',
+      name: 'Bệnh viện trung ương huyết street',
+      street: '42-44 Nghĩa Dũng',
       ward: {
         id: 1,
         name: 'truong dinh'
@@ -264,12 +262,12 @@ export default class UserComponent extends Vue {
       district: { id: 1, name: 'hk' },
       province: { id: 2, name: 'ha noi' },
       top: 'Nguyễn Thị Kim L',
-      table: '1'
+      table: 1
     },
     {
       id: 4,
       name: 'Bệnh viện trung ương huyết',
-      calories: '42-44 Nghĩa Dũng',
+      street: '42-44 Nghĩa Dũng',
       ward: {
         id: 2,
         name: 'traica'
@@ -277,71 +275,89 @@ export default class UserComponent extends Vue {
       district: { id: 1, name: 'hk' },
       province: { id: 2, name: 'ha noi' },
       top: 'Nguyễn Thị Kim L',
-      table: '1'
+      table: 1
     },
     {
       id: 5,
       name: 'Bệnh viện trung ương huyết h',
-      calories: '42-44 Nghĩa Dũng',
-      ward: 'Phúc Xá',
-      district: 'Quận Ba Đình',
-      province: ',Thành phố Hà Nội',
+      street: '42-44 Nghĩa Dũng',
+      ward: {
+        id: 1,
+        name: 'truong dinh'
+      },
+      district: { id: 1, name: 'hk' },
+      province: { id: 2, name: 'ha noi' },
       top: 'Nguyễn Thị Kim Liên%,',
 
-      table: '1'
+      table: 1
     },
     {
       id: 6,
       name: 'Bệnh viện trung ương huyết h',
-      calories: '42-44 Nghĩa Dũng',
-      ward: 'Phúc Xá',
-      district: 'Quận Ba Đình',
-      province: 'Thành phố H,à Nội',
+      street: '42-44 Nghĩa Dũng',
+      ward: {
+        id: 1,
+        name: 'truong dinh'
+      },
+      district: { id: 1, name: 'hk' },
+      province: { id: 2, name: 'ha noi' },
       top: 'Nguyễn Thị Kim Liên',
-      table: '1'
+      table: 1
     },
 
     {
       id: 7,
       name: 'Bệnh viện trung ương huyết',
-      calories: '42-44 Nghĩa Dũng',
-      ward: 'Phúc Xá',
-      district: 'Quận Ba Đình',
-      province: 'Thành phố H,à Nội',
+      street: '42-44 Nghĩa Dũng',
+      ward: {
+        id: 1,
+        name: 'truong dinh'
+      },
+      district: { id: 1, name: 'hk' },
+      province: { id: 2, name: 'ha noi' },
       top: 'Nguyễn Thị Kim Liên',
-      table: '1'
+      table: 1
     },
 
     {
       id: 8,
       name: 'Bệnh viện trung ương huyết',
-      calories: '42-44 Nghĩa Dũng',
-      ward: 'Phúc Xá',
-      district: 'Quận Ba Đình',
-      province: 'Thành phố Hà Nội',
+      street: '42-44 Nghĩa Dũng',
+      ward: {
+        id: 1,
+        name: 'truong dinh'
+      },
+      district: { id: 1, name: 'hk' },
+      province: { id: 2, name: 'ha noi' },
       top: 'Nguyễn Thị Kim Liên%',
-      table: '1'
+      table: 1
     },
     {
       id: 9,
-      name: 'Bệnh viện trung ương huyếcalories',
-      calories: '42-44 Nghĩa Dũng',
-      ward: 'Phúc Xá',
-      district: 'Quận Ba Đình',
-      province: 'Thành phố Hà Nội',
+      name: 'Bệnh viện trung ương huyếstreet',
+      street: '42-44 Nghĩa Dũng',
+      ward: {
+        id: 1,
+        name: 'truong dinh'
+      },
+      district: { id: 1, name: 'hk' },
+      province: { id: 2, name: 'ha noi' },
       top: 'Nguyễn Thị Kim Liên%',
 
-      table: '1'
+      table: 1
     },
     {
       id: 10,
       name: 'Bệnh viện trung ương huyết',
-      calories: '42-44 Nghĩa Dũng',
-      ward: 'Phúc Xá',
-      district: 'Quận BaĐình',
-      province: 'Thành phố Hà Nội',
+      street: '42-44 Nghĩa Dũng',
+      ward: {
+        id: 1,
+        name: 'truong dinh'
+      },
+      district: { id: 1, name: 'hk' },
+      province: { id: 2, name: 'ha noi' },
       top: 'Nguyễn Thị Kim Liên',
-      table: '1'
+      table: 1
     }
   ];
 
@@ -439,11 +455,11 @@ export default class UserComponent extends Vue {
     this.selectWard = null;
   }
 
-  newDesserts = this.desserts.map((item) => {
+  newDesserts: Desserts[] = this.desserts.map((item) => {
     return { ...item };
   });
   Search() {
-    this.newDesserts = this.desserts.filter((item: any) => {
+    this.newDesserts = this.desserts.filter((item: Desserts) => {
       return (
         item.province.id == this.selectedProvince?.id &&
         item.district.id == this.selectDistrict?.id &&

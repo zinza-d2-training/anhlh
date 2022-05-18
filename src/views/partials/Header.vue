@@ -188,12 +188,7 @@ export default class UserComponent extends Vue {
 .header .container.css-header .container__menu .container__menu-list li .chevron-down {
   color: #ffffff;
 }
-/* .header .container.css-header .container__menu .container__menu-list li i {
-  color: #ffffff;
-  position: absolute;
-  top: 31px;
-  font-size: 16px;
-} */
+
 .header .container.css-header .container__menu .container__menu-list li .sub-menu {
   display: flex;
   flex-direction: column;

@@ -80,12 +80,7 @@ export default class UserComponent extends Vue {}
   font-weight: 400;
   font-size: 14px;
   line-height: 143%;
-  /* identical to box height, or 20px */
-
   letter-spacing: -0.04px;
-
-  /* White */
-
   color: #ffffff;
 }
 .frame-18__typography.top {
@@ -96,10 +91,7 @@ export default class UserComponent extends Vue {}
   width: 129px;
   height: 20px;
 }
-.frame-18__typography.top span {
-}
-.frame-18__typography.bottom span {
-}
+
 .footer .frame-19__typography {
   display: flex;
   flex-direction: column;

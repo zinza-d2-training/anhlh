@@ -13,6 +13,14 @@ export enum Gender {
   MALE = 'nam',
   FEMALE = 'nu'
 }
+export interface Desserts extends PropertyWardDistrictProvince {
+  street: string;
+  ward: PropertyWardDistrictProvince;
+  district: PropertyWardDistrictProvince;
+  province: PropertyWardDistrictProvince;
+  top: string;
+  table: number;
+}
 
 export function labelFromGender(gender: Gender) {
   switch (gender) {

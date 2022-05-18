@@ -223,10 +223,6 @@ export default class LoginComponent extends Vue {
 .form .v-text-field.v-text-field--enclosed .v-text-field__detail {
   margin-bottom: 0;
 }
-/* .form .v-text-field--outlined > .v-input__control > .v-input__slot {
-  min-height: 50px;
-} */
-
 .form .col-12 .v-application .headline,
 .form .col-12 .v-application .title {
   line-height: 0;
