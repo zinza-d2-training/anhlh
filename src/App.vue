@@ -7,18 +7,17 @@
 </template>
 
 <script lang="ts">
-import LoginComponent from './components/LoginComponent.vue';
-import ForgotPassword from './components/ForgotPassword.vue';
 import UserComponent from './components/UserComponent.vue';
-import RegisterComponent from './components/RegisterComponent.vue';
+import Header from './views/partials/Header.vue';
+import Footer from './views/partials/Footer.vue';
+
 import { Component, Vue } from 'vue-property-decorator';
 
 @Component({
   components: {
-    LoginComponent,
     UserComponent,
-    ForgotPassword,
-    RegisterComponent
+    Header,
+    Footer
   }
 })
 export default class App extends Vue {}

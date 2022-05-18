@@ -217,7 +217,7 @@ import { Component, Vue, Watch } from 'vue-property-decorator';
 
 import { required, min, email, numeric } from 'vee-validate/dist/rules';
 import { extend } from 'vee-validate';
-import { Province, Gender, Ward, District, labelFromGender } from '../components/type';
+import { Province, Gender, Ward, District, labelFromGender } from '../../components/type';
 extend('numeric', {
   ...numeric,
   message: 'bắt buộc phải là số'
@@ -436,19 +436,7 @@ export default class UserComponent extends Vue {
 .container.css-register .container__gird .start {
   color: red;
 }
-.v-text-field--outlined .v-label {
-  top: 15px !important;
-}
-.v-text-field--enclosed .v-input__append-inner,
-.v-text-field--enclosed .v-input__append-outer,
-.v-text-field--enclosed .v-input__prepend-inner,
-.v-text-field--enclosed .v-input__prepend-outer,
-.v-text-field--full-width .v-input__append-inner,
-.v-text-field--full-width .v-input__append-outer,
-.v-text-field--full-width .v-input__prepend-inner,
-.v-text-field--full-width .v-input__prepend-outer {
-  margin-top: 13.5px !important;
-}
+
 .v-input--radio-group__input {
   border: none;
   cursor: default;
@@ -459,11 +447,7 @@ export default class UserComponent extends Vue {
 .v-input--selection-controls {
   margin-top: 0 !important;
 }
-.v-text-field--filled > .v-input__control > .v-input__slot,
-.v-text-field--full-width > .v-input__control > .v-input__slot,
-.v-text-field--outlined > .v-input__control > .v-input__slot {
-  min-height: 50px !important;
-}
+
 .container__right .container__dialogactions.css-register {
   width: 400px;
   display: flex;

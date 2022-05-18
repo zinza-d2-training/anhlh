@@ -11,7 +11,7 @@
         <ValidationObserver ref="form" v-slot="{ invalid }">
           <form @submit.prevent="onSubmit">
             <div class="form mt">
-              <ValidationProvider name="email" rules="requiredCmnd|email" v-slot="{ errors }">
+              <ValidationProvider name="email" rules="email" v-slot="{ errors }">
                 <v-col cols="12" class="form__cmnd">
                   <label for="email" class="subtitle-1 font-weight-regular"> Email</label>
                   <v-text-field
@@ -75,8 +75,8 @@ import { Component, Vue } from 'vue-property-decorator';
 import { extend } from 'vee-validate';
 import { required, min, email } from 'vee-validate/dist/rules';
 import { mapMutations, mapState } from 'vuex';
-import { userMutation } from '../store/user/mutations';
-import { UserState } from '../store/user/type';
+import { userMutation } from '../../store/user/mutations';
+import { UserState } from '../../store/user/type';
 extend('requiredCmnd', {
   ...required,
   message: 'Bắt buộc phải nhập email!'
@@ -135,7 +135,7 @@ export default class LoginComponent extends Vue {
     this[userMutation.SET_USER](this.user);
     this[userMutation.SET_TOKEN](token);
     await this.delay(2000);
-    this.$router.push('/user');
+    this.$router.push('/');
   }
 }
 </script>
@@ -223,10 +223,6 @@ export default class LoginComponent extends Vue {
 .form .v-text-field.v-text-field--enclosed .v-text-field__detail {
   margin-bottom: 0;
 }
-.form .v-text-field--outlined > .v-input__control > .v-input__slot {
-  min-height: 50px;
-}
-
 .form .col-12 .v-application .headline,
 .form .col-12 .v-application .title {
   line-height: 0;

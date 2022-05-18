@@ -5,3 +5,5 @@ declare module '@vue/runtime-core' {
     $store: Store<RootState>;
   }
 }
+
+declare module 'vue-chartjs';
