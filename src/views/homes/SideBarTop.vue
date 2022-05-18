@@ -53,7 +53,9 @@
       </div>
       <div class="sidebar-footer">
         <div class="content css-sidebar-footer">
-          <div class="content__header"><p>Tra cứu điểm tiêm theo địa bàn</p></div>
+          <div class="content__header">
+            <p class="content__header-typography">Tra cứu điểm tiêm theo địa bàn</p>
+          </div>
           <div class="content__form">
             <v-select
               dense
@@ -98,7 +100,11 @@
           </div>
           <div class="content_table">
             <v-card>
-              <v-data-table :headers="headers" :items="newDesserts" item-key="id"></v-data-table>
+              <v-data-table
+                :headers="headers"
+                :items="newDesserts"
+                item-key="id"
+                :item-class="itemRowBackground"></v-data-table>
             </v-card>
           </div>
         </div>
@@ -467,9 +473,18 @@ export default class UserComponent extends Vue {
       );
     });
   }
+  itemRowBackground(item: Desserts) {
+    return item.id % 2 !== 0 ? 'style-1' : 'style-2';
+  }
 }
 </script>
 <style>
+.style-1 {
+  background: rgba(238, 238, 238, 0.4);
+}
+.style-2 {
+  background: #ffffff;
+}
 .sidebar.css-sidebar-top {
   padding: 16px 36px;
   background: #f7fbfe;
@@ -551,6 +566,11 @@ export default class UserComponent extends Vue {
   border: 1px solid rgba(38, 56, 150, 0.14);
   box-shadow: 0px 4px 12px rgb(34 41 47 / 12%);
   border-radius: 10px;
+}
+.sidebar-content p {
+  font-style: normal;
+  font-weight: 500;
+  font-size: 20px;
 }
 .sidebar-footer {
   margin: 0 auto;
