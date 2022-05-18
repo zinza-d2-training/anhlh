@@ -17,9 +17,11 @@
           <span>Tải sổ sức khỏe điện tử để đăng ký tiêm và nhận giấy chứng nhận tiêm</span>
         </div>
         <div class="frame-19__container">
-          <v-btn elevation="2" outlined color="white">App tiêm di động (Cho HCM)</v-btn>
-          <v-btn elevation="2" outlined color="white">App Store</v-btn>
-          <v-btn elevation="2" outlined color="white">Google play</v-btn>
+          <v-btn outlined color="white" class="frame-19__container-app"
+            >App tiêm di động (Cho HCM)</v-btn
+          >
+          <v-btn outlined color="white" class="frame-19__container-store">App Store</v-btn>
+          <v-btn outlined color="white" class="frame-19__container-google">Google play</v-btn>
         </div>
         <div>
           <img src="@/assets/handle_cert 1.png" alt="" />
@@ -105,5 +107,17 @@ export default class UserComponent extends Vue {}
   align-items: center;
   padding: 0px;
   gap: 16px;
+}
+.frame-19__container-app {
+  width: 249px;
+}
+.frame-19__container-store {
+  width: 114px;
+}
+.frame-19__container-google {
+  width: 128px;
+}
+.footer .frame-19__container .v-btn {
+  text-transform: unset;
 }
 </style>
