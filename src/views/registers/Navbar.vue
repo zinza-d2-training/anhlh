@@ -8,7 +8,7 @@
     <div class="navbar-search">
       <div class="navbar-container">
         <div class="navbar-search__header">
-          <v-stepper v-model="e1" alt-labels light>
+          <v-stepper v-model="location" alt-labels light>
             <v-stepper-header>
               <v-stepper-step step="2"> Thông tin cá nhân </v-stepper-step>
 
@@ -24,38 +24,87 @@
         </div>
       </div>
     </div>
-    <Step2></Step2>
-    <Step1></Step1>
+    <ValidationObserver v-slot="{ invalid }">
+      <form action="" @submit.prevent="onSubmit">
+        <Step1 v-if="pace == 1"></Step1>
+        <Step2 v-if="pace == 2" @checkbox="onCheckbox"></Step2>
+        <Step3 v-if="pace == 3"></Step3>
+        <div class="frame-42" v-if="pace == 1">
+          <div class="btn">
+            <router-link to="/">
+              <v-btn class="btn-refesh" outlined>
+                <v-icon>mdi-arrow-left-thin</v-icon> HUỶ BỎ</v-btn
+              ></router-link
+            >
+          </div>
+          <div class="btn">
+            <v-btn
+              class="btn-send"
+              type="submit"
+              :disabled="invalid || disabled"
+              outlined
+              text
+              color="white">
+              TIẾP TỤC <v-icon color="white">mdi-arrow-right-thin</v-icon>
+            </v-btn>
+          </div>
+        </div>
+        <div class="frame-42" v-if="pace == 2">
+          <div class="btn" @click="decreaseStep">
+            <v-btn class="btn-refesh" outlined><v-icon>mdi-arrow-left-thin</v-icon>QUAY LẠI</v-btn>
+          </div>
+          <div class="btn">
+            <v-btn class="btn-send" type="submit" outlined text color="white" :disabled="invalid">
+              <pre>{{ invalid }}</pre>
+              TIẾP TỤC <v-icon color="white">mdi-arrow-right-thin</v-icon>
+            </v-btn>
+          </div>
+        </div>
+        <div class="frame-42 step3" v-if="pace == 3">
+          <div class="btn">
+            <v-btn class="btn-refesh" outlined>
+              <v-icon>mdi-arrow-left-thin</v-icon>TRANG CHỦ</v-btn
+            >
+          </div>
+          <div class="btn">
+            <v-btn class="btn-send" type="submit" :disabled="disabled" outlined text color="white">
+              XUẤT THÔNG TIN <v-icon color="white">mdi-arrow-right-thin</v-icon>
+            </v-btn>
+          </div>
+        </div>
+      </form>
+    </ValidationObserver>
   </div>
 </template>
 <script lang="ts">
-import { Component, Vue } from 'vue-property-decorator';
+import { Component, Vue, Prop } from 'vue-property-decorator';
 import Step1 from './Step1.vue';
 import Step2 from './Step2.vue';
+import Step3 from './Step3.vue';
 @Component({
   components: {
     Step1,
-    Step2
+    Step2,
+    Step3
   }
 })
-export default class UserComponent extends Vue {
-  e1 = 2;
-  // groupPrioritize: string[] = [
-  //   '1. Người nghèo',
-  //   '2. Người nghèo',
-  //   '3. Người nghèo',
-  //   '4. Người nghèo'
-  // ];
-  // injections: string[] = ['Buổi sáng', 'Buổi chiều', 'Buổi tối'];
-  // healthInsurance: string = '';
-  // job: string = '';
-  // workUnit: string = '';
-  // address: string = '';
-  // birthday = '';
-  // disabled: boolean = false;
-  // onSubmit() {
-  //   this.e1++;
-  // }
+export default class NavbarComponent extends Vue {
+  @Prop({})
+  selectShealthInsurance!: string;
+  location = 2;
+  pace = 1;
+  disabled: boolean = false;
+  checkbox: boolean = false;
+  onSubmit() {
+    this.pace++;
+    this.location++;
+  }
+  decreaseStep() {
+    this.pace--;
+  }
+  onCheckbox(value: boolean) {
+    this.checkbox = value;
+  }
 }
 </script>
 <style>
@@ -92,5 +141,26 @@ export default class UserComponent extends Vue {
   width: 604px;
   height: 24px;
   margin: 0 auto;
+}
+.frame-42.step3 .btn-refesh {
+  width: 149px;
+  height: 36px;
+
+  border: 1px solid #303f9f;
+  border-radius: 8px 8px 8px 0px;
+  color: #303f9f;
+}
+.frame-42.step3 .btn-send {
+  width: 218px;
+  height: 36px;
+
+  background: #303f9f;
+  border-radius: 8px 8px 8px 0px;
+}
+.frame-42 a {
+  text-decoration: none;
+}
+.v-stepper__step {
+  padding: 24px 0px !important;
 }
 </style>

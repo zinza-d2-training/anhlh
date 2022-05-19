@@ -31,35 +31,32 @@
         <div class="navbar__item-divider"></div>
         <li class="navbar__item-checkbox">
           <span>Sau khi đã đọc các thông tin nêu trên, tôi đã hiểu về các nguy cơ và:</span>
-          <span><v-checkbox v-model="checkbox" label="Đồng ý tiêm chủng" dense></v-checkbox></span>
+          <span
+            ><ValidationProvider name="checkbox" rules="required" v-slot="{ errors }"
+              ><v-checkbox
+                v-model="checkbox"
+                label="Đồng ý tiêm chủng"
+                dense
+                data-name="checkbox"
+                :error-messages="errors"></v-checkbox></ValidationProvider
+          ></span>
         </li>
       </ul>
-
-      <div class="frame-42">
-        <div class="btn">
-          <v-btn class="btn-refesh" outlined> <v-icon>mdi-arrow-left-thin</v-icon>QUAY LẠI</v-btn>
-        </div>
-        <div class="btn">
-          <v-btn
-            class="btn-send"
-            type="submit"
-            :disabled="invalid || disabled"
-            outlined
-            text
-            color="white">
-            TIẾP TỤC <v-icon color="white">mdi-arrow-right-thin</v-icon>
-          </v-btn>
-        </div>
-      </div>
     </div>
   </div>
 </template>
 <script lang="ts">
-import { Component, Vue } from 'vue-property-decorator';
+import { Component, Vue, Prop, Watch } from 'vue-property-decorator';
 @Component({})
 export default class UserComponent extends Vue {
-  step = 2;
-  checkbox = false;
+  @Prop({ default: 2 })
+  step!: number;
+  @Prop({ default: false })
+  checkbox!: boolean;
+  @Watch('checkbox')
+  onCheckbox() {
+    this.$emit('checkbox', this.checkbox);
+  }
 }
 </script>
 <style>

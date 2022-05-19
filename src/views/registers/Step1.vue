@@ -2,215 +2,217 @@
   <div class="navbar-result">
     <div class="navbar-container">
       <div class="form">
-        <ValidationObserver v-slot="{ invalid }">
-          <form action="" @submit.prevent="onSubmit">
-            <div class="frame-35">
-              <p>1. Thông tin người đăng ký tiêm</p>
-            </div>
-            <div class="frame-36 frame-width">
-              <div class="row">
-                <ValidationProvider name="groupPrioritize" rules="required" v-slot="{ errors }">
-                  <div class="mt">
-                    <label for="groupPrioritize" class="subtitle-1 font-weight-regular"
-                      >Nhóm ưu tiên <span class="start">(*)</span></label
-                    >
-                    <v-col class="d-flex" cols="12" sm="6" name="groupPrioritize">
-                      <v-select
-                        dense
-                        :items="groupPrioritize"
-                        label="Nhóm ưu tiên"
-                        outlined
-                        data-name="groupPrioritize"
-                        v-model="groupPrioritize"
-                        :error-messages="errors"></v-select>
-                    </v-col>
-                  </div>
-                </ValidationProvider>
-                <ValidationProvider name="healthInsurance" rules="required" v-slot="{ errors }">
-                  <div class="mt">
-                    <label for="healthInsurance" class="subtitle-1 font-weight-regular"
-                      >Số thẻ BHYT <span class="start">(*)</span></label
-                    >
-                    <v-col class="d-flex" cols="12" sm="6" name="healthInsurance">
-                      <v-text-field
-                        dense
-                        label="Số thẻ BHYT"
-                        outlined
-                        data-name="healthInsurance"
-                        v-model="shealthInsurance"
-                        :error-messages="errors"></v-text-field>
-                    </v-col>
-                  </div>
-                </ValidationProvider>
+        <div class="frame-35">
+          <p>1. Thông tin người đăng ký tiêm</p>
+        </div>
+        <div class="frame-36 frame-width">
+          <div class="row">
+            <ValidationProvider name="groupPrioritize" rules="required" v-slot="{ errors }">
+              <div class="mt">
+                <label for="groupPrioritize" class="subtitle-1 font-weight-regular"
+                  >Nhóm ưu tiên <span class="start">(*)</span></label
+                >
+                <v-col class="d-flex" cols="12" sm="6" name="groupPrioritize">
+                  <v-select
+                    dense
+                    :items="groupPrioritize"
+                    label="Nhóm ưu tiên"
+                    outlined
+                    data-name="groupPrioritize"
+                    :error-messages="errors"></v-select>
+                </v-col>
               </div>
-            </div>
-            <div class="frame-37 frame-width">
-              <div class="row">
-                <ValidationProvider name="groupPrioritize" rules="required" v-slot="{ errors }">
-                  <div class="mt">
-                    <label for="groupPrioritize" class="subtitle-1 font-weight-regular"
-                      >Nghề nghiệp <span class="start">(*)</span></label
-                    >
-                    <v-col class="d-flex" cols="12" sm="6" name="groupPrioritize">
-                      <v-text-field
-                        dense
-                        :items="districts"
-                        label="Nghề nghiệp"
-                        outlined
-                        data-name="district"
-                        v-model="selectDistrict"
-                        :error-messages="errors"></v-text-field>
-                    </v-col>
-                  </div>
-                </ValidationProvider>
-                <ValidationProvider name="workUnit" rules="required" v-slot="{ errors }">
-                  <div class="mt">
-                    <label for="workUnit" class="subtitle-1 font-weight-regular"
-                      >Đơn vị công tác <span class="start">(*)</span></label
-                    >
-                    <v-col class="d-flex" cols="12" sm="6" name="workUnit">
-                      <v-text-field
-                        dense
-                        label="Đơn vị công tác"
-                        outlined
-                        data-name="workUnit"
-                        v-model="workUnit"
-                        :error-messages="errors"></v-text-field>
-                    </v-col>
-                  </div>
-                </ValidationProvider>
-                <ValidationProvider name="address" rules="required" v-slot="{ errors }">
-                  <div class="mt">
-                    <label for="address" class="subtitle-1 font-weight-regular"
-                      >Địa chỉ hiện tại <span class="start">(*)</span></label
-                    >
-                    <v-col class="d-flex" cols="12" sm="6" name="address">
-                      <v-text-field
-                        dense
-                        label="Địa chỉ hiện tại"
-                        outlined
-                        data-name="address"
-                        v-model="selectaddress"
-                        :error-messages="errors"></v-text-field>
-                    </v-col>
-                  </div>
-                </ValidationProvider>
+            </ValidationProvider>
+            <ValidationProvider
+              name="selectHealthInsurance"
+              rules="required|requiredBhyt"
+              v-slot="{ errors }">
+              <div class="mt">
+                <label for="selectHealthInsurance" class="subtitle-1 font-weight-regular"
+                  >Số thẻ BHYT <span class="start">(*)</span></label
+                >
+                <v-col class="d-flex" cols="12" sm="6" name="selectHealthInsurance">
+                  <v-text-field
+                    dense
+                    label="Số thẻ BHYT"
+                    outlined
+                    data-name="selectHealthInsurance"
+                    v-model="selectHealthInsurance"
+                    :error-messages="errors"></v-text-field>
+                </v-col>
               </div>
-            </div>
-            <div class="frame-38">
-              <p>2. Thông tin đăng ký tiêm chủng</p>
-            </div>
-            <div class="frame-39 frame-width">
-              <div class="row">
-                <ValidationProvider name="birthday" rules="required" v-slot="{ errors }">
-                  <div class="mt">
-                    <label for="district" class="subtitle-1 font-weight-regular"
-                      >Ngày muốn được tiêm (dự kiến) <span class="start">(*)</span></label
-                    >
-                    <v-menu
+            </ValidationProvider>
+          </div>
+        </div>
+        <div class="frame-37 frame-width">
+          <div class="row">
+            <ValidationProvider name="job" rules="required" v-slot="{ errors }">
+              <div class="mt">
+                <label for="job" class="subtitle-1 font-weight-regular"
+                  >Nghề nghiệp <span class="start">(*)</span></label
+                >
+                <v-col class="d-flex" cols="12" sm="6" name="job">
+                  <v-text-field
+                    dense
+                    label="Nghề nghiệp"
+                    outlined
+                    data-name="job"
+                    v-model="job"
+                    :error-messages="errors"></v-text-field>
+                </v-col>
+              </div>
+            </ValidationProvider>
+            <ValidationProvider name="workUnit" rules="required" v-slot="{ errors }">
+              <div class="mt">
+                <label for="workUnit" class="subtitle-1 font-weight-regular"
+                  >Đơn vị công tác <span class="start">(*)</span></label
+                >
+                <v-col class="d-flex" cols="12" sm="6" name="workUnit">
+                  <v-text-field
+                    dense
+                    label="Đơn vị công tác"
+                    outlined
+                    data-name="workUnit"
+                    v-model="workUnit"
+                    :error-messages="errors"></v-text-field>
+                </v-col>
+              </div>
+            </ValidationProvider>
+            <ValidationProvider name="address" rules="required" v-slot="{ errors }">
+              <div class="mt">
+                <label for="address" class="subtitle-1 font-weight-regular"
+                  >Địa chỉ hiện tại <span class="start">(*)</span></label
+                >
+                <v-col class="d-flex" cols="12" sm="6" name="address">
+                  <v-text-field
+                    dense
+                    label="Địa chỉ hiện tại"
+                    outlined
+                    data-name="address"
+                    v-model="selectaddress"
+                    :error-messages="errors"></v-text-field>
+                </v-col>
+              </div>
+            </ValidationProvider>
+          </div>
+        </div>
+        <div class="frame-38">
+          <p>2. Thông tin đăng ký tiêm chủng</p>
+        </div>
+        <div class="frame-39 frame-width">
+          <div class="row">
+            <ValidationProvider name="birthday" rules="required" v-slot="{ errors }">
+              <div class="mt">
+                <label for="district" class="subtitle-1 font-weight-regular"
+                  >Ngày muốn được tiêm (dự kiến) <span class="start">(*)</span></label
+                >
+                <v-menu
+                  dense
+                  name="birthday"
+                  ref="menu"
+                  :rules="[(v) => !!v || 'Required']"
+                  :close-on-content-click="false"
+                  :return-value.sync="birthday"
+                  transition="scale-transition"
+                  offset-y
+                  min-width="auto">
+                  <template v-slot:activator="{ on }">
+                    <v-text-field
                       dense
                       name="birthday"
-                      ref="menu"
-                      :rules="[(v) => !!v || 'Required']"
-                      v-model="menu"
-                      :close-on-content-click="false"
-                      :return-value.sync="birthday"
-                      transition="scale-transition"
-                      offset-y
-                      min-width="auto">
-                      <template v-slot:activator="{ on }">
-                        <v-text-field
-                          dense
-                          name="birthday"
-                          v-model="birthday"
-                          label="ngày/tháng/năm"
-                          append-icon="mdi-calendar"
-                          outlined
-                          v-on="on"
-                          readonly
-                          :rules="[(v) => !!v || 'đây là trường bắt buộc']"
-                          :error-messages="errors[0]"></v-text-field>
-                      </template>
-                      <v-date-picker v-model="birthday" data-vv-as="birthday" no-title scrollable>
-                        <v-spacer></v-spacer>
-                        <v-btn text color="primary" @click="menu = false"> Cancel </v-btn>
-                        <v-btn text color="primary" @click="$refs.menu.save(birthday)"> OK </v-btn>
-                      </v-date-picker>
-                    </v-menu>
-                  </div>
-                </ValidationProvider>
-                <ValidationProvider name="injections" rules="required" v-slot="{ errors }">
-                  <div class="mt">
-                    <label for="injections" class="subtitle-1 font-weight-regular"
-                      >Buổi tiêm mong muốn <span class="start">(*)</span></label
-                    >
-                    <v-col class="d-flex" cols="12" sm="6" name="injections">
-                      <v-select
-                        dense
-                        :items="injections"
-                        label="Buổi tiêm mong muốn"
-                        outlined
-                        data-name="district"
-                        v-model="injections"
-                        :error-messages="errors"></v-select>
-                    </v-col>
-                  </div>
-                </ValidationProvider>
+                      v-model="birthday"
+                      label="ngày/tháng/năm"
+                      append-icon="mdi-calendar"
+                      outlined
+                      v-on="on"
+                      readonly
+                      :rules="[(v) => !!v || 'đây là trường bắt buộc']"
+                      :error-messages="errors[0]"></v-text-field>
+                  </template>
+                  <v-date-picker v-model="birthday" data-vv-as="birthday" no-title scrollable>
+                    <v-spacer></v-spacer>
+                    <v-btn text color="primary" @click="menu = false"> Cancel </v-btn>
+                    <v-btn text color="primary" @click="$refs.menu.save(birthday)"> OK </v-btn>
+                  </v-date-picker>
+                </v-menu>
               </div>
-            </div>
-            <div class="frame-40">
-              <p class="text-color">Lưu ý:</p>
-            </div>
-            <div class="frame-41">
-              <ul>
-                <li class="text-color">
-                  Việc đăng ký thông tin hoàn toàn bảo mật và phục vụ cho chiến dịch tiêm chủng Vắc
-                  xin COVID - 19
-                </li>
-                <li class="text-color">
-                  Xin vui lòng kiểm tra kỹ các thông tin bắt buộc(VD: Họ và tên, Ngày tháng năm
-                  sinh, Số điện thoại, Số CMND/CCCD/Mã định danh công dân/HC ...)
-                </li>
-                <li class="text-color">
-                  Bằng việc nhấn nút "Xác nhận", bạn hoàn toàn hiểu và đồng ý chịu trách nhiệm với
-                  các thông tin đã cung cấp.
-                </li>
-                <li class="text-color">
-                  Cá nhân/Tổ chức đăng ký thành công trên hệ thống sẽ được đưa vào danh sách đặt
-                  tiêm. Cơ sở y tế sẽ thông báo lịch tiêm khi có vắc xin và kế hoạch tiêm được phê
-                  duyệt. Trân trọng cảm ơn!
-                </li>
-              </ul>
-            </div>
-            <div class="frame-42">
-              <div class="btn">
-                <v-btn class="btn-refesh" outlined>
-                  <v-icon>mdi-arrow-left-thin</v-icon> HUỶ BỎ</v-btn
+            </ValidationProvider>
+            <ValidationProvider name="injections" rules="required" v-slot="{ errors }">
+              <div class="mt">
+                <label for="injections" class="subtitle-1 font-weight-regular"
+                  >Buổi tiêm mong muốn <span class="start">(*)</span></label
                 >
+                <v-col class="d-flex" cols="12" sm="6" name="injections">
+                  <v-select
+                    dense
+                    :items="injections"
+                    label="Buổi tiêm mong muốn"
+                    outlined
+                    data-name="district"
+                    v-model="injections"
+                    :error-messages="errors"></v-select>
+                </v-col>
               </div>
-              <div class="btn">
-                <v-btn
-                  class="btn-send"
-                  type="submit"
-                  :disabled="invalid || disabled"
-                  outlined
-                  text
-                  color="white">
-                  TIẾP TỤC <v-icon color="white">mdi-arrow-right-thin</v-icon>
-                </v-btn>
-              </div>
-            </div>
-          </form>
-        </ValidationObserver>
+            </ValidationProvider>
+          </div>
+        </div>
+        <div class="frame-40">
+          <p class="text-color">Lưu ý:</p>
+        </div>
+        <div class="frame-41">
+          <ul>
+            <li class="text-color">
+              Việc đăng ký thông tin hoàn toàn bảo mật và phục vụ cho chiến dịch tiêm chủng Vắc xin
+              COVID - 19
+            </li>
+            <li class="text-color">
+              Xin vui lòng kiểm tra kỹ các thông tin bắt buộc(VD: Họ và tên, Ngày tháng năm sinh, Số
+              điện thoại, Số CMND/CCCD/Mã định danh công dân/HC ...)
+            </li>
+            <li class="text-color">
+              Bằng việc nhấn nút "Xác nhận", bạn hoàn toàn hiểu và đồng ý chịu trách nhiệm với các
+              thông tin đã cung cấp.
+            </li>
+            <li class="text-color">
+              Cá nhân/Tổ chức đăng ký thành công trên hệ thống sẽ được đưa vào danh sách đặt tiêm.
+              Cơ sở y tế sẽ thông báo lịch tiêm khi có vắc xin và kế hoạch tiêm được phê duyệt. Trân
+              trọng cảm ơn!
+            </li>
+          </ul>
+        </div>
       </div>
     </div>
   </div>
 </template>
 <script lang="ts">
-import { Component, Vue } from 'vue-property-decorator';
-@Component({})
-export default class UserComponent extends Vue {
-  // e1 = 2;
+import { Component, Vue, Watch } from 'vue-property-decorator';
+import { StepState } from '../../store/step/type';
+import { StepMutation } from '../../store/step/mutations';
+import { mapState, mapMutations } from 'vuex';
+import { extend } from 'vee-validate';
+extend('requiredBhyt', {
+  message: (field) => `${field}` + ' ' + 'phải 9 hoặc 12 số',
+  validate: (value) => {
+    if (value.length == 9 || value.length == 12) {
+      return true;
+    }
+    return false;
+  }
+});
+@Component({
+  computed: {
+    ...mapState({ step: (state) => state })
+  },
+  methods: {
+    ...mapMutations([StepMutation.SET_STEP])
+  }
+})
+export default class NavbarComponent extends Vue {
+  step!: StepState;
+  emits!: ['update:step'] | undefined;
+  // eslint-disable-next-line no-unused-vars
+  [StepMutation.SET_STEP]: (step: StepState) => void;
+  selectHealthInsurance: string = '';
   groupPrioritize: string[] = [
     '1. Người nghèo',
     '2. Người nghèo',
@@ -218,12 +220,17 @@ export default class UserComponent extends Vue {
     '4. Người nghèo'
   ];
   injections: string[] = ['Buổi sáng', 'Buổi chiều', 'Buổi tối'];
-  healthInsurance: string = '';
   job: string = '';
   workUnit: string = '';
-  address: string = '';
+  selectaddress: string = '';
   birthday = '';
-  disabled: boolean = false;
+  selectGroup: string = '';
+  @Watch('selectHealthInsurance')
+  onSelectShealthInsurance() {
+    this[StepMutation.SET_STEP](this.step);
+
+    this.step.healthInsurance = this.selectHealthInsurance;
+  }
 }
 </script>
 <style>
@@ -232,7 +239,9 @@ export default class UserComponent extends Vue {
 }
 .navbar-result {
   width: 100%;
-  margin-bottom: 100px;
+}
+.navbar-result .form .v-text-field.v-text-field--enclosed {
+  width: 386px;
 }
 .navbar-result .form {
   width: 100%;
@@ -265,7 +274,7 @@ export default class UserComponent extends Vue {
   font-size: 16px;
   line-height: 150%;
 }
-.navbar-result .frame-42 {
+.frame-42 {
   display: flex;
   flex-direction: row;
   justify-content: center;
@@ -273,7 +282,7 @@ export default class UserComponent extends Vue {
   height: 60px;
   gap: 16px;
 }
-.navbar-result .frame-42 .btn-refesh {
+.frame-42 .btn-refesh {
   width: 117px;
   height: 36px;
 
@@ -281,7 +290,7 @@ export default class UserComponent extends Vue {
   border-radius: 8px 8px 8px 0px;
   color: #303f9f;
 }
-.navbar-result .frame-42 .btn-send {
+.frame-42 .btn-send {
   width: 160px;
   height: 36px;
 
