@@ -209,7 +209,6 @@ extend('requiredBhyt', {
 })
 export default class NavbarComponent extends Vue {
   step!: StepState;
-  emits!: ['update:step'] | undefined;
   // eslint-disable-next-line no-unused-vars
   [StepMutation.SET_STEP]: (step: StepState) => void;
   selectHealthInsurance: string = '';
@@ -297,9 +296,6 @@ export default class NavbarComponent extends Vue {
   background: #303f9f;
   border-radius: 8px 8px 8px 0px;
 }
-/* .navbar-result .frame-42 .btn button {
-  color: #ffffff !important;
-} */
 .form .v-input__control {
   height: 52px;
 }

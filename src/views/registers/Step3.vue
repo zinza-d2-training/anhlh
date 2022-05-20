@@ -119,7 +119,6 @@ export default class UserComponent extends Vue {
   created() {
     console.log('create', this.step);
   }
-  //   checkbox: boolean = false;
 }
 </script>
 <style>

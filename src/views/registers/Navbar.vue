@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="navbar-main">
     <div class="navbar-header">
       <div class="navbar-container">
         <p class="navbar-container-text">Tra cứu đăng ký tiêm</p>
@@ -27,7 +27,7 @@
     <ValidationObserver v-slot="{ invalid }">
       <form action="" @submit.prevent="onSubmit">
         <Step1 v-if="pace == 1"></Step1>
-        <Step2 v-if="pace == 2" @checkbox="onCheckbox"></Step2>
+        <Step2 v-if="pace == 2" :checkbox="checkbox" @checkbox="onCheckbox"></Step2>
         <Step3 v-if="pace == 3"></Step3>
         <div class="frame-42" v-if="pace == 1">
           <div class="btn">
@@ -54,17 +54,24 @@
             <v-btn class="btn-refesh" outlined><v-icon>mdi-arrow-left-thin</v-icon>QUAY LẠI</v-btn>
           </div>
           <div class="btn">
-            <v-btn class="btn-send" type="submit" outlined text color="white" :disabled="invalid">
-              <pre>{{ invalid }}</pre>
+            <v-btn
+              class="btn-send"
+              type="submit"
+              outlined
+              text
+              color="white"
+              :disabled="!checkbox || invalid">
               TIẾP TỤC <v-icon color="white">mdi-arrow-right-thin</v-icon>
             </v-btn>
           </div>
         </div>
         <div class="frame-42 step3" v-if="pace == 3">
           <div class="btn">
-            <v-btn class="btn-refesh" outlined>
-              <v-icon>mdi-arrow-left-thin</v-icon>TRANG CHỦ</v-btn
-            >
+            <router-link to="/">
+              <v-btn class="btn-refesh" outlined>
+                <v-icon>mdi-arrow-left-thin</v-icon>TRANG CHỦ</v-btn
+              >
+            </router-link>
           </div>
           <div class="btn">
             <v-btn class="btn-send" type="submit" :disabled="disabled" outlined text color="white">
@@ -91,8 +98,8 @@ import Step3 from './Step3.vue';
 export default class NavbarComponent extends Vue {
   @Prop({})
   selectShealthInsurance!: string;
-  location = 2;
-  pace = 1;
+  location: number = 2;
+  pace: number = 1;
   disabled: boolean = false;
   checkbox: boolean = false;
   onSubmit() {

@@ -51,10 +51,11 @@ import { Component, Vue, Prop, Watch } from 'vue-property-decorator';
 export default class UserComponent extends Vue {
   @Prop({ default: 2 })
   step!: number;
-  @Prop({ default: false })
+  @Prop({})
   checkbox!: boolean;
   @Watch('checkbox')
   onCheckbox() {
+    console.log(this.checkbox);
     this.$emit('checkbox', this.checkbox);
   }
 }
