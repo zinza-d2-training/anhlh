@@ -61,7 +61,7 @@
               text
               color="white"
               :disabled="!checkbox || invalid">
-              TIẾP TỤC <v-icon color="white">mdi-arrow-right-thin</v-icon>
+              TIẾP TỤC <v-icon color="white" depressed>mdi-arrow-right-thin</v-icon>
             </v-btn>
           </div>
         </div>
@@ -74,7 +74,14 @@
             </router-link>
           </div>
           <div class="btn">
-            <v-btn class="btn-send" type="submit" :disabled="disabled" outlined text color="white">
+            <v-btn
+              class="btn-send"
+              type="submit"
+              :disabled="disabled"
+              outlined
+              text
+              color="white"
+              ref="html2Pdf">
               XUẤT THÔNG TIN <v-icon color="white">mdi-arrow-right-thin</v-icon>
             </v-btn>
           </div>
@@ -88,6 +95,7 @@ import { Component, Vue, Prop } from 'vue-property-decorator';
 import Step1 from './Step1.vue';
 import Step2 from './Step2.vue';
 import Step3 from './Step3.vue';
+// import VueHtml2pdf from 'vue-html2pdf'
 @Component({
   components: {
     Step1,
@@ -106,6 +114,9 @@ export default class NavbarComponent extends Vue {
   onSubmit() {
     this.pace++;
     this.location++;
+    // if (this.$refs) {
+    //   this.$refs.html2Pdf.generatePdf();
+    // }
   }
   decreaseStep() {
     this.pace--;
@@ -170,5 +181,9 @@ export default class NavbarComponent extends Vue {
 }
 .v-stepper__step {
   padding: 24px 0px !important;
+}
+.frame-42 .btn-send.v-btn--disabled {
+  pointer-events: none;
+  background: #bdbdbd;
 }
 </style>
