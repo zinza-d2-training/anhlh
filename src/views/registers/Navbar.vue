@@ -99,7 +99,7 @@ export default class NavbarComponent extends Vue {
   @Prop({})
   selectShealthInsurance!: string;
   location: number = 2;
-  pace: number = 1;
+  pace: number = 3;
   disabled: boolean = false;
   checkbox: boolean = false;
   onSubmit() {

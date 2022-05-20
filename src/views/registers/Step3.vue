@@ -21,8 +21,10 @@
         <li class="navbar__item">
           <p>
             Mời bạn tải ứng dụng "SỔ SỨC KHỎE ĐIỆN TỬ" tại
-            <span class="navbar__item-link">https://hssk.kcb.vn/#/sskdt</span> để theo dõi kết quả
-            đăng ký tiêm và nhận chứng nhận tiêm chủng COVID-19
+            <a class="navbar__item-link" href="https://hssk.kcb.vn/#/sskdt"
+              >https://hssk.kcb.vn/#/sskdt</a
+            >
+            để theo dõi kết quả đăng ký tiêm và nhận chứng nhận tiêm chủng COVID-19
           </p>
         </li>
         <li>
@@ -163,9 +165,7 @@ export default class UserComponent extends Vue {
 }
 .navbar-result .navbar__menu li p .navbar__item-link {
   color: #d32f2f;
-}
-.navbar-result .v-data-table {
-  width: 100%;
+  text-decoration: none;
 }
 .navbar-result .v-data-table .column-width {
   width: 456px !important;
@@ -175,5 +175,32 @@ table {
 }
 .theme--light.v-label {
   color: #000000;
+}
+.theme--light.v-data-table
+  > .v-data-table__wrapper
+  > table
+  > tbody
+  > tr:not(:last-child)
+  > td:last-child,
+.theme--light.v-data-table
+  > .v-data-table__wrapper
+  > table
+  > tbody
+  > tr:not(:last-child)
+  > td:not(.v-data-table__mobile-row),
+.theme--light.v-data-table
+  > .v-data-table__wrapper
+  > table
+  > tbody
+  > tr:not(:last-child)
+  > th:last-child,
+.theme--light.v-data-table
+  > .v-data-table__wrapper
+  > table
+  > tbody
+  > tr:not(:last-child)
+  > th:not(.v-data-table__mobile-row),
+.theme--light.v-data-table > .v-data-table__wrapper > table > thead > tr:last-child > th {
+  border-bottom: none;
 }
 </style>
