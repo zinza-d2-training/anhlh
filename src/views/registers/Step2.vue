@@ -1,7 +1,7 @@
 <template>
   <div class="navbar-result">
     <div class="navbar-container">
-      <ul class="navbar__menu">
+      <ul class="navbar__menu step2">
         <li>
           <img src="@/assets/shield 1.png" alt="" />
           <span
@@ -65,13 +65,13 @@ export default class UserComponent extends Vue {
   width: 100%;
 }
 .navbar-result .v-application ol,
-.v-application ul {
+.v-application ul.step2 {
   display: flex;
   padding-left: 0;
   flex-direction: column;
   gap: 16px;
 }
-.navbar-result ul li {
+.navbar-result ul.step2 li {
   list-style: none;
   display: flex;
   flex-direction: row;

@@ -160,7 +160,7 @@
           <p class="text-color">Lưu ý:</p>
         </div>
         <div class="frame-41">
-          <ul>
+          <ul class="step1">
             <li class="text-color">
               Việc đăng ký thông tin hoàn toàn bảo mật và phục vụ cho chiến dịch tiêm chủng Vắc xin
               COVID - 19
@@ -250,7 +250,15 @@ export default class NavbarComponent extends Vue {
   flex-direction: column;
   gap: 16px;
 }
-
+.navbar-result ul.step1 {
+  display: flex;
+  padding-left: 0;
+  flex-direction: column;
+  gap: 0;
+}
+.navbar-result .frame-41 ul.step1 {
+  list-style: disc outside;
+}
 .navbar-result .frame-width {
   width: 100%;
 }
