@@ -37,7 +37,7 @@ export default class UserComponent extends Vue {}
 </script>
 <style>
 .footer {
-  margin-top: 918px;
+  margin-top: 675px;
 
   background: #2d2188;
 }

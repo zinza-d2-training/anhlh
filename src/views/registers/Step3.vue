@@ -57,8 +57,8 @@
                 </tr>
               </thead>
               <tbody>
-                <tr v-for="item in numberCard" :key="item.cmnd">
-                  <td class="column-width">{{ item.cmnd }}</td>
+                <tr v-for="item in numberCard" :key="item.citizenIdentification">
+                  <td class="column-width">{{ item.citizenIdentification }}</td>
                   <td class="column-width">{{ step.healthInsurance }}</td>
                 </tr>
               </tbody>
@@ -114,7 +114,7 @@ export default class UserComponent extends Vue {
       ward: 'truong dinh'
     }
   ];
-  numberCard = [{ cmnd: 134141255, bhyt: `${this.step}` }];
+  numberCard = [{ citizenIdentification: 134141255 }];
   onSubmit() {
     this.$emit('changeStep');
   }
