@@ -10,7 +10,7 @@
         <div class="navbar-search__header">
           <v-stepper v-model="location" alt-labels light>
             <v-stepper-header>
-              <v-stepper-step step="2"> Thông tin cá nhân </v-stepper-step>
+              <v-stepper-step step="2" complete> Thông tin cá nhân </v-stepper-step>
 
               <v-divider></v-divider>
 
@@ -28,7 +28,7 @@
       <form action="" @submit.prevent="onSubmit">
         <Step1 v-if="pace == 1"></Step1>
         <Step2 v-if="pace == 2" :checkbox="checkbox" @checkbox="onCheckbox"></Step2>
-        <Step3 v-if="pace == 3"></Step3>
+        <Step3 v-show="pace == 3"></Step3>
         <div class="frame-42" v-if="pace == 1">
           <div class="btn">
             <router-link to="/">
@@ -49,7 +49,7 @@
             </v-btn>
           </div>
         </div>
-        <div class="frame-42" v-if="pace == 2">
+        <div class="frame-42" v-show="pace == 2">
           <div class="btn" @click="decreaseStep">
             <v-btn class="btn-refesh" outlined><v-icon>mdi-arrow-left-thin</v-icon>QUAY LẠI</v-btn>
           </div>
@@ -65,7 +65,7 @@
             </v-btn>
           </div>
         </div>
-        <div class="frame-42 step3" v-if="pace == 3">
+        <div class="frame-42 step3" v-show="pace == 3">
           <div class="btn">
             <router-link to="/">
               <v-btn class="btn-refesh" outlined>
@@ -99,7 +99,8 @@ export default class NavbarComponent extends Vue {
   @Prop({})
   selectShealthInsurance!: string;
   location: number = 2;
-  pace: number = 3;
+  pace: number = 1;
+  complete: boolean = false;
   disabled: boolean = false;
   checkbox: boolean = false;
   onSubmit() {

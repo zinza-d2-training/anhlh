@@ -16,9 +16,9 @@
                   <v-select
                     dense
                     :items="groupPrioritize"
-                    label="Nhóm ưu tiên"
+                    placeholder="Nhóm ưu tiên"
                     outlined
-                    data-name="groupPrioritize"
+                    data-name="selectGroupPrioritize"
                     :error-messages="errors"></v-select>
                 </v-col>
               </div>
@@ -34,7 +34,7 @@
                 <v-col class="d-flex" cols="12" sm="6" name="selectHealthInsurance">
                   <v-text-field
                     dense
-                    label="Số thẻ BHYT"
+                    placeholder="Số thẻ BHYT"
                     outlined
                     data-name="selectHealthInsurance"
                     v-model="selectHealthInsurance"
@@ -54,7 +54,7 @@
                 <v-col class="d-flex" cols="12" sm="6" name="job">
                   <v-text-field
                     dense
-                    label="Nghề nghiệp"
+                    placeholder="Nghề nghiệp"
                     outlined
                     data-name="job"
                     v-model="job"
@@ -70,7 +70,7 @@
                 <v-col class="d-flex" cols="12" sm="6" name="workUnit">
                   <v-text-field
                     dense
-                    label="Đơn vị công tác"
+                    placeholder="Đơn vị công tác"
                     outlined
                     data-name="workUnit"
                     v-model="workUnit"
@@ -86,10 +86,10 @@
                 <v-col class="d-flex" cols="12" sm="6" name="address">
                   <v-text-field
                     dense
-                    label="Địa chỉ hiện tại"
+                    placeholder="Địa chỉ hiện tại"
                     outlined
                     data-name="address"
-                    v-model="selectaddress"
+                    v-model="selectAddress"
                     :error-messages="errors"></v-text-field>
                 </v-col>
               </div>
@@ -121,7 +121,7 @@
                       dense
                       name="birthday"
                       v-model="birthday"
-                      label="ngày/tháng/năm"
+                      placeholder="ngày/tháng/năm"
                       append-icon="mdi-calendar"
                       outlined
                       v-on="on"
@@ -146,10 +146,10 @@
                   <v-select
                     dense
                     :items="injections"
-                    label="Buổi tiêm mong muốn"
+                    placeholder="Buổi tiêm mong muốn"
                     outlined
-                    data-name="district"
-                    v-model="injections"
+                    data-name="injections"
+                    v-model="selectInjections"
                     :error-messages="errors"></v-select>
                 </v-col>
               </div>
@@ -219,9 +219,11 @@ export default class NavbarComponent extends Vue {
     '4. Người nghèo'
   ];
   injections: string[] = ['Buổi sáng', 'Buổi chiều', 'Buổi tối'];
+  selectInjections: string = '';
+  selectGroupPrioritize: string = '';
   job: string = '';
   workUnit: string = '';
-  selectaddress: string = '';
+  selectAddress: string = '';
   birthday = '';
   selectGroup: string = '';
   @Watch('selectHealthInsurance')
