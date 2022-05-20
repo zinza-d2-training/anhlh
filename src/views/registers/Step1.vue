@@ -10,8 +10,8 @@
             <ValidationProvider name="groupPrioritize" rules="required" v-slot="{ errors }">
               <div class="mt">
                 <label for="groupPrioritize" class="subtitle-1 font-weight-regular"
-                  >Nhóm ưu tiên <span class="start">(*)</span></label
-                >
+                  >Nhóm ưu tiên
+                </label>
                 <v-col class="d-flex" cols="12" sm="6" name="groupPrioritize">
                   <v-select
                     dense
@@ -25,12 +25,12 @@
             </ValidationProvider>
             <ValidationProvider
               name="selectHealthInsurance"
-              rules="required|requiredBhyt"
+              rules="required|numeric|requiredHealthInsurance"
               v-slot="{ errors }">
               <div class="mt">
                 <label for="selectHealthInsurance" class="subtitle-1 font-weight-regular"
-                  >Số thẻ BHYT <span class="start">(*)</span></label
-                >
+                  >Số thẻ BHYT
+                </label>
                 <v-col class="d-flex" cols="12" sm="6" name="selectHealthInsurance">
                   <v-text-field
                     dense
@@ -48,9 +48,7 @@
           <div class="row">
             <ValidationProvider name="job" rules="required" v-slot="{ errors }">
               <div class="mt">
-                <label for="job" class="subtitle-1 font-weight-regular"
-                  >Nghề nghiệp <span class="start">(*)</span></label
-                >
+                <label for="job" class="subtitle-1 font-weight-regular">Nghề nghiệp </label>
                 <v-col class="d-flex" cols="12" sm="6" name="job">
                   <v-text-field
                     dense
@@ -65,8 +63,8 @@
             <ValidationProvider name="workUnit" rules="required" v-slot="{ errors }">
               <div class="mt">
                 <label for="workUnit" class="subtitle-1 font-weight-regular"
-                  >Đơn vị công tác <span class="start">(*)</span></label
-                >
+                  >Đơn vị công tác
+                </label>
                 <v-col class="d-flex" cols="12" sm="6" name="workUnit">
                   <v-text-field
                     dense
@@ -81,8 +79,8 @@
             <ValidationProvider name="address" rules="required" v-slot="{ errors }">
               <div class="mt">
                 <label for="address" class="subtitle-1 font-weight-regular"
-                  >Địa chỉ hiện tại <span class="start">(*)</span></label
-                >
+                  >Địa chỉ hiện tại
+                </label>
                 <v-col class="d-flex" cols="12" sm="6" name="address">
                   <v-text-field
                     dense
@@ -103,7 +101,7 @@
           <div class="row">
             <ValidationProvider name="birthday" rules="required" v-slot="{ errors }">
               <div class="mt">
-                <label for="district" class="subtitle-1 font-weight-regular"
+                <label for="birthday" class="subtitle-1 font-weight-regular"
                   >Ngày muốn được tiêm (dự kiến) <span class="start">(*)</span></label
                 >
                 <v-menu
@@ -140,8 +138,8 @@
             <ValidationProvider name="injections" rules="required" v-slot="{ errors }">
               <div class="mt">
                 <label for="injections" class="subtitle-1 font-weight-regular"
-                  >Buổi tiêm mong muốn <span class="start">(*)</span></label
-                >
+                  >Buổi tiêm mong muốn
+                </label>
                 <v-col class="d-flex" cols="12" sm="6" name="injections">
                   <v-select
                     dense
@@ -190,7 +188,8 @@ import { StepState } from '../../store/step/type';
 import { StepMutation } from '../../store/step/mutations';
 import { mapState, mapMutations } from 'vuex';
 import { extend } from 'vee-validate';
-extend('requiredBhyt', {
+import { numeric } from 'vee-validate/dist/rules';
+extend('requiredHealthInsurance', {
   message: (field) => `${field}` + ' ' + 'phải 9 hoặc 12 số',
   validate: (value) => {
     if (value.length == 9 || value.length == 12) {
@@ -198,6 +197,10 @@ extend('requiredBhyt', {
     }
     return false;
   }
+});
+extend('numeric', {
+  ...numeric,
+  message: 'bắt buộc phải là số'
 });
 @Component({
   computed: {
@@ -249,6 +252,9 @@ export default class NavbarComponent extends Vue {
   display: flex;
   flex-direction: column;
   gap: 16px;
+}
+.navbar-result .form .start {
+  color: red;
 }
 .navbar-result ul.step1 {
   display: flex;

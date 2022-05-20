@@ -118,9 +118,6 @@ export default class UserComponent extends Vue {
   onSubmit() {
     this.$emit('changeStep');
   }
-  created() {
-    console.log('create', this.step);
-  }
 }
 </script>
 <style>
@@ -202,5 +199,13 @@ table {
   > th:not(.v-data-table__mobile-row),
 .theme--light.v-data-table > .v-data-table__wrapper > table > thead > tr:last-child > th {
   border-bottom: none;
+}
+.navbar-result .v-data-table > .v-data-table__wrapper > table > tbody > tr > td,
+.v-data-table > .v-data-table__wrapper > table > tbody > tr > th,
+.v-data-table > .v-data-table__wrapper > table > tfoot > tr > td,
+.v-data-table > .v-data-table__wrapper > table > tfoot > tr > th,
+.v-data-table > .v-data-table__wrapper > table > thead > tr > td,
+.v-data-table > .v-data-table__wrapper > table > thead > tr > th {
+  padding: 0;
 }
 </style>

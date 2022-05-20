@@ -55,7 +55,6 @@ export default class UserComponent extends Vue {
   checkbox!: boolean;
   @Watch('checkbox')
   onCheckbox() {
-    console.log(this.checkbox);
     this.$emit('checkbox', this.checkbox);
   }
 }

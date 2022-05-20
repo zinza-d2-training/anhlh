@@ -10,10 +10,8 @@ for (const [rule, validation] of Object.entries(rules)) {
     ...validation
   });
 }
-
 Vue.component('ValidationObserver', ValidationObserver);
 Vue.component('ValidationProvider', ValidationProvider);
-
 Vue.config.productionTip = false;
 new Vue({
   router,

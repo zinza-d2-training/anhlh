@@ -26,9 +26,26 @@
     </div>
     <ValidationObserver v-slot="{ invalid }">
       <form action="" @submit.prevent="onSubmit">
-        <Step1 v-if="pace == 1"></Step1>
-        <Step2 v-if="pace == 2" :checkbox="checkbox" @checkbox="onCheckbox"></Step2>
-        <Step3 v-show="pace == 3"></Step3>
+        <Step1 v-show="pace == 1"></Step1>
+        <Step2 v-show="pace == 2" :checkbox="checkbox" @checkbox="onCheckbox"></Step2>
+        <vue-html2pdf
+          :show-layout="false"
+          :float-layout="false"
+          :enable-download="true"
+          :preview-modal="false"
+          :paginate-elements-by-height="1400"
+          filename="file register injection"
+          :pdf-quality="2"
+          :manual-pagination="false"
+          pdf-format="a4"
+          pdf-orientation="landscape"
+          pdf-content-width="100%"
+          @progress="onProgress($event)"
+          @hasStartedGeneration="hasStartedGeneration()"
+          @hasGenerated="hasGenerated($event)"
+          ref="html2Pdf">
+          <Step3 v-show="pace == 3" slot="pdf-content"></Step3>
+        </vue-html2pdf>
         <div class="frame-42" v-if="pace == 1">
           <div class="btn">
             <router-link to="/">
@@ -74,14 +91,7 @@
             </router-link>
           </div>
           <div class="btn">
-            <v-btn
-              class="btn-send"
-              type="submit"
-              :disabled="disabled"
-              outlined
-              text
-              color="white"
-              ref="html2Pdf">
+            <v-btn class="btn-send" type="submit" :disabled="disabled" outlined text color="white">
               XUẤT THÔNG TIN <v-icon color="white">mdi-arrow-right-thin</v-icon>
             </v-btn>
           </div>
@@ -95,12 +105,14 @@ import { Component, Vue, Prop } from 'vue-property-decorator';
 import Step1 from './Step1.vue';
 import Step2 from './Step2.vue';
 import Step3 from './Step3.vue';
-// import VueHtml2pdf from 'vue-html2pdf'
+import VueHtml2pdf from 'vue-html2pdf';
+
 @Component({
   components: {
     Step1,
     Step2,
-    Step3
+    Step3,
+    VueHtml2pdf
   }
 })
 export default class NavbarComponent extends Vue {
@@ -112,11 +124,13 @@ export default class NavbarComponent extends Vue {
   disabled: boolean = false;
   checkbox: boolean = false;
   onSubmit() {
-    this.pace++;
-    this.location++;
-    // if (this.$refs) {
-    //   this.$refs.html2Pdf.generatePdf();
-    // }
+    if (this.pace == 3) {
+      (this.$refs.html2Pdf as any).generatePdf();
+      return;
+    } else {
+      this.pace++;
+      this.location++;
+    }
   }
   decreaseStep() {
     this.pace--;
