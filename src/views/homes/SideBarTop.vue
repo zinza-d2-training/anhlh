@@ -104,7 +104,12 @@
                 :headers="headers"
                 :items="newDesserts"
                 item-key="id"
-                :item-class="itemRowBackground"></v-data-table>
+                :item-class="itemRowBackground">
+                <!-- eslint-disable-next-line -->
+                <template v-slot:item.id="{ index }">
+                  <pre>{{ index + 1 }}</pre>
+                </template>
+              </v-data-table>
             </v-card>
           </div>
         </div>

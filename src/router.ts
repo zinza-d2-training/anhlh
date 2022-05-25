@@ -7,6 +7,7 @@ import RegisterComponent from './views/auth/RegisterComponent.vue';
 import SideBarTop from './views/homes/SideBarTop.vue';
 import Navbar from './views/registers/Navbar.vue';
 import Dasboard from './layouts/Dasboard.vue';
+import SearchInjections from './views/search/SearchInjections.vue';
 
 Vue.use(VueRouter);
 
@@ -43,6 +44,10 @@ const router = new VueRouter({
         {
           path: '/register-person',
           component: Navbar as ComponentOptions<Vue>
+        },
+        {
+          path: '/search-injections',
+          component: SearchInjections as ComponentOptions<Vue>
         }
       ]
     }

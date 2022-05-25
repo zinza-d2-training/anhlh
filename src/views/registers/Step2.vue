@@ -49,7 +49,6 @@
 import { Component, Vue, Prop, Watch } from 'vue-property-decorator';
 @Component({})
 export default class UserComponent extends Vue {
-  @Prop({ default: 2 })
   step!: number;
   @Prop({})
   checkbox!: boolean;

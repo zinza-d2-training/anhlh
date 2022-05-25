@@ -59,8 +59,9 @@
               <tbody>
                 <tr v-for="item in numberCard" :key="item.citizenIdentification">
                   <td class="column-width">{{ item.citizenIdentification }}</td>
-                  <td class="column-width">{{ step.healthInsurance }}</td>
+                  <td class="column-width">{{ selectHealthInsurance }}</td>
                 </tr>
+                <pre>{{ step.healthInsurance }}</pre>
               </tbody>
             </template>
           </v-simple-table>
@@ -114,10 +115,7 @@ export default class UserComponent extends Vue {
       ward: 'truong dinh'
     }
   ];
-  numberCard = [{ citizenIdentification: 134141255 }];
-  onSubmit() {
-    this.$emit('changeStep');
-  }
+  numberCard = [{ citizenIdentification: 134141255, a: `${this.step}` }];
 }
 </script>
 <style>
@@ -160,11 +158,11 @@ export default class UserComponent extends Vue {
 .navbar-result .navbar__menu li p .navbar__item-phone {
   color: #1e88e5;
 }
-.navbar-result .navbar__menu li p .navbar__item-link {
+.navbar-result.step3 .navbar__menu li p .navbar__item-link {
   color: #d32f2f;
   text-decoration: none;
 }
-.navbar-result .v-data-table .column-width {
+.navbar-result.step3 .v-data-table .column-width {
   width: 456px !important;
 }
 table {
@@ -173,7 +171,7 @@ table {
 .theme--light.v-label {
   color: #000000;
 }
-.theme--light.v-data-table
+.theme--light.v-data-table.step3
   > .v-data-table__wrapper
   > table
   > tbody
@@ -200,7 +198,7 @@ table {
 .theme--light.v-data-table > .v-data-table__wrapper > table > thead > tr:last-child > th {
   border-bottom: none;
 }
-.navbar-result .v-data-table > .v-data-table__wrapper > table > tbody > tr > td,
+.navbar-result.step3 .v-data-table > .v-data-table__wrapper > table > tbody > tr > td,
 .v-data-table > .v-data-table__wrapper > table > tbody > tr > th,
 .v-data-table > .v-data-table__wrapper > table > tfoot > tr > td,
 .v-data-table > .v-data-table__wrapper > table > tfoot > tr > th,

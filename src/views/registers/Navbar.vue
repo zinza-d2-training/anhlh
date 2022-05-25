@@ -10,21 +10,21 @@
         <div class="navbar-search__header">
           <v-stepper v-model="location" alt-labels light>
             <v-stepper-header>
-              <v-stepper-step step="2" complete> Thông tin cá nhân </v-stepper-step>
+              <v-stepper-step step="2" :complete="complete1"> Thông tin cá nhân </v-stepper-step>
 
               <v-divider></v-divider>
 
-              <v-stepper-step step="3"> Phiếu đồng ý tiêm </v-stepper-step>
+              <v-stepper-step step="3" :complete="complete2"> Phiếu đồng ý tiêm </v-stepper-step>
 
               <v-divider></v-divider>
 
-              <v-stepper-step step="4">Hoàn thành </v-stepper-step>
+              <v-stepper-step step="4" :complete="complete3">Hoàn thành </v-stepper-step>
             </v-stepper-header>
           </v-stepper>
         </div>
       </div>
     </div>
-    <ValidationObserver v-slot="{ invalid }">
+    <ValidationObserver v-slot="{ invalid }" ref="form">
       <form action="" @submit.prevent="onSubmit">
         <Step1 v-show="pace == 1"></Step1>
         <Step2 v-show="pace == 2" :checkbox="checkbox" @checkbox="onCheckbox"></Step2>
@@ -106,6 +106,7 @@ import Step1 from './Step1.vue';
 import Step2 from './Step2.vue';
 import Step3 from './Step3.vue';
 import VueHtml2pdf from 'vue-html2pdf';
+// import { StepState } from '@/store/step/type';
 
 @Component({
   components: {
@@ -117,10 +118,12 @@ import VueHtml2pdf from 'vue-html2pdf';
 })
 export default class NavbarComponent extends Vue {
   @Prop({})
-  selectShealthInsurance!: string;
+  // step: StepState;
   location: number = 2;
   pace: number = 1;
-  complete: boolean = false;
+  complete1: boolean = true;
+  complete2: boolean = false;
+  complete3: boolean = false;
   disabled: boolean = false;
   checkbox: boolean = false;
   onSubmit() {
@@ -131,6 +134,7 @@ export default class NavbarComponent extends Vue {
       this.pace++;
       this.location++;
     }
+    console.log(this.$refs.form);
   }
   decreaseStep() {
     this.pace--;
