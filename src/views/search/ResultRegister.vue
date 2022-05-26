@@ -59,4 +59,14 @@ export default class UserComponent extends Vue {
   width: 254.4px;
   flex-grow: 1;
 }
+.css-result th {
+  font-style: normal;
+  font-weight: 500;
+  font-size: 16px;
+}
+.css-result td {
+  font-style: normal;
+  font-weight: 400;
+  font-size: 16px;
+}
 </style>

@@ -48,7 +48,7 @@
           class="elevation-1"></v-data-table>
       </div>
       <div class="certificate__btn">
-        <v-btn depressed> Đăng ký mũi tiêm tiếp theo </v-btn>
+        <v-btn depressed @click="onSubmit()"> Đăng ký mũi tiêm tiếp theo </v-btn>
       </div>
     </div>
     <div class="card">
@@ -97,6 +97,7 @@
 import { Component, Vue, Prop } from 'vue-property-decorator';
 @Component({})
 export default class CertificateInjection extends Vue {
+  $router: any;
   @Prop({})
   result!: any;
   headers = [
@@ -122,6 +123,9 @@ export default class CertificateInjection extends Vue {
       place: 'TYT Dịch Vọng Hậu'
     }
   ];
+  onSubmit() {
+    this.$router.push('/register-person');
+  }
 }
 </script>
 <style>
@@ -301,6 +305,16 @@ export default class CertificateInjection extends Vue {
 .card .frame-right-bottom {
   font-style: normal;
   font-weight: 500;
+  font-size: 16px;
+}
+.frame-29 th {
+  font-style: normal;
+  font-weight: 500;
+  font-size: 16px;
+}
+.frame-29 td {
+  font-style: normal;
+  font-weight: 400;
   font-size: 16px;
 }
 </style>
