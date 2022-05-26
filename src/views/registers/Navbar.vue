@@ -10,15 +10,15 @@
         <div class="navbar-search__header">
           <v-stepper v-model="location" alt-labels light>
             <v-stepper-header>
-              <v-stepper-step step="2" complete> Thông tin cá nhân </v-stepper-step>
+              <v-stepper-step step="2" :complete="complete1"> Thông tin cá nhân </v-stepper-step>
 
               <v-divider></v-divider>
 
-              <v-stepper-step step="3"> Phiếu đồng ý tiêm </v-stepper-step>
+              <v-stepper-step step="3" :complete="complete2"> Phiếu đồng ý tiêm </v-stepper-step>
 
               <v-divider></v-divider>
 
-              <v-stepper-step step="4">Hoàn thành </v-stepper-step>
+              <v-stepper-step step="4" :complete="complete3">Hoàn thành </v-stepper-step>
             </v-stepper-header>
           </v-stepper>
         </div>
@@ -37,7 +37,7 @@
           filename="file register injection"
           :pdf-quality="2"
           :manual-pagination="false"
-          pdf-format="a4"
+          pdf-format="a3"
           pdf-orientation="landscape"
           pdf-content-width="100%"
           @progress="onProgress($event)"
@@ -120,7 +120,9 @@ export default class NavbarComponent extends Vue {
   selectShealthInsurance!: string;
   location: number = 2;
   pace: number = 1;
-  complete: boolean = false;
+  complete1: boolean = true;
+  complete2: boolean = false;
+  complete3: boolean = false;
   disabled: boolean = false;
   checkbox: boolean = false;
   onSubmit() {
@@ -131,9 +133,20 @@ export default class NavbarComponent extends Vue {
       this.pace++;
       this.location++;
     }
+    if (this.pace == 2) {
+      this.complete1 = false;
+      this.complete2 = true;
+    } else if (this.pace == 3) {
+      this.complete2 = false;
+      this.complete1 = false;
+      this.complete3 = true;
+    }
   }
   decreaseStep() {
     this.pace--;
+    this.complete2 = false;
+    this.complete1 = true;
+    this.complete3 = false;
   }
   onCheckbox(value: boolean) {
     this.checkbox = value;
@@ -141,6 +154,9 @@ export default class NavbarComponent extends Vue {
 }
 </script>
 <style>
+.navbar-main {
+  margin-bottom: 675px;
+}
 .navbar-header {
   width: 100%;
   background: #f5f5f5;

@@ -3,22 +3,22 @@
     <div class="navbar-container">
       <ul class="navbar__menu">
         <li class="navbar__item">
-          <p class="text-register">
+          <p class="text-register item__text-center">
             Đăng ký tiêm chủng COVID-19 thành công. Mã đặt tiêm của bạn là
             <span class="navbar__item-id">0120211103501237</span>.
           </p>
         </li>
         <li>
-          <p class="navbar__item">
+          <p class="navbar__item item__text-center">
             Cảm ơn quý khách đã đăng ký tiêm chủng vắc xin COVID-19. Hiện tại Bộ y tế đang tiến hành
             thu thập nhu cầu và thông tin để lập danh sách đối tượng đăng ký tiêm vắc xin COVID-19
             theo từng địa bàn. Chúng tôi sẽ liên hệ với quý khách theo số điện thoại
             <span class="navbar__item-phone">0123456789</span> khi có kế hoạch tiêm trong thời gian
-            sớm nhất. >
+            sớm nhất.
           </p>
         </li>
 
-        <li class="navbar__item">
+        <li class="navbar__item item__text-center">
           <p>
             Mời bạn tải ứng dụng "SỔ SỨC KHỎE ĐIỆN TỬ" tại
             <a class="navbar__item-link" href="https://hssk.kcb.vn/#/sskdt"
@@ -28,62 +28,49 @@
           </p>
         </li>
         <li>
-          <v-simple-table>
-            <template v-slot:default>
-              <thead>
-                <tr>
-                  <th class="text-left column-width">Họ và tên</th>
-                  <th class="text-left column-width">Ngày sinh</th>
-                  <th class="text-left column-width">Giới tính</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr v-for="item in desserts" :key="item.name">
-                  <td class="column-width">{{ item.name }}</td>
-                  <td class="column-width">{{ item.birthday }}</td>
-                  <td class="column-width">{{ item.gender }}</td>
-                </tr>
-              </tbody>
-            </template>
-          </v-simple-table>
+          <div class="table__grid grid1 d-flex">
+            <div>
+              <p>Họ và tên</p>
+              <p>{{ desserts.name }}</p>
+            </div>
+            <div>
+              <p>Ngày sinh</p>
+              <p>{{ desserts.birthday }}</p>
+            </div>
+            <div>
+              <p>Giới tính</p>
+              <p>{{ desserts.gender }}</p>
+            </div>
+          </div>
         </li>
         <li>
-          <v-simple-table>
-            <template v-slot:default>
-              <thead>
-                <tr>
-                  <th class="text-left column-width">Số CMND/CCCD/Mã định danh công dân</th>
-                  <th class="text-left column-width">Số thẻ BHYT</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr v-for="item in numberCard" :key="item.citizenIdentification">
-                  <td class="column-width">{{ item.citizenIdentification }}</td>
-                  <td class="column-width">{{ step.healthInsurance }}</td>
-                </tr>
-              </tbody>
-            </template>
-          </v-simple-table>
+          <div class="table__grid grid2 d-flex">
+            <div>
+              <p>Số CMND/CCCD/Mã định danh công dân</p>
+              <p>{{ numberCard.citizenIdentification }}</p>
+            </div>
+            <div>
+              <p>Số thẻ BHYT</p>
+              <p>{{ step.healthInsurance }}</p>
+            </div>
+            <div></div>
+          </div>
         </li>
         <li>
-          <v-simple-table>
-            <template v-slot:default>
-              <thead>
-                <tr>
-                  <th class="text-left column-width">Tỉnh/Thành phố</th>
-                  <th class="text-left column-width">Quận/Huyện</th>
-                  <th class="text-left column-width">Xã/Phường</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr v-for="item in country" :key="item.province">
-                  <td class="column-width">{{ item.province }}</td>
-                  <td class="column-width">{{ item.district }}</td>
-                  <td class="column-width">{{ item.ward }}</td>
-                </tr>
-              </tbody>
-            </template>
-          </v-simple-table>
+          <div class="table__grid grid2 d-flex">
+            <div>
+              <p>Tỉnh/Thành phố</p>
+              <p>{{ country.province }}</p>
+            </div>
+            <div>
+              <p>Quận/Huyện</p>
+              <p>{{ country.district }}</p>
+            </div>
+            <div>
+              <p>Xã/Phường</p>
+              <p>{{ country.ward }}</p>
+            </div>
+          </div>
         </li>
       </ul>
     </div>
@@ -100,21 +87,17 @@ import { mapState } from 'vuex';
 })
 export default class UserComponent extends Vue {
   step!: StepState;
-  desserts = [
-    {
-      name: 'Nguyễn văn A',
-      birthday: '12/05/2001',
-      gender: 'Nam'
-    }
-  ];
-  country = [
-    {
-      province: 'hà nội',
-      district: 'hai bà trưng',
-      ward: 'truong dinh'
-    }
-  ];
-  numberCard = [{ citizenIdentification: 134141255 }];
+  desserts = {
+    name: 'Nguyễn văn A',
+    birthday: '12/05/2001',
+    gender: 'Nam'
+  };
+  country = {
+    province: 'hà nội',
+    district: 'hai bà trưng',
+    ward: 'truong dinh'
+  };
+  numberCard = { citizenIdentification: 134141255 };
   onSubmit() {
     this.$emit('changeStep');
   }
@@ -142,6 +125,7 @@ export default class UserComponent extends Vue {
   font-weight: 400;
   font-size: 16px;
   line-height: 150%;
+  flex-wrap: wrap;
 }
 .navbar-result .navbar__menu li .text-register {
   text-align: center;
@@ -153,7 +137,7 @@ export default class UserComponent extends Vue {
 .navbar-result .navbar__menu li .text-register .navbar__item-id {
   color: #ef5350;
 }
-.navbar-result .navbar__menu li p {
+.navbar-result .navbar__menu .item__text-center p {
   width: 100%;
   text-align: center;
 }
@@ -164,8 +148,11 @@ export default class UserComponent extends Vue {
   color: #d32f2f;
   text-decoration: none;
 }
-.navbar-result .v-data-table .column-width {
-  width: 456px !important;
+.navbar-container ul li .table__grid div {
+  flex: 1;
+}
+.navbar-container ul li .table__grid div p:nth-child(2) {
+  font-weight: 500;
 }
 table {
   border-collapse: collapse !important;
@@ -207,5 +194,11 @@ table {
 .v-data-table > .v-data-table__wrapper > table > thead > tr > td,
 .v-data-table > .v-data-table__wrapper > table > thead > tr > th {
   padding: 0;
+}
+.table__grid {
+  width: 100%;
+}
+.grid1 {
+  margin-top: 40px;
 }
 </style>

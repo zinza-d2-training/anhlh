@@ -31,12 +31,12 @@
                 <label for="selectHealthInsurance" class="subtitle-1 font-weight-regular"
                   >Số thẻ BHYT
                 </label>
-                <v-col class="d-flex" cols="12" sm="6" name="selectHealthInsurance">
+                <v-col class="d-flex" cols="12" sm="6">
                   <v-text-field
+                    name="selectHealthInsurance"
                     dense
                     placeholder="Số thẻ BHYT"
                     outlined
-                    data-name="selectHealthInsurance"
                     v-model="selectHealthInsurance"
                     :error-messages="errors"></v-text-field>
                 </v-col>
