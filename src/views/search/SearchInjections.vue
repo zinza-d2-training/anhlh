@@ -1,25 +1,31 @@
 <template>
   <div class="main">
-    <div class="main__header">
-      <div class="grid">
-        <ul class="header__list">
-          <li class="header__item">
-            <a href="" class="header__item-links"> Chứng nhận tiêm chủng </a>
-          </li>
-          <li class="header__item"><a href="" class="header__item-links"> Kết quả đăng ký </a></li>
-          <li class="header__item"><a href="" class="header__item-links"> Tài khoản </a></li>
-        </ul>
-      </div>
-    </div>
-    <CertificateInjection />
+    <v-tabs height="64px" color="#000000">
+      <v-tab> Chứng nhận tiêm chủng</v-tab>
+      <v-tab> Kết quả đăng ký</v-tab>
+      <v-tab>Tài khoản</v-tab>
+      <v-tab-item>
+        <CertificateInjection />
+      </v-tab-item>
+      <v-tab-item>
+        <ResultRegister />
+      </v-tab-item>
+      <v-tab-item>
+        <Account />
+      </v-tab-item>
+    </v-tabs>
   </div>
 </template>
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
 import CertificateInjection from './CertificateInjection.vue';
+import ResultRegister from './ResultRegister.vue';
+import Account from './Account.vue';
 @Component({
   components: {
-    CertificateInjection
+    CertificateInjection,
+    ResultRegister,
+    Account
   }
 })
 export default class SearchInjections extends Vue {}
@@ -54,5 +60,12 @@ export default class SearchInjections extends Vue {}
   list-style: none;
   text-decoration: none;
   color: rgba(0, 0, 0, 0.87);
+}
+.main .v-tabs-bar {
+  border-bottom: 1px solid rgb(185, 180, 180);
+}
+.main .v-slide-group__wrapper {
+  max-width: 1368px;
+  margin: 0 auto;
 }
 </style>

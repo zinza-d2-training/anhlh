@@ -166,6 +166,7 @@ export default class CertificateInjection extends Vue {
   max-width: 1368px;
   display: flex;
   flex-direction: row;
+  padding: 0;
 }
 .container .certificate {
   width: 1012px;
@@ -237,15 +238,13 @@ export default class CertificateInjection extends Vue {
 .certificate .frame-29 {
   margin-top: 16px;
 }
-.certificate .frame-29 .v-data-table__wrapper {
+.certificate .v-data-table__wrapper {
   border: 1px solid #eeeeee;
 }
-.certificate .frame-29 .v-data-table-header tr {
+.certificate .v-data-table-header tr {
   text-align: center;
   background: rgba(238, 238, 238, 0.4);
   border-bottom: 1px solid #eeeeee;
-}
-.certificate .frame-29 tr td {
 }
 .certificate__btn {
   width: 100%;
