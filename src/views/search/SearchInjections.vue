@@ -5,13 +5,13 @@
       <v-tab> Kết quả đăng ký</v-tab>
       <v-tab>Tài khoản</v-tab>
       <v-tab-item>
-        <CertificateInjection />
+        <CertificateInjection :headers="headers" :result="result" />
       </v-tab-item>
       <v-tab-item>
-        <ResultRegister />
+        <ResultRegister :headers="headers" :result="result" />
       </v-tab-item>
       <v-tab-item>
-        <Account />
+        <Account :result="result" />
       </v-tab-item>
     </v-tabs>
   </div>
@@ -28,7 +28,30 @@ import Account from './Account.vue';
     Account
   }
 })
-export default class SearchInjections extends Vue {}
+export default class SearchInjections extends Vue {
+  headers = [
+    { text: 'STT', value: 'id', align: 'center' },
+    { text: 'Họ và tên', value: 'name', align: 'center' },
+    { text: 'Ngày sinh', value: 'birthday', align: 'center' },
+    { text: 'Giới tính', value: 'gender', align: 'center' },
+    { text: 'Số CMND/CCCD/Mã định danh công dân', value: 'cmnd', align: 'center' },
+    { text: 'Trạng thái', value: 'state', align: 'center' }
+  ];
+  result = [
+    {
+      id: 1,
+      name: 'Nguyễn Văn A',
+      birthday: '6/10/1994',
+      gender: 'Nam',
+      healthInsurance: 123456789,
+      cmnd: '030012345678',
+      state: 'Đăng ký thành công',
+      province: 'hà nội',
+      district: 'hai bà trưng',
+      ward: 'truong dinh'
+    }
+  ];
+}
 </script>
 <style>
 .main {

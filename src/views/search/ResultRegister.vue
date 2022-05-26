@@ -8,39 +8,44 @@
   </div>
 </template>
 <script lang="ts">
-import { Component, Vue } from 'vue-property-decorator';
+import { Component, Prop, Vue } from 'vue-property-decorator';
 @Component({})
 export default class UserComponent extends Vue {
-  headers = [
-    { text: 'STT', value: 'id', align: 'center' },
-    { text: 'Họ và tên', value: 'name', align: 'center' },
-    { text: 'Ngày sinh', value: 'birthday', align: 'center' },
-    { text: 'Giới tính', value: 'gender', align: 'center' },
-    { text: 'Số CMND/CCCD/Mã định danh công dân', value: 'cmnd', align: 'center' },
-    { text: 'Trạng thái', value: 'state', align: 'center' }
-  ];
-  result = [
-    {
-      id: 1,
-      name: 'Nguyễn Văn A',
-      birthday: '6/10/1994',
-      gender: 'Nam',
-      cmnd: '030012345678',
-      state: 'Đăng ký thành công'
-    }
-  ];
+  @Prop({})
+  headers!: any;
+  @Prop({})
+  result!: any[];
 }
 </script>
 <style>
 .v-application .elevation-1 {
   width: 100% !important;
 }
-.css-result tr {
-  display: flex;
-}
 .css-result th:first-child {
   flex-grow: 0;
   width: 80px !important;
+}
+.container.css-certificate.css-result.certificate .v-data-table-header tr {
+  height: 72px !important;
+  text-align: center;
+  background: rgba(238, 238, 238, 0.4);
+  border-bottom: 1px solid #eeeeee;
+}
+.container.css-certificate.css-result.certificate .css-result tbody {
+  height: 48px !important;
+}
+.css-result tbody tr td:last-child {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 2px 0px;
+  width: 246.4px;
+  height: 20px !important;
+  background: #e8eaf6;
+  border: 1px solid #3f51b5;
+  border-radius: 30px;
+  margin: 12px 0;
 }
 .css-result tr th:not(:first-child) {
   width: 254.4px;

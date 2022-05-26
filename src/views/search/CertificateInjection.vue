@@ -16,59 +16,29 @@
           CHỨNG NHẬN TIÊM CHỦNG COVID-19
         </p>
       </div>
-      <div class="certificate__frame frame-22">
-        <v-simple-table dense>
-          <template v-slot:default>
-            <thead>
-              <tr>
-                <th class="text-left">Họ và tên</th>
-                <th class="text-left">Ngày sinh</th>
-                <th class="text-left">Số CMND/CCCD</th>
-                <th class="text-left">Số thẻ BHYT</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr v-for="item in desserts" :key="item.name">
-                <td>{{ item.name }}</td>
-                <td>{{ item.birthday }}</td>
-                <td>{{ item.cmnd }}</td>
-                <td>{{ item.healthInsurance }}</td>
-              </tr>
-            </tbody>
-          </template>
-        </v-simple-table>
-      </div>
-      <div class="certificate__frame frame-27">
-        <v-simple-table dense>
-          <template v-slot:default>
-            <thead>
-              <tr>
-                <th class="text-left">Địa chỉ</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td>Phường Giang Biên - Quận Long Biên - Thành phố Hà Nội</td>
-              </tr>
-            </tbody>
-          </template>
-        </v-simple-table>
+      <div class="certificate__frame frame-22 d-flex">
+        <div>
+          <p>Họ và tên</p>
+          <p>{{ result[0].name }}</p>
+        </div>
+        <div>
+          <p>Ngày sinh</p>
+          <p>{{ result[0].birthday }}</p>
+        </div>
+        <div>
+          <p>Số CMND/CCCD</p>
+          <p>{{ result[0].cmnd }}</p>
+        </div>
+        <div>
+          <p>Số thẻ BHYT</p>
+          <p>{{ result[0].healthInsurance }}</p>
+        </div>
       </div>
       <div class="certificate__frame frame-28">
-        <v-simple-table dense>
-          <template v-slot:default>
-            <thead>
-              <tr>
-                <th class="text-left">Kết luận</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td>Đã được tiêm phòng vắc xin phòng bệnh Covid-19</td>
-              </tr>
-            </tbody>
-          </template>
-        </v-simple-table>
+        <div>
+          <p>Kết luận</p>
+          <p>{{ result[0].province }} - {{ result[0].district }} - {{ result[0].ward }}</p>
+        </div>
       </div>
       <div class="certificate__frame frame-29">
         <v-data-table
@@ -98,7 +68,7 @@
           </div>
           <div class="frame-31-content frame-right">
             <p class="frame-right-top">Họ và tên</p>
-            <p class="frame-right-bottom">Nguyễn Văn A</p>
+            <p class="frame-right-bottom">{{ result[0].name }}</p>
           </div>
         </div>
         <div class="frame-32 frame-30-flex">
@@ -107,7 +77,7 @@
           </div>
           <div class="frame-32-content frame-right">
             <p class="frame-right-top">Ngày sinh</p>
-            <p class="frame-right-bottom">21/05/2001</p>
+            <p class="frame-right-bottom">{{ result[0].birthday }}</p>
           </div>
         </div>
         <div class="frame-33 frame-30-flex">
@@ -116,7 +86,7 @@
           </div>
           <div class="frame-33-content frame-right">
             <p class="frame-right-top">Số CMND/CCCD</p>
-            <p class="frame-right-bottom">123456789</p>
+            <p class="frame-right-bottom">{{ result[0].cmnd }}</p>
           </div>
         </div>
       </div>
@@ -124,17 +94,11 @@
   </div>
 </template>
 <script lang="ts">
-import { Component, Vue } from 'vue-property-decorator';
+import { Component, Vue, Prop } from 'vue-property-decorator';
 @Component({})
 export default class CertificateInjection extends Vue {
-  desserts = [
-    {
-      name: 'Nguyen van A',
-      birthday: '12/05/2001',
-      cmnd: 123456789,
-      healthInsurance: 123456789
-    }
-  ];
+  @Prop({})
+  result!: any;
   headers = [
     { text: 'Mũi số', value: 'id', align: 'center' },
     { text: 'Thời gian tiêm', value: 'time', align: 'center' },
@@ -207,6 +171,12 @@ export default class CertificateInjection extends Vue {
 }
 .certificate .frame-22 {
   margin-top: 23px;
+}
+.certificate .frame-22 div {
+  flex: 1;
+}
+.certificate div p:nth-child(2) {
+  font-weight: 500;
 }
 .certificate th {
   font-style: normal;
