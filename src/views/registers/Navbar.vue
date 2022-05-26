@@ -10,15 +10,17 @@
         <div class="navbar-search__header">
           <v-stepper v-model="location" alt-labels light>
             <v-stepper-header>
-              <v-stepper-step step="2" :complete="complete1"> Thông tin cá nhân </v-stepper-step>
+              <v-stepper-step step="2" :complete="pace > 1" color="primary">
+                Thông tin cá nhân
+              </v-stepper-step>
 
               <v-divider></v-divider>
 
-              <v-stepper-step step="3" :complete="complete2"> Phiếu đồng ý tiêm </v-stepper-step>
+              <v-stepper-step step="3" :complete="pace > 2"> Phiếu đồng ý tiêm </v-stepper-step>
 
               <v-divider></v-divider>
 
-              <v-stepper-step step="4" :complete="complete3">Hoàn thành </v-stepper-step>
+              <v-stepper-step step="4">Hoàn thành </v-stepper-step>
             </v-stepper-header>
           </v-stepper>
         </div>
@@ -67,8 +69,10 @@
           </div>
         </div>
         <div class="frame-42" v-show="pace == 2">
-          <div class="btn" @click="decreaseStep">
-            <v-btn class="btn-refesh" outlined><v-icon>mdi-arrow-left-thin</v-icon>QUAY LẠI</v-btn>
+          <div class="btn">
+            <v-btn class="btn-refesh" outlined @click="decreaseStep()"
+              ><v-icon>mdi-arrow-left-thin</v-icon>QUAY LẠI</v-btn
+            >
           </div>
           <div class="btn">
             <v-btn
@@ -120,9 +124,6 @@ export default class NavbarComponent extends Vue {
   selectShealthInsurance!: string;
   location: number = 2;
   pace: number = 1;
-  complete1: boolean = true;
-  complete2: boolean = false;
-  complete3: boolean = false;
   disabled: boolean = false;
   checkbox: boolean = false;
   onSubmit() {
@@ -133,20 +134,10 @@ export default class NavbarComponent extends Vue {
       this.pace++;
       this.location++;
     }
-    if (this.pace == 2) {
-      this.complete1 = false;
-      this.complete2 = true;
-    } else if (this.pace == 3) {
-      this.complete2 = false;
-      this.complete1 = false;
-      this.complete3 = true;
-    }
   }
   decreaseStep() {
     this.pace--;
-    this.complete2 = false;
-    this.complete1 = true;
-    this.complete3 = false;
+    this.location--;
   }
   onCheckbox(value: boolean) {
     this.checkbox = value;
