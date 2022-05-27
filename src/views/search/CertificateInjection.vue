@@ -123,7 +123,7 @@ export default class CertificateInjection extends Vue {
       place: 'TYT Dịch Vọng Hậu'
     }
   ];
-  injectionCount = 1;
+  injectionCount = this.medicineJnjected.length;
   yellowCard = false;
   hasYellow() {
     if (this.injectionCount == 1) {
