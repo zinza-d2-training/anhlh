@@ -12,97 +12,120 @@
           </v-btn>
         </div>
       </div>
-      <form action="">
-        <div class="form__group form__padding">
-          <div class="form__control d-flex flex-column form__control-top">
-            <label for="">Số CMND/CCCD/Mã định danh</label>
-            <v-text-field
-              :readonly="isFocus1"
-              outlined
-              dense
-              class="form__input"
-              v-model="result[0].cmnd"></v-text-field>
+      <ValidationObserver ref="form" v-slot="{ invalid }" @submit.prevent="onSubmit()">
+        <form action="">
+          <div class="form__group form__padding">
+            <ValidationProvider
+              name="cmnd"
+              rules="required|numeric|requiredCmnd"
+              v-slot="{ errors }">
+              <div class="form__control d-flex flex-column form__control-top">
+                <label for="">Số CMND/CCCD/Mã định danh</label>
+                <v-text-field
+                  :readonly="isFocus1"
+                  outlined
+                  dense
+                  :error-messages="errors"
+                  class="form__input"
+                  v-model="result[0].cmnd"></v-text-field>
+              </div>
+            </ValidationProvider>
+            <div class="form__control-grid">
+              <ValidationProvider name="fullname" rules="required" v-slot="{ errors }">
+                <div class="form__control d-flex flex-column">
+                  <label for="">Họ và tên</label>
+                  <v-text-field
+                    :readonly="isFocus1"
+                    outlined
+                    dense
+                    :error-messages="errors"
+                    class="form__input"
+                    v-model="result[0].name"></v-text-field>
+                </div>
+              </ValidationProvider>
+              <ValidationProvider name="birthday" :rules="'required'" v-slot="{ errors }" slim>
+                <div class="form__control d-flex flex-column">
+                  <label for="">Ngày sinh</label>
+                  <v-text-field
+                    :readonly="isFocus1"
+                    outlined
+                    dense
+                    :error-messages="errors"
+                    class="form__input"
+                    v-model="result[0].birthday"></v-text-field>
+                </div>
+              </ValidationProvider>
+              <ValidationProvider name="gender" rules="required" v-slot="{ errors }">
+                <div class="form__control d-flex flex-column">
+                  <label for="">Giới tính</label>
+                  <v-text-field
+                    :readonly="isFocus1"
+                    outlined
+                    dense
+                    :error-messages="errors"
+                    class="form__input"
+                    v-model="result[0].gender"></v-text-field>
+                </div>
+              </ValidationProvider>
+              <ValidationProvider name="province" rules="required" v-slot="{ errors }">
+                <div class="form__control d-flex flex-column">
+                  <label for="">Tỉnh/Thành phố</label>
+                  <v-select
+                    dense
+                    :items="provinces"
+                    outlined
+                    data-name="province"
+                    v-model="selectedProvince"
+                    :error-messages="errors"
+                    return-object
+                    item-text="name"
+                    item-value="id"
+                    :readonly="isFocus1"
+                    class="form__input"></v-select>
+                </div>
+              </ValidationProvider>
+              <ValidationProvider name="district" rules="required" v-slot="{ errors }">
+                <div class="form__control d-flex flex-column">
+                  <label for="">Quận/Huyện</label>
+                  <v-select
+                    dense
+                    :items="districts"
+                    outlined
+                    v-model="selectDistrict"
+                    item-text="name"
+                    item-value="id"
+                    name="district"
+                    return-object
+                    :error-messages="errors"
+                    :readonly="isFocus1"
+                    class="form__input"></v-select>
+                </div>
+              </ValidationProvider>
+              <ValidationProvider name="ward" rules="required" v-slot="{ errors }">
+                <div class="form__control d-flex flex-column">
+                  <label for="">Phường/Xã</label>
+                  <v-select
+                    dense
+                    :items="wards"
+                    outlined
+                    name="ward"
+                    v-model="selectWard"
+                    return-object
+                    item-text="name"
+                    item-value="id"
+                    :error-messages="errors"
+                    :readonly="isFocus1"
+                    class="form__input"></v-select>
+                </div>
+              </ValidationProvider>
+            </div>
+            <div class="d-flex form__btn">
+              <button class="btn__form btn__cancel">Hủy Bỏ</button>
+              <v-btn :disabled="invalid" type="submit" class="btn__form btn__save"> Lưu </v-btn>
+            </div>
           </div>
-          <div class="form__control-grid">
-            <div class="form__control d-flex flex-column">
-              <label for="">Họ và tên</label>
-              <v-text-field
-                :readonly="isFocus1"
-                outlined
-                dense
-                class="form__input"
-                v-model="result[0].name"></v-text-field>
-            </div>
-            <div class="form__control d-flex flex-column">
-              <label for="">Ngày sinh</label>
-              <v-text-field
-                :readonly="isFocus1"
-                outlined
-                dense
-                class="form__input"
-                v-model="result[0].birthday"></v-text-field>
-            </div>
-            <div class="form__control d-flex flex-column">
-              <label for="">Giới tính</label>
-              <v-text-field
-                :readonly="isFocus1"
-                outlined
-                dense
-                class="form__input"
-                v-model="result[0].gender"></v-text-field>
-            </div>
-            <div class="form__control d-flex flex-column">
-              <label for="">Tỉnh/Thành phố</label>
-              <v-select
-                dense
-                :items="provinces"
-                outlined
-                data-name="province"
-                v-model="selectedProvince"
-                :error-messages="errors"
-                return-object
-                item-text="name"
-                item-value="id"
-                :readonly="isFocus1"
-                class="form__input"></v-select>
-            </div>
-            <div class="form__control d-flex flex-column">
-              <label for="">Quận/Huyện</label>
-              <v-select
-                dense
-                :items="districts"
-                outlined
-                v-model="selectDistrict"
-                item-text="name"
-                item-value="id"
-                name="district"
-                return-object
-                :error-messages="errors"
-                :readonly="isFocus1"
-                class="form__input"></v-select>
-            </div>
-            <div class="form__control d-flex flex-column">
-              <label for="">Phường/Xã</label>
-              <v-select
-                dense
-                :items="wards"
-                outlined
-                name="ward"
-                v-model="selectWard"
-                return-object
-                item-text="name"
-                item-value="id"
-                :error-messages="errors"
-                :readonly="isFocus1"
-                class="form__input"></v-select>
-            </div>
-          </div>
-          <div class="d-flex form__btn">
-            <button class="btn__form btn__cancel">Hủy Bỏ</button>
-            <button class="btn__form btn__save">Lưu</button>
-          </div>
-        </div>
-      </form>
+        </form>
+      </ValidationObserver>
     </div>
     <div class="container__bottom">
       <div class="container__bottom-title d-flex container__header">
@@ -116,30 +139,42 @@
           </v-btn>
         </div>
       </div>
-      <form action="">
-        <div class="form__group form__password d-flex flex-column form__padding">
-          <div class="">
-            <label for="">Mật khẩu mới</label>
-            <v-text-field
-              outlined
-              dense
-              :value="formPassword.password"
-              :readonly="isFocus2"></v-text-field>
+      <ValidationObserver ref="form" v-slot="{ invalid }" @submit.prevent="onSubmit()">
+        <form action="">
+          <div class="form__group form__password d-flex flex-column form__padding">
+            <ValidationProvider name="ward" rules="required" v-slot="{ errors }">
+              <div class="">
+                <label for="">Mật khẩu mới</label>
+                <v-text-field
+                  outlined
+                  dense
+                  v-model="password"
+                  :error-messages="errors"
+                  :value="formPassword.password"
+                  :readonly="isFocus2"></v-text-field>
+              </div>
+            </ValidationProvider>
+            <ValidationProvider name="ward" rules="required" v-slot="{ errors }">
+              <div>
+                <label for="">Xác nhận lại mật khẩu</label>
+                <v-text-field
+                  outlined
+                  dense
+                  :error-messages="errors"
+                  v-model="forgotPassword"
+                  :value="formPassword.forgotPassword"
+                  :readonly="isFocus2"></v-text-field>
+              </div>
+            </ValidationProvider>
           </div>
-          <div>
-            <label for="">Xác nhận lại mật khẩu</label>
-            <v-text-field
-              outlined
-              dense
-              :value="formPassword.forgotPassword"
-              :readonly="isFocus2"></v-text-field>
+          <div class="d-flex form__btn form__padding">
+            <button class="btn__form btn__cancel">Hủy Bỏ</button>
+            <v-btn :disabled="invalid || disable" type="submit" class="btn__form btn__save">
+              Lưu
+            </v-btn>
           </div>
-        </div>
-        <div class="d-flex form__btn form__padding">
-          <button class="btn__form btn__cancel">Hủy Bỏ</button>
-          <button class="btn__form btn__save">Lưu</button>
-        </div>
-      </form>
+        </form>
+      </ValidationObserver>
     </div>
   </div>
 </template>
@@ -150,6 +185,7 @@ import { Province, Gender, Ward, District, labelFromGender } from '../homes/type
 export default class UserComponent extends Vue {
   @Prop({})
   result!: any;
+  disabled: boolean = false;
   formPassword = {
     password: 'haianh',
     forgotPassword: 'haianh'
