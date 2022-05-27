@@ -1,5 +1,5 @@
 <template>
-  <div class="main">
+  <div class="main css-search">
     <v-tabs height="64px" color="#000000">
       <v-tab> Chứng nhận tiêm chủng</v-tab>
       <v-tab> Kết quả đăng ký</v-tab>
@@ -54,6 +54,9 @@ export default class SearchInjections extends Vue {
 }
 </script>
 <style>
+.main.css-search {
+  margin-bottom: 200px;
+}
 .main {
   width: 100%;
 }

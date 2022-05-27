@@ -51,12 +51,12 @@
         <v-btn depressed @click="onSubmit()"> Đăng ký mũi tiêm tiếp theo </v-btn>
       </div>
     </div>
-    <div class="card">
+    <div class="card" :class="{ yellow: hasYellow() }">
       <div class="">
         <img src="@/assets/1384271893.png" alt="" />
       </div>
       <div class="card__text">
-        <p>ĐÃ TIÊM 2 MŨI VẮC XIN</p>
+        <p>ĐÃ TIÊM {{ injectionCount }} MŨI VẮC XIN</p>
       </div>
       <div class="">
         <img src="@/assets/frame 1.png" alt="" />
@@ -123,6 +123,13 @@ export default class CertificateInjection extends Vue {
       place: 'TYT Dịch Vọng Hậu'
     }
   ];
+  injectionCount = 1;
+  yellowCard = false;
+  hasYellow() {
+    if (this.injectionCount == 1) {
+      return (this.yellowCard = true);
+    }
+  }
   onSubmit() {
     this.$router.push('/register-person');
   }
@@ -249,6 +256,9 @@ export default class CertificateInjection extends Vue {
   background: #43a047;
   box-shadow: 0px 16px 48px rgba(0, 0, 0, 0.175);
   border-radius: 8px 8px 8px 0px;
+}
+.container .card.yellow {
+  background: yellow;
 }
 .certificate__frame .v-data-table > .v-data-table__wrapper > table > tbody > tr > td,
 .v-data-table > .v-data-table__wrapper > table > tbody > tr > th,

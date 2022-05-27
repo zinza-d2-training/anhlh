@@ -10,21 +10,23 @@
         <div class="navbar-search__header">
           <v-stepper v-model="location" alt-labels light>
             <v-stepper-header>
-              <v-stepper-step step="2" :complete="complete1"> Thông tin cá nhân </v-stepper-step>
+              <v-stepper-step step="2" :complete="pace > 1" color="primary">
+                Thông tin cá nhân
+              </v-stepper-step>
 
               <v-divider></v-divider>
 
-              <v-stepper-step step="3" :complete="complete2"> Phiếu đồng ý tiêm </v-stepper-step>
+              <v-stepper-step step="3" :complete="pace > 2"> Phiếu đồng ý tiêm </v-stepper-step>
 
               <v-divider></v-divider>
 
-              <v-stepper-step step="4" :complete="complete3">Hoàn thành </v-stepper-step>
+              <v-stepper-step step="4">Hoàn thành </v-stepper-step>
             </v-stepper-header>
           </v-stepper>
         </div>
       </div>
     </div>
-    <ValidationObserver v-slot="{ invalid }" ref="form">
+    <ValidationObserver v-slot="{ invalid }">
       <form action="" @submit.prevent="onSubmit">
         <Step1 v-show="pace == 1"></Step1>
         <Step2 v-show="pace == 2" :checkbox="checkbox" @checkbox="onCheckbox"></Step2>
@@ -37,7 +39,7 @@
           filename="file register injection"
           :pdf-quality="2"
           :manual-pagination="false"
-          pdf-format="a4"
+          pdf-format="a3"
           pdf-orientation="landscape"
           pdf-content-width="100%"
           @progress="onProgress($event)"
@@ -67,8 +69,10 @@
           </div>
         </div>
         <div class="frame-42" v-show="pace == 2">
-          <div class="btn" @click="decreaseStep">
-            <v-btn class="btn-refesh" outlined><v-icon>mdi-arrow-left-thin</v-icon>QUAY LẠI</v-btn>
+          <div class="btn">
+            <v-btn class="btn-refesh" outlined @click="decreaseStep()"
+              ><v-icon>mdi-arrow-left-thin</v-icon>QUAY LẠI</v-btn
+            >
           </div>
           <div class="btn">
             <v-btn
@@ -106,7 +110,6 @@ import Step1 from './Step1.vue';
 import Step2 from './Step2.vue';
 import Step3 from './Step3.vue';
 import VueHtml2pdf from 'vue-html2pdf';
-// import { StepState } from '@/store/step/type';
 
 @Component({
   components: {
@@ -118,12 +121,9 @@ import VueHtml2pdf from 'vue-html2pdf';
 })
 export default class NavbarComponent extends Vue {
   @Prop({})
-  // step: StepState;
+  selectShealthInsurance!: string;
   location: number = 2;
   pace: number = 1;
-  complete1: boolean = true;
-  complete2: boolean = false;
-  complete3: boolean = false;
   disabled: boolean = false;
   checkbox: boolean = false;
   onSubmit() {
@@ -134,10 +134,10 @@ export default class NavbarComponent extends Vue {
       this.pace++;
       this.location++;
     }
-    console.log(this.$refs.form);
   }
   decreaseStep() {
     this.pace--;
+    this.location--;
   }
   onCheckbox(value: boolean) {
     this.checkbox = value;
@@ -145,6 +145,9 @@ export default class NavbarComponent extends Vue {
 }
 </script>
 <style>
+.navbar-main {
+  margin-bottom: 200px;
+}
 .navbar-header {
   width: 100%;
   background: #f5f5f5;
