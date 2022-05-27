@@ -38,7 +38,8 @@
             :items="desserts"
             item-key="id"
             hide-default-footer
-            :item-class="itemRowBackground">
+            :item-class="itemRowBackground"
+            @click:row="handleClick">
             <!-- eslint-disable-next-line -->
                 <template v-slot:item.id="{ index }">
               <pre>{{ index + 1 }}</pre>
@@ -47,6 +48,11 @@
         </v-card>
       </div>
     </div>
+    <div class="form__item" :class="{ disable: disable }">
+      <form action="">
+        <input type="text" />
+      </form>
+    </div>
   </div>
 </template>
 <script lang="ts">
@@ -54,6 +60,10 @@ import { Component, Vue } from 'vue-property-decorator';
 import { Province, Desserts } from '../homes/type';
 @Component({})
 export default class UserComponent extends Vue {
+  disable = false;
+  handleClick() {
+    this.disable = true;
+  }
   headers = [
     {
       text: 'STT',
@@ -305,6 +315,13 @@ export default class UserComponent extends Vue {
 }
 </script>
 <style>
+.form__item {
+  display: none;
+}
+.disable {
+  display: block;
+}
+
 .style-1 {
   background: rgba(238, 238, 238, 0.4);
 }
