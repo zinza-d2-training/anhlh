@@ -263,7 +263,7 @@ export default class NavbarComponent extends Vue {
   gap: 0;
 }
 .navbar-result .frame-41 ul.step1 {
-  list-style: disc outside;
+  list-style-type: circle;
 }
 .navbar-result .frame-width {
   width: 100%;
@@ -319,5 +319,8 @@ export default class NavbarComponent extends Vue {
 .theme--light.v-btn.v-btn--disabled .v-btn__loading,
 .theme--light.v-btn.v-btn--disabled .v-icon {
   color: #ffffff !important;
+}
+.frame-41 ul.step1 {
+  margin-left: 20px;
 }
 </style>
