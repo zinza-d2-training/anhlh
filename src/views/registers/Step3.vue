@@ -125,7 +125,6 @@ export default class UserComponent extends Vue {
   font-weight: 400;
   font-size: 16px;
   line-height: 150%;
-  flex-wrap: wrap;
 }
 .navbar-result .navbar__menu li .text-register {
   text-align: center;
