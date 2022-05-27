@@ -100,7 +100,7 @@ import { Header, MedicineJnjected, Result } from './type';
 export default class CertificateInjection extends Vue {
   $router: any;
   @Prop({})
-  result!: Result;
+  result!: Result[];
   headers: Header[] = [
     { text: 'Mũi số', value: 'id', align: 'center' },
     { text: 'Thời gian tiêm', value: 'time', align: 'center' },

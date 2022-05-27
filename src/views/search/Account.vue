@@ -22,12 +22,12 @@
               <div class="form__control d-flex flex-column form__control-top">
                 <label for="">Số CMND/CCCD/Mã định danh</label>
                 <v-text-field
-                  :readonly="isFocusInFor"
+                  :disabled="isFocusInFor"
                   outlined
                   dense
                   :error-messages="errors"
                   class="form__input"
-                  v-model="result[0].cmnd"></v-text-field>
+                  v-model="cmnd"></v-text-field>
               </div>
             </ValidationProvider>
             <div class="form__control-grid">
@@ -35,36 +35,36 @@
                 <div class="form__control d-flex flex-column">
                   <label for="">Họ và tên</label>
                   <v-text-field
-                    :readonly="isFocusInFor"
+                    :disabled="isFocusInFor"
                     outlined
                     dense
                     :error-messages="errors"
                     class="form__input"
-                    v-model="result[0].name"></v-text-field>
+                    v-model="fullname"></v-text-field>
                 </div>
               </ValidationProvider>
               <ValidationProvider name="birthday" :rules="'required'" v-slot="{ errors }" slim>
                 <div class="form__control d-flex flex-column">
                   <label for="">Ngày sinh</label>
                   <v-text-field
-                    :readonly="isFocusInFor"
+                    :disabled="isFocusInFor"
                     outlined
                     dense
                     :error-messages="errors"
                     class="form__input"
-                    v-model="result[0].birthday"></v-text-field>
+                    v-model="birthday"></v-text-field>
                 </div>
               </ValidationProvider>
               <ValidationProvider name="gender" rules="required" v-slot="{ errors }">
                 <div class="form__control d-flex flex-column">
                   <label for="">Giới tính</label>
                   <v-text-field
-                    :readonly="isFocusInFor"
+                    :disabled="isFocusInFor"
                     outlined
                     dense
                     :error-messages="errors"
                     class="form__input"
-                    v-model="result[0].gender"></v-text-field>
+                    v-model="gender"></v-text-field>
                 </div>
               </ValidationProvider>
               <ValidationProvider name="province" rules="required" v-slot="{ errors }">
@@ -80,7 +80,7 @@
                     return-object
                     item-text="name"
                     item-value="id"
-                    :readonly="isFocusInFor"
+                    :disabled="isFocusInFor"
                     class="form__input"></v-select>
                 </div>
               </ValidationProvider>
@@ -97,7 +97,7 @@
                     name="district"
                     return-object
                     :error-messages="errors"
-                    :readonly="isFocusInFor"
+                    :disabled="isFocusInFor"
                     class="form__input"></v-select>
                 </div>
               </ValidationProvider>
@@ -114,14 +114,20 @@
                     item-text="name"
                     item-value="id"
                     :error-messages="errors"
-                    :readonly="isFocusInFor"
+                    :disabled="isFocusInFor"
                     class="form__input"></v-select>
                 </div>
               </ValidationProvider>
             </div>
-            <div class="d-flex form__btn">
+            <div class="form__btn d-flex" v-if="!isFocusInFor">
               <button class="btn__form btn__cancel" @click="CancelInFor()">Hủy Bỏ</button>
-              <v-btn :disabled="invalid" type="submit" class="btn__form btn__save"> Lưu </v-btn>
+              <v-btn
+                :disabled="invalid"
+                type="submit"
+                class="btn__form btn__save"
+                @click="saveInFor()">
+                Lưu
+              </v-btn>
             </div>
           </div>
         </form>
@@ -151,7 +157,7 @@
                   v-model="password"
                   name="password"
                   :error-messages="errors"
-                  :readonly="isFocusPassword"></v-text-field>
+                  :disabled="isFocusPassword"></v-text-field>
               </div>
             </ValidationProvider>
             <ValidationProvider name="forgotPassword" rules="required" v-slot="{ errors }">
@@ -163,11 +169,11 @@
                   name="forgotPassword"
                   v-model="forgotPassword"
                   :error-messages="errors"
-                  :readonly="isFocusPassword"></v-text-field>
+                  :disabled="isFocusPassword"></v-text-field>
               </div>
             </ValidationProvider>
           </div>
-          <div class="d-flex form__btn form__padding">
+          <div class="d-flex form__btn form__padding display__passwword" v-if="!isFocusPassword">
             <button class="btn__form btn__cancel" @click="CancelPassword()">Hủy Bỏ</button>
             <v-btn :disabled="invalid" type="submit" class="btn__form btn__save"> Lưu </v-btn>
           </div>
@@ -182,14 +188,19 @@ import { Province, Gender, Ward, District, labelFromGender } from '../homes/type
 @Component({})
 export default class UserComponent extends Vue {
   @Prop({})
-  result!: any;
   disabled: boolean = false;
   password: string = 'haianh';
   forgotPassword: string = 'haianh';
+  cmnd: number = 123456789;
+  fullname: string = 'nguyen van A';
+  birthday: string = '21/23/2000';
+  gender: string = 'Nam';
   isFocusInFor = true;
   isFocusPassword = true;
   isEditingInFor = false;
   isEditingPassword = false;
+  checkSaveInFor: boolean = false;
+  checkSavePassword: boolean = false;
   isClickInFor() {
     this.isEditingInFor = !this.isEditingInFor;
     this.isFocusInFor = !this.isFocusInFor;
@@ -199,12 +210,78 @@ export default class UserComponent extends Vue {
     this.isFocusPassword = !this.isFocusPassword;
   }
   CancelInFor() {
+    console.log('a');
     this.isEditingInFor = !this.isEditingInFor;
     this.isFocusInFor = !this.isFocusInFor;
+    if (!this.checkSaveInFor) {
+      this.selectWard = {
+        id: 1,
+        name: 'diem dien'
+      };
+      this.selectedProvince = {
+        id: 1,
+        name: 'thaibinh',
+        districts: [
+          {
+            id: 1,
+            name: 'thaithuy',
+            wards: [
+              {
+                id: 1,
+                name: 'diem dien'
+              },
+              {
+                id: 2,
+                name: 'thuy truong'
+              }
+            ]
+          },
+          {
+            id: 2,
+            name: 'kienxuong',
+            wards: [
+              {
+                id: 1,
+                name: 'diem dien1'
+              },
+              {
+                id: 2,
+                name: 'thuy truong1'
+              }
+            ]
+          }
+        ]
+      };
+      this.selectDistrict = {
+        id: 1,
+        name: 'thaithuy',
+        wards: [
+          {
+            id: 1,
+            name: 'diem dien'
+          },
+          {
+            id: 2,
+            name: 'thuy truong'
+          }
+        ]
+      };
+      this.cmnd = 32423423423423;
+      this.fullname = 'nguyen van A';
+      this.birthday = '21/23/2000';
+      this.gender = 'Nam';
+    }
+  }
+  saveInFor() {
+    this.checkSaveInFor = true;
   }
   CancelPassword() {
     this.isEditingPassword = !this.isEditingPassword;
     this.isFocusPassword = !this.isFocusPassword;
+    if (!this.checkSavePassword) {
+      this.password = 'haianh';
+      this.forgotPassword = 'haianh';
+    }
   }
   selectWard: Ward | null = {
     id: 1,
@@ -368,7 +445,6 @@ export default class UserComponent extends Vue {
   border: 1px solid#C4C4C4;
   padding: 0px 8px;
 }
-
 .btn__form {
   height: 36px;
   border-radius: 4px;
