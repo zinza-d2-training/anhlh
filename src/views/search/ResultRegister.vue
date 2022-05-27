@@ -9,12 +9,13 @@
 </template>
 <script lang="ts">
 import { Component, Prop, Vue } from 'vue-property-decorator';
+import { Header, Result } from './type';
 @Component({})
 export default class UserComponent extends Vue {
   @Prop({})
-  headers!: any;
+  headers!: Header[];
   @Prop({})
-  result!: any[];
+  result!: Result[];
 }
 </script>
 <style>

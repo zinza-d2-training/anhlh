@@ -95,19 +95,20 @@
 </template>
 <script lang="ts">
 import { Component, Vue, Prop } from 'vue-property-decorator';
+import { Header, MedicineJnjected, Result } from './type';
 @Component({})
 export default class CertificateInjection extends Vue {
   $router: any;
   @Prop({})
-  result!: any;
-  headers = [
+  result!: Result;
+  headers: Header[] = [
     { text: 'Mũi số', value: 'id', align: 'center' },
     { text: 'Thời gian tiêm', value: 'time', align: 'center' },
     { text: 'Tên vắc xin', value: 'name', align: 'center' },
     { text: 'Số lô', value: 'numberLot', align: 'center' },
     { text: 'Nơi tiêm', value: 'place', align: 'center' }
   ];
-  medicineJnjected = [
+  medicineJnjected: MedicineJnjected[] = [
     {
       id: 1,
       time: '08/09/2021 - 16:56',

@@ -21,6 +21,7 @@ import { Component, Vue } from 'vue-property-decorator';
 import CertificateInjection from './CertificateInjection.vue';
 import ResultRegister from './ResultRegister.vue';
 import Account from './Account.vue';
+import { Header, Result } from './type';
 @Component({
   components: {
     CertificateInjection,
@@ -29,7 +30,7 @@ import Account from './Account.vue';
   }
 })
 export default class SearchInjections extends Vue {
-  headers = [
+  headers: Header[] = [
     { text: 'STT', value: 'id', align: 'center' },
     { text: 'Họ và tên', value: 'name', align: 'center' },
     { text: 'Ngày sinh', value: 'birthday', align: 'center' },
@@ -37,14 +38,14 @@ export default class SearchInjections extends Vue {
     { text: 'Số CMND/CCCD/Mã định danh công dân', value: 'cmnd', align: 'center' },
     { text: 'Trạng thái', value: 'state', align: 'center' }
   ];
-  result = [
+  result: Result[] = [
     {
       id: 1,
       name: 'Nguyễn Văn A',
       birthday: '6/10/1994',
       gender: 'Nam',
       healthInsurance: 123456789,
-      cmnd: '030012345678',
+      cmnd: 345345334534,
       state: 'Đăng ký thành công',
       province: 'hà nội',
       district: 'hai bà trưng',
