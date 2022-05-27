@@ -146,7 +146,7 @@ export default class NavbarComponent extends Vue {
 </script>
 <style>
 .navbar-main {
-  margin-bottom: 675px;
+  margin-bottom: 200px;
 }
 .navbar-header {
   width: 100%;
