@@ -5,8 +5,8 @@ import LoginComponent from './views/auth/LoginComponent.vue';
 import UserComponent from './components/UserComponent.vue';
 import RegisterComponent from './views/auth/RegisterComponent.vue';
 import SideBarTop from './views/homes/SideBarTop.vue';
+import Navbar from './views/registers/Navbar.vue';
 import Dasboard from './layouts/Dasboard.vue';
-import store from './store';
 
 Vue.use(VueRouter);
 
@@ -39,6 +39,10 @@ const router = new VueRouter({
         {
           path: '/user',
           component: UserComponent as ComponentOptions<Vue>
+        },
+        {
+          path: '/register-person',
+          component: Navbar as ComponentOptions<Vue>
         }
       ]
     }

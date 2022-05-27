@@ -12,7 +12,9 @@
       <div class="container__menu">
         <ul class="container__menu-list">
           <li class="container__menu-item"><router-link to="/home"> TRANG CHỦ</router-link></li>
-          <li class="container__menu-item"><a href="">ĐĂNG KÝ TIÊM</a></li>
+          <li class="container__menu-item">
+            <router-link to="/register-person"> ĐĂNG KÝ TIÊM</router-link>
+          </li>
           <li class="container__menu-item search">
             <a href="">TRA CỨU</a><v-icon class="chevron-down">mdi-chevron-down</v-icon>
             <ul class="sub-menu">

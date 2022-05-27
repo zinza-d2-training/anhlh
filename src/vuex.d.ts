@@ -7,3 +7,4 @@ declare module '@vue/runtime-core' {
 }
 
 declare module 'vue-chartjs';
+declare module 'VueHtml2pdf';

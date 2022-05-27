@@ -575,6 +575,7 @@ export default class UserComponent extends Vue {
 .sidebar-footer {
   margin: 0 auto;
   margin-top: 39px;
+  margin-bottom: 37px;
   display: flex;
   flex-direction: column;
   align-items: flex-start;

@@ -88,7 +88,7 @@ extend('requiredPw', {
 extend('alphaSpaces', {
   message: (field) => `${field}` + ' ' + 'không được nhập dấu cách',
   validate: (value) => {
-    for (let i = 0; i < value.length - 1; i++) {
+    for (let i = 0; i < value.length; i++) {
       let input = value.charAt(i);
       if (input == ' ') {
         return false;
