@@ -6,8 +6,8 @@
           <p>Thông tin cá nhân</p>
         </div>
         <div>
-          <v-btn depressed plain @click="isClick1()" height="24px" min-width="24px">
-            <v-icon v-if="isEditing1"> mdi-close </v-icon>
+          <v-btn depressed plain @click="isClickInFor()" height="24px" min-width="24px">
+            <v-icon v-if="isEditingInFor"> mdi-close </v-icon>
             <v-icon v-else> mdi-pencil </v-icon>
           </v-btn>
         </div>
@@ -22,7 +22,7 @@
               <div class="form__control d-flex flex-column form__control-top">
                 <label for="">Số CMND/CCCD/Mã định danh</label>
                 <v-text-field
-                  :readonly="isFocus1"
+                  :readonly="isFocusInFor"
                   outlined
                   dense
                   :error-messages="errors"
@@ -35,7 +35,7 @@
                 <div class="form__control d-flex flex-column">
                   <label for="">Họ và tên</label>
                   <v-text-field
-                    :readonly="isFocus1"
+                    :readonly="isFocusInFor"
                     outlined
                     dense
                     :error-messages="errors"
@@ -47,7 +47,7 @@
                 <div class="form__control d-flex flex-column">
                   <label for="">Ngày sinh</label>
                   <v-text-field
-                    :readonly="isFocus1"
+                    :readonly="isFocusInFor"
                     outlined
                     dense
                     :error-messages="errors"
@@ -59,7 +59,7 @@
                 <div class="form__control d-flex flex-column">
                   <label for="">Giới tính</label>
                   <v-text-field
-                    :readonly="isFocus1"
+                    :readonly="isFocusInFor"
                     outlined
                     dense
                     :error-messages="errors"
@@ -80,7 +80,7 @@
                     return-object
                     item-text="name"
                     item-value="id"
-                    :readonly="isFocus1"
+                    :readonly="isFocusInFor"
                     class="form__input"></v-select>
                 </div>
               </ValidationProvider>
@@ -97,7 +97,7 @@
                     name="district"
                     return-object
                     :error-messages="errors"
-                    :readonly="isFocus1"
+                    :readonly="isFocusInFor"
                     class="form__input"></v-select>
                 </div>
               </ValidationProvider>
@@ -114,13 +114,13 @@
                     item-text="name"
                     item-value="id"
                     :error-messages="errors"
-                    :readonly="isFocus1"
+                    :readonly="isFocusInFor"
                     class="form__input"></v-select>
                 </div>
               </ValidationProvider>
             </div>
             <div class="d-flex form__btn">
-              <button class="btn__form btn__cancel">Hủy Bỏ</button>
+              <button class="btn__form btn__cancel" @click="CancelInFor()">Hủy Bỏ</button>
               <v-btn :disabled="invalid" type="submit" class="btn__form btn__save"> Lưu </v-btn>
             </div>
           </div>
@@ -133,8 +133,8 @@
           <p>Mật khẩu</p>
         </div>
         <div>
-          <v-btn depressed plain @click="isClick2()" height="24px" min-width="24px">
-            <v-icon v-if="isEditing2"> mdi-close </v-icon>
+          <v-btn depressed plain @click="isClickPassword()" height="24px" min-width="24px">
+            <v-icon v-if="isEditingPassword"> mdi-close </v-icon>
             <v-icon v-else> mdi-pencil </v-icon>
           </v-btn>
         </div>
@@ -142,36 +142,34 @@
       <ValidationObserver ref="form" v-slot="{ invalid }" @submit.prevent="onSubmit()">
         <form action="">
           <div class="form__group form__password d-flex flex-column form__padding">
-            <ValidationProvider name="ward" rules="required" v-slot="{ errors }">
+            <ValidationProvider name="password" rules="required" v-slot="{ errors }">
               <div class="">
                 <label for="">Mật khẩu mới</label>
                 <v-text-field
                   outlined
                   dense
                   v-model="password"
+                  name="password"
                   :error-messages="errors"
-                  :value="formPassword.password"
-                  :readonly="isFocus2"></v-text-field>
+                  :readonly="isFocusPassword"></v-text-field>
               </div>
             </ValidationProvider>
-            <ValidationProvider name="ward" rules="required" v-slot="{ errors }">
+            <ValidationProvider name="forgotPassword" rules="required" v-slot="{ errors }">
               <div>
                 <label for="">Xác nhận lại mật khẩu</label>
                 <v-text-field
                   outlined
                   dense
-                  :error-messages="errors"
+                  name="forgotPassword"
                   v-model="forgotPassword"
-                  :value="formPassword.forgotPassword"
-                  :readonly="isFocus2"></v-text-field>
+                  :error-messages="errors"
+                  :readonly="isFocusPassword"></v-text-field>
               </div>
             </ValidationProvider>
           </div>
           <div class="d-flex form__btn form__padding">
-            <button class="btn__form btn__cancel">Hủy Bỏ</button>
-            <v-btn :disabled="invalid || disable" type="submit" class="btn__form btn__save">
-              Lưu
-            </v-btn>
+            <button class="btn__form btn__cancel" @click="CancelPassword()">Hủy Bỏ</button>
+            <v-btn :disabled="invalid" type="submit" class="btn__form btn__save"> Lưu </v-btn>
           </div>
         </form>
       </ValidationObserver>
@@ -186,21 +184,27 @@ export default class UserComponent extends Vue {
   @Prop({})
   result!: any;
   disabled: boolean = false;
-  formPassword = {
-    password: 'haianh',
-    forgotPassword: 'haianh'
-  };
-  isFocus1 = true;
-  isFocus2 = true;
-  isEditing1 = false;
-  isEditing2 = false;
-  isClick1() {
-    this.isEditing1 = !this.isEditing1;
-    this.isFocus1 = !this.isFocus1;
+  password: string = 'haianh';
+  forgotPassword: string = 'haianh';
+  isFocusInFor = true;
+  isFocusPassword = true;
+  isEditingInFor = false;
+  isEditingPassword = false;
+  isClickInFor() {
+    this.isEditingInFor = !this.isEditingInFor;
+    this.isFocusInFor = !this.isFocusInFor;
   }
-  isClick2() {
-    this.isEditing2 = !this.isEditing2;
-    this.isFocus2 = !this.isFocus2;
+  isClickPassword() {
+    this.isEditingPassword = !this.isEditingPassword;
+    this.isFocusPassword = !this.isFocusPassword;
+  }
+  CancelInFor() {
+    this.isEditingInFor = !this.isEditingInFor;
+    this.isFocusInFor = !this.isFocusInFor;
+  }
+  CancelPassword() {
+    this.isEditingPassword = !this.isEditingPassword;
+    this.isFocusPassword = !this.isFocusPassword;
   }
   selectWard: Ward | null = {
     id: 1,
@@ -382,12 +386,12 @@ export default class UserComponent extends Vue {
 
 .btn__save {
   width: 60px;
-  background-color: #3f51b5;
+  background-color: #3f51b5 !important;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  color: #ffffff;
+  color: #ffffff !important;
 }
 .container__top .container__top-title {
   margin-bottom: 16px;
