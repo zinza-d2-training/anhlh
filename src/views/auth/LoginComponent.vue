@@ -77,10 +77,6 @@ import { required, min, email } from 'vee-validate/dist/rules';
 import { mapMutations, mapState } from 'vuex';
 import { userMutation } from '../../store/user/mutations';
 import { UserState } from '../../store/user/type';
-extend('requiredCmnd', {
-  ...required,
-  message: 'Bắt buộc phải nhập email!'
-});
 extend('requiredPw', {
   ...required,
   message: 'Bắt buộc password!'
