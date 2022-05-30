@@ -7,7 +7,7 @@
 
       <v-tab-item>
         <div class="main__content">
-          <TableIjection :headers="headers" :result="result" />
+          <TableInjection :headers="headers" />
         </div>
       </v-tab-item>
     </v-tabs>
@@ -15,10 +15,10 @@
 </template>
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
-import TableIjection from './TableIjection.vue';
+import TableInjection from './TableInjection.vue';
 @Component({
   components: {
-    TableIjection
+    TableInjection
   }
 })
 export default class UserComponent extends Vue {}

@@ -16,6 +16,7 @@
             dense
             :items="districts"
             placeholder="Địa chỉ"
+            v-model="selectDistrict"
             outlined
             hide-details="auto"></v-text-field>
         </div>
@@ -39,7 +40,7 @@
             item-key="id"
             hide-default-footer
             :item-class="itemRowBackground"
-            @click:row="handleClick">
+            @click:row="handleClick()">
             <!-- eslint-disable-next-line -->
                 <template v-slot:item.id="{ index }">
               <pre>{{ index + 1 }}</pre>
@@ -48,7 +49,7 @@
         </v-card>
       </div>
     </div>
-    <div class="form__item" :class="{ disable: disable }">
+    <div class="form__item" v-if="disable">
       <form action="">
         <input type="text" />
       </form>
@@ -60,7 +61,7 @@ import { Component, Vue } from 'vue-property-decorator';
 import { Province, Desserts } from '../homes/type';
 @Component({})
 export default class UserComponent extends Vue {
-  disable = false;
+  disable: boolean = false;
   handleClick() {
     this.disable = true;
   }
@@ -230,14 +231,6 @@ export default class UserComponent extends Vue {
       table: 1
     }
   ];
-
-  //   selectWard: Ward | null = null;
-  //   selectedProvince: Province | null = null;
-  //   selectDistrict: District | null = null;
-
-  //   getLabelGender(gender: Gender) {
-  //     return labelFromGender(gender);
-  //   }
 
   provinces: Province[] = [
     {
