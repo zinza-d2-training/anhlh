@@ -81,7 +81,6 @@
                 </div>
               </li>
             </ul>
-            >
           </li>
           <li class="container__menu-item btn-login">
             <div class="container__menu-login" v-if="!user.email">
