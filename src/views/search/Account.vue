@@ -25,9 +25,10 @@
                   :disabled="isFocusInFor"
                   outlined
                   dense
+                  name="cmnd"
+                  v-model="cmnd"
                   :error-messages="errors"
-                  class="form__input"
-                  v-model="cmnd"></v-text-field>
+                  class="form__input"></v-text-field>
               </div>
             </ValidationProvider>
             <div class="form__control-grid">
@@ -38,33 +39,37 @@
                     :disabled="isFocusInFor"
                     outlined
                     dense
+                    name="fullname"
+                    v-model="fullname"
                     :error-messages="errors"
-                    class="form__input"
-                    v-model="fullname"></v-text-field>
+                    class="form__input"></v-text-field>
                 </div>
               </ValidationProvider>
-              <ValidationProvider name="birthday" :rules="'required'" v-slot="{ errors }" slim>
+              <ValidationProvider name="birthday" :rules="required" v-slot="{ errors }" slim>
                 <div class="form__control d-flex flex-column">
                   <label for="">Ngày sinh</label>
                   <v-text-field
                     :disabled="isFocusInFor"
                     outlined
                     dense
+                    name="bỉthday"
+                    v-model="birthday"
                     :error-messages="errors"
-                    class="form__input"
-                    v-model="birthday"></v-text-field>
+                    class="form__input"></v-text-field>
                 </div>
               </ValidationProvider>
               <ValidationProvider name="gender" rules="required" v-slot="{ errors }">
                 <div class="form__control d-flex flex-column">
                   <label for="">Giới tính</label>
-                  <v-text-field
+                  <v-select
+                    :items="selectGender"
                     :disabled="isFocusInFor"
                     outlined
                     dense
+                    name="gender"
+                    v-model="gender"
                     :error-messages="errors"
-                    class="form__input"
-                    v-model="gender"></v-text-field>
+                    class="form__input"></v-select>
                 </div>
               </ValidationProvider>
               <ValidationProvider name="province" rules="required" v-slot="{ errors }">
@@ -74,7 +79,7 @@
                     dense
                     :items="provinces"
                     outlined
-                    data-name="province"
+                    name="province"
                     v-model="selectedProvince"
                     :error-messages="errors"
                     return-object
@@ -175,7 +180,13 @@
           </div>
           <div class="d-flex form__btn form__padding display__passwword" v-if="!isFocusPassword">
             <button class="btn__form btn__cancel" @click="CancelPassword()">Hủy Bỏ</button>
-            <v-btn :disabled="invalid" type="submit" class="btn__form btn__save"> Lưu </v-btn>
+            <v-btn
+              :disabled="invalid"
+              type="submit"
+              class="btn__form btn__save"
+              @click="savePassword()">
+              Lưu
+            </v-btn>
           </div>
         </form>
       </ValidationObserver>
@@ -184,17 +195,17 @@
 </template>
 <script lang="ts">
 import { Component, Vue, Prop, Watch } from 'vue-property-decorator';
-import { Province, Gender, Ward, District, labelFromGender } from '../homes/type';
+import { Province, Gender, Ward, District, labelFromGender, genders } from '../homes/type';
 @Component({})
 export default class UserComponent extends Vue {
   @Prop({})
   disabled: boolean = false;
   password: string = 'haianh';
   forgotPassword: string = 'haianh';
-  cmnd: number = 123456789;
+  cmnd: string = '123456789123';
   fullname: string = 'nguyen van A';
   birthday: string = '21/23/2000';
-  gender: string = 'Nam';
+  gender: Gender = Gender['MALE'];
   isFocusInFor = true;
   isFocusPassword = true;
   isEditingInFor = false;
@@ -210,7 +221,6 @@ export default class UserComponent extends Vue {
     this.isFocusPassword = !this.isFocusPassword;
   }
   CancelInFor() {
-    console.log('a');
     this.isEditingInFor = !this.isEditingInFor;
     this.isFocusInFor = !this.isFocusInFor;
     if (!this.checkSaveInFor) {
@@ -266,14 +276,21 @@ export default class UserComponent extends Vue {
           }
         ]
       };
-      this.cmnd = 32423423423423;
+      this.cmnd = '123456789123';
       this.fullname = 'nguyen van A';
       this.birthday = '21/23/2000';
-      this.gender = 'Nam';
+      this.gender = Gender['MALE'];
     }
   }
   saveInFor() {
+    this.isEditingInFor = !this.isEditingInFor;
+    this.isFocusInFor = !this.isFocusInFor;
     this.checkSaveInFor = true;
+  }
+  savePassword() {
+    this.isEditingPassword = !this.isEditingPassword;
+    this.isFocusPassword = !this.isFocusPassword;
+    this.checkSavePassword = true;
   }
   CancelPassword() {
     this.isEditingPassword = !this.isEditingPassword;
@@ -335,10 +352,10 @@ export default class UserComponent extends Vue {
       }
     ]
   };
-  getLabelGender(gender: Gender) {
+  getLabelGender(gender: Gender = Gender['MALE']) {
     return labelFromGender(gender);
   }
-
+  selectGender: Gender[] = genders();
   provinces: Province[] = [
     {
       id: 1,
@@ -403,6 +420,10 @@ export default class UserComponent extends Vue {
             {
               id: 2,
               name: 'traica1'
+            },
+            {
+              id: 3,
+              name: 'traica2'
             }
           ]
         }

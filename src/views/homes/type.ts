@@ -21,7 +21,9 @@ export interface Desserts extends PropertyWardDistrictProvince {
   top: string;
   table: number;
 }
-
+export function genders() {
+  return [Gender.MALE, Gender.FEMALE];
+}
 export function labelFromGender(gender: Gender) {
   switch (gender) {
     case Gender.MALE:

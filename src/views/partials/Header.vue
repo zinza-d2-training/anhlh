@@ -16,7 +16,8 @@
             <router-link to="/register-person"> ĐĂNG KÝ TIÊM</router-link>
           </li>
           <li class="container__menu-item search">
-            <a href="">TRA CỨU</a><v-icon class="chevron-down">mdi-chevron-down</v-icon>
+            <router-link to="">TRA CỨU </router-link>
+            <v-icon class="chevron-down">mdi-chevron-down</v-icon>
             <ul class="sub-menu">
               <li class="sub-item">
                 <div class="frame-53 frame-53-top">
@@ -49,8 +50,40 @@
             </ul>
           </li>
           <li class="container__menu-item"><a href="">TÀI LIỆU</a></li>
+          <li class="container__menu-item user" v-if="user.email">
+            <span style="color: #ffffff">Xin chào {{ user.email }}</span>
+            <v-icon class="chevron-down">mdi-chevron-down</v-icon>
+            <ul class="sub-menu">
+              <li class="sub-item">
+                <div class="frame-53 frame-53-top">
+                  <div class="frame-57">
+                    <div class="frame-54"><v-icon>mdi-account-multiple</v-icon></div>
+                    <div class="frame-55">
+                      <router-link to="/search-injections"> Trang cá nhân </router-link>
+                    </div>
+                  </div>
+                  <div class="frame-57">
+                    <i class="bx bx-right-arrow-alt"></i>
+                  </div>
+                </div>
+              </li>
+              <li class="sub-item">
+                <div class="frame-53 frame-53-bottom">
+                  <div class="frame-57">
+                    <div class="frame-54"><v-icon>mdi-account-multiple</v-icon></div>
+                    <div class="frame-55">
+                      <router-link to="/search-injections"> Đăng xuất </router-link>
+                    </div>
+                  </div>
+                  <div class="frame-57">
+                    <i class="bx bx-right-arrow-alt"></i>
+                  </div>
+                </div>
+              </li>
+            </ul>
+          </li>
           <li class="container__menu-item btn-login">
-            <div class="container__menu-login" v-if="user">
+            <div class="container__menu-login" v-if="!user.email">
               <router-link to="/login">ĐĂNG NHẬP</router-link>
             </div>
           </li>
@@ -62,7 +95,12 @@
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
 import { UserState } from '../../store/user/type';
-@Component({})
+import { mapState } from 'vuex';
+@Component({
+  computed: {
+    ...mapState({ user: (state) => state })
+  }
+})
 export default class UserComponent extends Vue {
   user!: UserState;
 }
@@ -126,7 +164,6 @@ export default class UserComponent extends Vue {
   align-items: center;
   padding: 0px;
   gap: 24px;
-
   height: 50px;
 }
 .header .container.css-header .container__menu .container__menu-list {
@@ -152,6 +189,12 @@ export default class UserComponent extends Vue {
   padding: 0px;
   cursor: pointer;
 }
+.header .container.css-header .container__menu .container__menu-list .search {
+  position: relative;
+}
+.header .container.css-header .container__menu .container__menu-list .user {
+  position: relative;
+}
 .header .container.css-header .container__menu .container__menu-list .container__menu-login {
   display: flex;
   flex-direction: row;
@@ -159,10 +202,8 @@ export default class UserComponent extends Vue {
   align-items: center;
   padding: 8px 22px;
   gap: 4px;
-
   width: 135px;
   height: 40px;
-
   background: #ffffff;
   border-radius: 8px 8px 8px 0px;
 }
@@ -171,18 +212,21 @@ export default class UserComponent extends Vue {
   font-weight: 500;
   font-size: 16px;
   line-height: 150%;
-
   letter-spacing: -0.04px;
   text-transform: uppercase;
-
   color: #303f9f;
-
   width: 91px;
   height: 24px;
 }
 .header .container.css-header .container__menu .container__menu-list .search:hover .sub-menu {
   opacity: 1;
   transition: 0.3s;
+  z-index: 1;
+}
+.header .container.css-header .container__menu .container__menu-list .user:hover .sub-menu {
+  opacity: 1;
+  transition: 0.3s;
+  z-index: 1;
 }
 .header .container.css-header .container__menu .container__menu-list li a {
   color: #ffffff;
@@ -201,12 +245,19 @@ export default class UserComponent extends Vue {
   position: absolute;
   width: 361px;
   height: 180px;
-  left: 1119px;
-  top: 68px;
+  left: -150%;
+  top: 150%;
   opacity: 0;
   background: #ffffff;
   box-shadow: 0px 10px 70px rgba(0, 0, 0, 0.15);
   border-radius: 12px;
+}
+.header .container.css-header .container__menu .container__menu-list .user .sub-menu {
+  left: -30%;
+  width: 300px;
+}
+.header .container.css-header .container__menu .container__menu-list .user .sub-menu li {
+  width: 300px;
 }
 .header .container.css-header .container__menu .container__menu-list li .sub-menu li {
   display: flex;
@@ -214,7 +265,6 @@ export default class UserComponent extends Vue {
   justify-content: center;
   align-items: flex-start;
   padding: 0px 24px;
-
   width: 361px;
   height: 74px;
 }
@@ -228,6 +278,9 @@ export default class UserComponent extends Vue {
 
   width: 313px;
   height: 74px;
+}
+.header .container.css-header .container__menu .container__menu-list .user .sub-menu li .frame-53 {
+  width: 100px;
 }
 .header
   .container.css-header
@@ -270,6 +323,18 @@ export default class UserComponent extends Vue {
   .container.css-header
   .container__menu
   .container__menu-list
+  .user
+  .sub-menu
+  li
+  .frame-53
+  .frame-57
+  .frame-55 {
+  width: 100px;
+}
+.header
+  .container.css-header
+  .container__menu
+  .container__menu-list
   li
   .sub-menu
   li
@@ -295,14 +360,14 @@ export default class UserComponent extends Vue {
   .frame-53
   .frame-57
   .frame-55
-  span {
+  a {
   display: flex;
   flex-direction: column;
   align-items: flex-start;
   padding: 0px;
   font-style: normal;
   font-weight: 400;
-
+  color: #000;
   width: 177px;
   height: 24px;
 }
