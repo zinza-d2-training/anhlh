@@ -40,20 +40,32 @@
             item-key="id"
             hide-default-footer
             :item-class="itemRowBackground"
-            @click:row="handleClick()">
+            @click:row="handleClick">
             <!-- eslint-disable-next-line -->
-                <template v-slot:item.id="{ index }">
+            <template v-slot:item.id="{ index }">
               <pre>{{ index + 1 }}</pre>
             </template>
           </v-data-table>
         </v-card>
       </div>
     </div>
-    <div class="form__item" v-if="disable">
-      <form action="">
-        <input type="text" />
-      </form>
-    </div>
+    <v-dialog v-model="disable" width="500" :overlay-opacity="0" align-end :scrollable="true">
+      <v-card>
+        <div class="table__user-header d-flex">
+          <div class="table__user-header__title"><p>Cập Nhật Điểm Tiêm</p></div>
+          <div>
+            <v-icon class="table__user-header__icon">mdi-close</v-icon>
+          </div>
+        </div>
+        <div class="table__user-content d-flex"></div>
+        <div></div>
+        <v-divider></v-divider>
+        <v-card-actions>
+          <v-spacer></v-spacer>
+          <v-btn color="primary" text @click="dialog = false"> I accept </v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
   </div>
 </template>
 <script lang="ts">
@@ -61,8 +73,9 @@ import { Component, Vue } from 'vue-property-decorator';
 import { Province, Desserts } from '../homes/type';
 @Component({})
 export default class UserComponent extends Vue {
-  disable: boolean = false;
-  handleClick() {
+  disable: boolean = true;
+  handleClick(row: any) {
+    console.log(row);
     this.disable = true;
   }
   headers = [
