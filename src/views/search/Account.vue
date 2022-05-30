@@ -420,6 +420,10 @@ export default class UserComponent extends Vue {
             {
               id: 2,
               name: 'traica1'
+            },
+            {
+              id: 3,
+              name: 'traica2'
             }
           ]
         }
