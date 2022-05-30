@@ -1,5 +1,5 @@
 <template>
-  <div class="main">
+  <div class="main css-search">
     <v-tabs height="64px" color="#000000">
       <v-tab> Chứng nhận tiêm chủng</v-tab>
       <v-tab> Kết quả đăng ký</v-tab>
@@ -21,6 +21,7 @@ import { Component, Vue } from 'vue-property-decorator';
 import CertificateInjection from './CertificateInjection.vue';
 import ResultRegister from './ResultRegister.vue';
 import Account from './Account.vue';
+import { Header, Result } from './type';
 @Component({
   components: {
     CertificateInjection,
@@ -29,7 +30,7 @@ import Account from './Account.vue';
   }
 })
 export default class SearchInjections extends Vue {
-  headers = [
+  headers: Header[] = [
     { text: 'STT', value: 'id', align: 'center' },
     { text: 'Họ và tên', value: 'name', align: 'center' },
     { text: 'Ngày sinh', value: 'birthday', align: 'center' },
@@ -37,7 +38,7 @@ export default class SearchInjections extends Vue {
     { text: 'Số CMND/CCCD/Mã định danh công dân', value: 'cmnd', align: 'center' },
     { text: 'Trạng thái', value: 'state', align: 'center' }
   ];
-  result = [
+  result: Result[] = [
     {
       id: 1,
       name: 'Nguyễn Văn A',
@@ -54,6 +55,9 @@ export default class SearchInjections extends Vue {
 }
 </script>
 <style>
+.main.css-search {
+  margin-bottom: 200px;
+}
 .main {
   width: 100%;
 }

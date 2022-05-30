@@ -12,13 +12,13 @@
                 <label for="groupPrioritize" class="subtitle-1 font-weight-regular"
                   >Nhóm ưu tiên
                 </label>
-                <v-col class="d-flex" cols="12" sm="6" name="groupPrioritize">
+                <v-col class="d-flex" cols="12" sm="6">
                   <v-select
                     dense
                     :items="groupPrioritize"
                     placeholder="Nhóm ưu tiên"
                     outlined
-                    data-name="selectGroupPrioritize"
+                    name="selectGroupPrioritize"
                     :error-messages="errors"></v-select>
                 </v-col>
               </div>
@@ -31,12 +31,12 @@
                 <label for="selectHealthInsurance" class="subtitle-1 font-weight-regular"
                   >Số thẻ BHYT
                 </label>
-                <v-col class="d-flex" cols="12" sm="6" name="selectHealthInsurance">
+                <v-col class="d-flex" cols="12" sm="6">
                   <v-text-field
+                    name="selectHealthInsurance"
                     dense
                     placeholder="Số thẻ BHYT"
                     outlined
-                    data-name="selectHealthInsurance"
                     v-model="selectHealthInsurance"
                     :error-messages="errors"></v-text-field>
                 </v-col>
@@ -54,7 +54,7 @@
                     dense
                     placeholder="Nghề nghiệp"
                     outlined
-                    data-name="job"
+                    name="job"
                     v-model="job"
                     :error-messages="errors"></v-text-field>
                 </v-col>
@@ -65,12 +65,12 @@
                 <label for="workUnit" class="subtitle-1 font-weight-regular"
                   >Đơn vị công tác
                 </label>
-                <v-col class="d-flex" cols="12" sm="6" name="workUnit">
+                <v-col class="d-flex" cols="12" sm="6">
                   <v-text-field
                     dense
                     placeholder="Đơn vị công tác"
                     outlined
-                    data-name="workUnit"
+                    name="workUnit"
                     v-model="workUnit"
                     :error-messages="errors"></v-text-field>
                 </v-col>
@@ -81,12 +81,12 @@
                 <label for="address" class="subtitle-1 font-weight-regular"
                   >Địa chỉ hiện tại
                 </label>
-                <v-col class="d-flex" cols="12" sm="6" name="address">
+                <v-col class="d-flex" cols="12" sm="6">
                   <v-text-field
                     dense
                     placeholder="Địa chỉ hiện tại"
                     outlined
-                    data-name="address"
+                    name="address"
                     v-model="selectAddress"
                     :error-messages="errors"></v-text-field>
                 </v-col>
@@ -146,7 +146,7 @@
                     :items="injections"
                     placeholder="Buổi tiêm mong muốn"
                     outlined
-                    data-name="injections"
+                    name="injections"
                     v-model="selectInjections"
                     :error-messages="errors"></v-select>
                 </v-col>
@@ -263,7 +263,7 @@ export default class NavbarComponent extends Vue {
   gap: 0;
 }
 .navbar-result .frame-41 ul.step1 {
-  list-style: disc outside;
+  list-style-type: circle;
 }
 .navbar-result .frame-width {
   width: 100%;
@@ -319,5 +319,8 @@ export default class NavbarComponent extends Vue {
 .theme--light.v-btn.v-btn--disabled .v-btn__loading,
 .theme--light.v-btn.v-btn--disabled .v-icon {
   color: #ffffff !important;
+}
+.frame-41 ul.step1 {
+  margin-left: 20px;
 }
 </style>

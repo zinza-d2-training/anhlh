@@ -27,6 +27,7 @@ export default class UserComponent extends Vue {}
 .main__content {
   width: 100%;
   margin-top: 42px;
+  margin-bottom: 500px;
   border: 1px solid rgba(38, 56, 150, 0.14);
 }
 </style>

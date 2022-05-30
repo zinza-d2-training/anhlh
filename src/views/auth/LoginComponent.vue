@@ -11,7 +11,7 @@
         <ValidationObserver ref="form" v-slot="{ invalid }">
           <form @submit.prevent="onSubmit">
             <div class="form mt">
-              <ValidationProvider name="email" rules="email" v-slot="{ errors }">
+              <ValidationProvider name="email" rules="requiredEmail|email" v-slot="{ errors }">
                 <v-col cols="12" class="form__cmnd">
                   <label for="email" class="subtitle-1 font-weight-regular"> Email</label>
                   <v-text-field
@@ -20,6 +20,7 @@
                     placeholder="vd:anh@gmail.com"
                     hide-details="false"
                     v-model="user.email"
+                    :error-messages="errors"
                     outlined></v-text-field>
                   <span class="messageError">{{ errors[0] }}</span>
                 </v-col>
@@ -37,9 +38,10 @@
                     placeholder="*************"
                     hide-details="false"
                     v-model="user.password"
+                    :error-messages="errors"
                     hint="false"></v-text-field>
+                  <span class="messageError">{{ errors[0] }}</span>
                 </v-col>
-                <span class="messageError">{{ errors[0] }}</span>
               </ValidationProvider>
             </div>
 
@@ -49,9 +51,15 @@
               </div>
             </div>
             <div class="container__login mt" :class="{ disabled: invalid }">
-              <button type="submit" class="btn-login subtitle-2 body-2 font-weight-bold">
+              <v-btn
+                type="submit"
+                class="btn-login subtitle-2 body-2 font-weight-bold"
+                :loading="loading"
+                min-width="387px"
+                depressed
+                :class="{ disabled: invalid }">
                 ĐĂNG NHẬP
-              </button>
+              </v-btn>
             </div>
           </form>
         </ValidationObserver>
@@ -77,13 +85,13 @@ import { required, min, email } from 'vee-validate/dist/rules';
 import { mapMutations, mapState } from 'vuex';
 import { userMutation } from '../../store/user/mutations';
 import { UserState } from '../../store/user/type';
-extend('requiredCmnd', {
-  ...required,
-  message: 'Bắt buộc phải nhập email!'
-});
 extend('requiredPw', {
   ...required,
-  message: 'Bắt buộc password!'
+  message: 'Bắt buộc phải nhập  password!'
+});
+extend('requiredEmail', {
+  ...required,
+  message: 'Bắt buộc phải nhập email!'
 });
 extend('alphaSpaces', {
   message: (field) => `${field}` + ' ' + 'không được nhập dấu cách',
@@ -116,7 +124,7 @@ extend('min', {
 export default class LoginComponent extends Vue {
   $router: any;
   user!: UserState;
-
+  loading: boolean = false;
   // eslint-disable-next-line no-unused-vars
   [userMutation.SET_USER]: (user: UserState) => void;
   // eslint-disable-next-line no-unused-vars
@@ -134,7 +142,9 @@ export default class LoginComponent extends Vue {
     localStorage.setItem('token', token);
     this[userMutation.SET_USER](this.user);
     this[userMutation.SET_TOKEN](token);
+    this.loading = true;
     await this.delay(2000);
+    this.loading = false;
     this.$router.push('/');
   }
 }
@@ -275,5 +285,11 @@ export default class LoginComponent extends Vue {
   margin-left: 163.106px;
   color: #9ccc65 !important;
   margin-top: 15px;
+}
+.container__login.disabled .theme--light.v-btn.v-btn--has-bg {
+  background-color: rgb(224 224 224);
+}
+.container__login .theme--light.v-btn.v-btn--has-bg {
+  background-color: #66bb6a;
 }
 </style>

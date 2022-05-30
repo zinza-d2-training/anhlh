@@ -49,20 +49,109 @@
         </v-card>
       </div>
     </div>
-    <v-dialog v-model="disable" width="500" :overlay-opacity="0" align-end :scrollable="true">
-      <v-card>
-        <div class="table__user-header d-flex">
+    <v-dialog v-model="disable" width="500" :overlay-opacity="0" align-end>
+      <v-card :scrollable="false">
+        <div class="table__user-header d-flex align-center">
           <div class="table__user-header__title"><p>Cập Nhật Điểm Tiêm</p></div>
           <div>
             <v-icon class="table__user-header__icon">mdi-close</v-icon>
           </div>
         </div>
-        <div class="table__user-content d-flex"></div>
+        <v-divider></v-divider>
+        <div class="table__user-center d-flex flex-column">
+          <div class="table__user-content">
+            <ValidationProvider name="district" rules="required" v-slot="{ errors }">
+              <div class="form__control d-flex flex-column">
+                <label for="">Tên điểm tiêm</label>
+                <v-select
+                  dense
+                  :items="districts"
+                  outlined
+                  v-model="selectDistrict"
+                  item-text="name"
+                  item-value="id"
+                  name="district"
+                  return-object
+                  :error-messages="errors"
+                  :disabled="isFocusInFor"
+                  class="form__input"></v-select>
+              </div>
+            </ValidationProvider>
+            <ValidationProvider name="district" rules="required" v-slot="{ errors }">
+              <div class="form__control d-flex flex-column">
+                <label for="">Địa chỉ</label>
+                <v-text-field
+                  dense
+                  :items="districts"
+                  outlined
+                  v-model="selectDistrict"
+                  item-text="name"
+                  item-value="id"
+                  name="district"
+                  return-object
+                  :error-messages="errors"
+                  :disabled="isFocusInFor"
+                  class="form__input"></v-text-field>
+              </div>
+            </ValidationProvider>
+            <ValidationProvider name="district" rules="required" v-slot="{ errors }">
+              <div class="form__control d-flex flex-column">
+                <label for="">Người đứng đầu cơ sở</label>
+                <v-text-field
+                  dense
+                  :items="districts"
+                  outlined
+                  v-model="selectDistrict"
+                  item-text="name"
+                  item-value="id"
+                  name="district"
+                  return-object
+                  :error-messages="errors"
+                  :disabled="isFocusInFor"
+                  class="form__input"></v-text-field>
+              </div>
+            </ValidationProvider>
+            <ValidationProvider name="district" rules="required" v-slot="{ errors }">
+              <div class="form__control d-flex flex-column">
+                <label for="">Số bàn tiêm</label>
+                <v-text-field
+                  dense
+                  :items="districts"
+                  outlined
+                  v-model="selectDistrict"
+                  item-text="name"
+                  item-value="id"
+                  name="district"
+                  return-object
+                  :error-messages="errors"
+                  :disabled="isFocusInFor"
+                  class="form__input"></v-text-field>
+              </div>
+            </ValidationProvider>
+          </div>
+        </div>
         <div></div>
         <v-divider></v-divider>
-        <v-card-actions>
+        <v-card-actions :scrollable="true">
           <v-spacer></v-spacer>
-          <v-btn color="primary" text @click="dialog = false"> I accept </v-btn>
+          <v-btn
+            class="btn-cancel"
+            text
+            @click="dialog = false"
+            outlined
+            color="#3F51B5"
+            :class="`pa-4 text-center  rounded-lg rounded-bl-0`">
+            HUỶ BỎ
+          </v-btn>
+          <v-btn
+            class="btn-continue"
+            color="white"
+            text
+            @click="dialog = false"
+            outlined
+            :class="`pa-4 text-center  rounded-lg rounded-bl-0`">
+            XÁC NHẬN
+          </v-btn>
         </v-card-actions>
       </v-card>
     </v-dialog>
@@ -73,7 +162,7 @@ import { Component, Vue } from 'vue-property-decorator';
 import { Province, Desserts } from '../homes/type';
 @Component({})
 export default class UserComponent extends Vue {
-  disable: boolean = true;
+  disable: boolean = false;
   handleClick(row: any) {
     console.log(row);
     this.disable = true;
@@ -321,6 +410,40 @@ export default class UserComponent extends Vue {
 }
 </script>
 <style>
+.v-dialog {
+  overflow-y: visible;
+}
+
+.btn-continue.v-btn {
+  background: #3f51b5;
+  width: 112px;
+}
+.btn-cancel.v-btn {
+  width: 89px;
+}
+.table__user-header {
+  height: 64px;
+}
+.table__user-header__title {
+  width: 430px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+  padding: 16px 24px;
+}
+.table__user-header__title p {
+  font-weight: 500;
+}
+.table__user-header__icon {
+  width: 70px;
+}
+.table__user-content {
+  display: flex;
+  flex-direction: column;
+  padding: 24px;
+  gap: 24px;
+}
 .form__item {
   display: none;
 }

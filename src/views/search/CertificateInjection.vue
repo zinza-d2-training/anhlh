@@ -51,12 +51,12 @@
         <v-btn depressed @click="onSubmit()"> Đăng ký mũi tiêm tiếp theo </v-btn>
       </div>
     </div>
-    <div class="card">
+    <div class="card" :class="{ yellow: hasYellow() }">
       <div class="">
         <img src="@/assets/1384271893.png" alt="" />
       </div>
       <div class="card__text">
-        <p>ĐÃ TIÊM 2 MŨI VẮC XIN</p>
+        <p>ĐÃ TIÊM {{ injectionCount }} MŨI VẮC XIN</p>
       </div>
       <div class="">
         <img src="@/assets/frame 1.png" alt="" />
@@ -95,19 +95,20 @@
 </template>
 <script lang="ts">
 import { Component, Vue, Prop } from 'vue-property-decorator';
+import { Header, MedicineJnjected, Result } from './type';
 @Component({})
 export default class CertificateInjection extends Vue {
   $router: any;
   @Prop({})
-  result!: any;
-  headers = [
+  result!: Result[];
+  headers: Header[] = [
     { text: 'Mũi số', value: 'id', align: 'center' },
     { text: 'Thời gian tiêm', value: 'time', align: 'center' },
     { text: 'Tên vắc xin', value: 'name', align: 'center' },
     { text: 'Số lô', value: 'numberLot', align: 'center' },
     { text: 'Nơi tiêm', value: 'place', align: 'center' }
   ];
-  medicineJnjected = [
+  medicineJnjected: MedicineJnjected[] = [
     {
       id: 1,
       time: '08/09/2021 - 16:56',
@@ -123,6 +124,13 @@ export default class CertificateInjection extends Vue {
       place: 'TYT Dịch Vọng Hậu'
     }
   ];
+  injectionCount: number = this.medicineJnjected.length;
+  yellowCard: boolean = false;
+  hasYellow() {
+    if (this.injectionCount == 1) {
+      return (this.yellowCard = true);
+    }
+  }
   onSubmit() {
     this.$router.push('/register-person');
   }
@@ -249,6 +257,9 @@ export default class CertificateInjection extends Vue {
   background: #43a047;
   box-shadow: 0px 16px 48px rgba(0, 0, 0, 0.175);
   border-radius: 8px 8px 8px 0px;
+}
+.container .card.yellow {
+  background: yellow;
 }
 .certificate__frame .v-data-table > .v-data-table__wrapper > table > tbody > tr > td,
 .v-data-table > .v-data-table__wrapper > table > tbody > tr > th,
