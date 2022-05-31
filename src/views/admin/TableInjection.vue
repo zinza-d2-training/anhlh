@@ -1,171 +1,209 @@
 <template>
   <div class="main__table css-admin">
     <div class="container">
-      <div class="content__form d-flex">
-        <div class="content__search">
-          <v-text-field
-            dense
-            :items="provinces"
-            placeholder="Điểm tiểm"
-            outlined
-            hide-details="auto">
-          </v-text-field>
-        </div>
-        <div>
-          <v-text-field
-            dense
-            :items="districts"
-            placeholder="Địa chỉ"
-            v-model="selectDistrict"
-            outlined
-            hide-details="auto"></v-text-field>
-        </div>
-        <div>
-          <v-btn
-            color="deep-purple darken-4"
-            dark
-            @click="Search()"
-            :class="`pa-4 text-center  rounded-lg rounded-bl-0`">
-            <v-icon left> mdi-magnify </v-icon>
-            Tìm Kiếm
-          </v-btn>
-        </div>
-      </div>
-      <div class="content_table">
-        <v-card>
-          <v-data-table
-            off-icon
-            :headers="headers"
-            :items="desserts"
-            item-key="id"
-            hide-default-footer
-            :item-class="itemRowBackground"
-            @click:row="handleClick">
-            <!-- eslint-disable-next-line -->
+      <ValidationObserver ref="form" @submit.prevent="onSubmit()">
+        <form action="">
+          <div class="content__form d-flex">
+            <div class="content__search">
+              <v-text-field
+                dense
+                :items="provinces"
+                placeholder="Điểm tiểm"
+                outlined
+                hide-details="auto">
+              </v-text-field>
+            </div>
+            <div>
+              <v-text-field
+                dense
+                :items="districts"
+                placeholder="Địa chỉ"
+                v-model="selectDistrict"
+                outlined
+                hide-details="auto"></v-text-field>
+            </div>
+            <div>
+              <v-btn
+                height="40px"
+                color="deep-purple darken-4"
+                dark
+                @click="Search()"
+                :class="`pa-4 text-center  rounded-lg rounded-bl-0`">
+                <v-icon left> mdi-magnify </v-icon>
+                Tìm Kiếm
+              </v-btn>
+            </div>
+          </div>
+          <div class="content_table">
+            <v-card>
+              <v-data-table
+                off-icon
+                :headers="headers"
+                :items="newDesserts"
+                item-key="id"
+                hide-default-footer
+                :item-class="itemRowBackground"
+                class="table-admin"
+                @click:row="handleClick">
+                <!-- eslint-disable-next-line -->
             <template v-slot:item.id="{ index }">
-              <pre>{{ index + 1 }}</pre>
-            </template>
-          </v-data-table>
-        </v-card>
-      </div>
+                  <pre>{{ index + 1 }}</pre>
+                </template>
+              </v-data-table>
+            </v-card>
+          </div>
+        </form>
+      </ValidationObserver>
     </div>
-    <v-dialog v-model="disable" width="500" :overlay-opacity="0" align-end>
+    <v-dialog
+      v-model="hiden"
+      width="444px"
+      :overlay-opacity="0"
+      align-end
+      :open-on-click="false"
+      class="dialog-width">
       <v-card :scrollable="false">
         <div class="table__user-header d-flex align-center">
           <div class="table__user-header__title"><p>Cập Nhật Điểm Tiêm</p></div>
           <div>
-            <v-icon class="table__user-header__icon">mdi-close</v-icon>
+            <v-icon class="table__user-header__icon" @click="hiden = false">mdi-close</v-icon>
           </div>
         </div>
         <v-divider></v-divider>
-        <div class="table__user-center d-flex flex-column">
-          <div class="table__user-content">
-            <ValidationProvider name="district" rules="required" v-slot="{ errors }">
-              <div class="form__control d-flex flex-column">
-                <label for="">Tên điểm tiêm</label>
-                <v-select
-                  dense
-                  :items="districts"
-                  outlined
-                  v-model="selectDistrict"
-                  item-text="name"
-                  item-value="id"
-                  name="district"
-                  return-object
-                  :error-messages="errors"
-                  :disabled="isFocusInFor"
-                  class="form__input"></v-select>
+        <ValidationObserver ref="form" v-slot="{ invalid }" @submit.prevent="onSubmit()">
+          <form action="">
+            <div class="table__user-center d-flex flex-column">
+              <div class="table__user-content">
+                <ValidationProvider name="nameInjection" rules="required" v-slot="{ errors }">
+                  <div class="form__control d-flex flex-column">
+                    <label for="">Tên điểm tiêm</label>
+                    <v-text-field
+                      dense
+                      :items="provinces"
+                      outlined
+                      v-model="newUsers[0].name"
+                      name="nameInjection"
+                      :error-messages="errors"
+                      class="form__input"></v-text-field>
+                  </div>
+                </ValidationProvider>
+                <ValidationProvider name="street" rules="required" v-slot="{ errors }">
+                  <div class="form__control d-flex flex-column">
+                    <label for="">Địa chỉ</label>
+                    <v-text-field
+                      dense
+                      outlined
+                      v-model="newUsers[0].street"
+                      name="street"
+                      :error-messages="errors"
+                      class="form__input"></v-text-field>
+                  </div>
+                </ValidationProvider>
+                <ValidationProvider name="top" rules="required" v-slot="{ errors }">
+                  <div class="form__control d-flex flex-column">
+                    <label for="">Người đứng đầu cơ sở</label>
+                    <v-text-field
+                      dense
+                      outlined
+                      v-model="newUsers[0].top"
+                      name="top"
+                      :error-messages="errors"
+                      class="form__input"></v-text-field>
+                  </div>
+                </ValidationProvider>
+                <ValidationProvider name="table" rules="required" v-slot="{ errors }">
+                  <div class="form__control d-flex flex-column">
+                    <label for="">Số bàn tiêm</label>
+                    <v-text-field
+                      dense
+                      outlined
+                      v-model="newUsers[0].table"
+                      :error-messages="errors"
+                      class="form__input"></v-text-field>
+                  </div>
+                </ValidationProvider>
               </div>
-            </ValidationProvider>
-            <ValidationProvider name="district" rules="required" v-slot="{ errors }">
-              <div class="form__control d-flex flex-column">
-                <label for="">Địa chỉ</label>
-                <v-text-field
-                  dense
-                  :items="districts"
-                  outlined
-                  v-model="selectDistrict"
-                  item-text="name"
-                  item-value="id"
-                  name="district"
-                  return-object
-                  :error-messages="errors"
-                  :disabled="isFocusInFor"
-                  class="form__input"></v-text-field>
-              </div>
-            </ValidationProvider>
-            <ValidationProvider name="district" rules="required" v-slot="{ errors }">
-              <div class="form__control d-flex flex-column">
-                <label for="">Người đứng đầu cơ sở</label>
-                <v-text-field
-                  dense
-                  :items="districts"
-                  outlined
-                  v-model="selectDistrict"
-                  item-text="name"
-                  item-value="id"
-                  name="district"
-                  return-object
-                  :error-messages="errors"
-                  :disabled="isFocusInFor"
-                  class="form__input"></v-text-field>
-              </div>
-            </ValidationProvider>
-            <ValidationProvider name="district" rules="required" v-slot="{ errors }">
-              <div class="form__control d-flex flex-column">
-                <label for="">Số bàn tiêm</label>
-                <v-text-field
-                  dense
-                  :items="districts"
-                  outlined
-                  v-model="selectDistrict"
-                  item-text="name"
-                  item-value="id"
-                  name="district"
-                  return-object
-                  :error-messages="errors"
-                  :disabled="isFocusInFor"
-                  class="form__input"></v-text-field>
-              </div>
-            </ValidationProvider>
-          </div>
-        </div>
-        <div></div>
-        <v-divider></v-divider>
-        <v-card-actions :scrollable="true">
-          <v-spacer></v-spacer>
-          <v-btn
-            class="btn-cancel"
-            text
-            @click="dialog = false"
-            outlined
-            color="#3F51B5"
-            :class="`pa-4 text-center  rounded-lg rounded-bl-0`">
-            HUỶ BỎ
-          </v-btn>
-          <v-btn
-            class="btn-continue"
-            color="white"
-            text
-            @click="dialog = false"
-            outlined
-            :class="`pa-4 text-center  rounded-lg rounded-bl-0`">
-            XÁC NHẬN
-          </v-btn>
-        </v-card-actions>
+            </div>
+            <div></div>
+            <v-divider></v-divider>
+            <v-card-actions :scrollable="true">
+              <v-spacer></v-spacer>
+              <v-btn
+                class="btn-cancel"
+                text
+                @click="ClickCancel()"
+                outlined
+                color="#3F51B5"
+                :class="`pa-4 text-center  rounded-lg rounded-bl-0`">
+                HUỶ BỎ
+              </v-btn>
+              <v-btn
+                class="btn-continue"
+                color="white"
+                text
+                @click="ClickSave()"
+                outlined
+                :disabled="invalid"
+                :class="`pa-4 text-center  rounded-lg rounded-bl-0`">
+                XÁC NHẬN
+              </v-btn>
+            </v-card-actions>
+          </form>
+        </ValidationObserver>
       </v-card>
     </v-dialog>
   </div>
 </template>
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
-import { Province, Desserts } from '../homes/type';
+import { Province, Desserts, PropertyWardDistrictProvince } from '../homes/type';
 @Component({})
 export default class UserComponent extends Vue {
+  hiden: boolean = false;
   disable: boolean = false;
-  handleClick(row: any) {
-    console.log(row);
-    this.disable = true;
+  isCancel: boolean = false;
+  isSave: boolean = false;
+  street: string = '42-44 Nghĩa Dũng';
+  ward: PropertyWardDistrictProvince = {
+    id: 1,
+    name: 'diem dien'
+  };
+  top: string = 'Nguyễn Thị Kim L';
+  table: number = 1;
+  province: PropertyWardDistrictProvince = {
+    id: 1,
+    name: 'hà nội'
+  };
+  ClickSave() {
+    this.hiden = false;
+    this.isSave = true;
+    let id: number = this.newUsers[0].id;
+    this.newDesserts = this.newDesserts.map((item: Desserts) => {
+      if (item.id == id) {
+        item = this.newUsers[0];
+      }
+      return { ...item };
+    });
+  }
+  ClickCancel() {
+    this.hiden = false;
+    let id: number = this.newUsers[0].id;
+    this.newDesserts.filter((item: Desserts) => {
+      if (item.id == id) {
+        this.newUsers[0].name = item.name;
+        this.newUsers[0].street = item.street;
+        this.newUsers[0].top = item.top;
+        this.newUsers[0].table = item.table;
+      }
+    });
+  }
+  handleClick(row: Desserts) {
+    this.newUsers = this.desserts.filter((item: Desserts) => {
+      if (item.id == row.id) {
+        return { ...item };
+      }
+    });
+    this.hiden = true;
   }
   headers = [
     {
@@ -180,7 +218,7 @@ export default class UserComponent extends Vue {
       filterable: false,
       value: 'name'
     },
-    { text: 'Địa chỉ', align: 'center', value: 'ward.name' },
+    { text: 'Địa chỉ', align: 'center', value: 'street' },
     { text: 'Người đứng đầu cơ sở tiêm chủng', align: 'center', value: 'top' },
     { text: 'Số bàn tiêm', align: 'center', value: 'table' }
   ];
@@ -407,9 +445,36 @@ export default class UserComponent extends Vue {
   itemRowBackground(item: any) {
     return item.id % 2 !== 0 ? 'style-1' : 'style-2';
   }
+  newDesserts: Desserts[] = this.desserts.map((item: Desserts) => {
+    return { ...item };
+  });
+  newUsers: Desserts[] = this.desserts.map((item: Desserts) => {
+    return { ...item };
+  });
+  Search() {
+    this.newDesserts = this.desserts.filter((item: Desserts) => {
+      return item.street == this.street && item.province.id == this.province?.id;
+    });
+  }
 }
 </script>
 <style>
+.table-admin thead {
+  border-top: 1px solid rgba(38, 56, 150, 0.14);
+}
+.table-admin tr {
+  border-top: 1px solid rgba(38, 56, 150, 0.14);
+}
+.dialog-width .v-dialog {
+  width: 444px;
+}
+.btn-continue.v-btn--disabled {
+  pointer-events: none;
+  background: #bdbdbd !important;
+}
+.v-card__actions {
+  height: 64px;
+}
 .v-dialog {
   overflow-y: visible;
 }
@@ -446,9 +511,6 @@ export default class UserComponent extends Vue {
 }
 .form__item {
   display: none;
-}
-.disable {
-  display: block;
 }
 
 .style-1 {

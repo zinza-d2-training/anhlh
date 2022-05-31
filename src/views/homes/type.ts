@@ -1,4 +1,4 @@
-interface PropertyWardDistrictProvince {
+export interface PropertyWardDistrictProvince {
   id: number;
   name: string;
 }
