@@ -17,7 +17,7 @@
       </v-tab-item>
       <v-tab-item>
         <div class="main__content">
-          <Document />
+          <TableDocument />
         </div>
       </v-tab-item>
     </v-tabs>
@@ -27,12 +27,12 @@
 import { Component, Vue } from 'vue-property-decorator';
 import TableInjection from './TableInjection.vue';
 import RegisterInjection from './RegisterInjection.vue';
-import Document from './Document.vue';
+import TableDocument from './TableDocument.vue';
 @Component({
   components: {
     TableInjection,
     RegisterInjection,
-    Document
+    TableDocument
   }
 })
 export default class UserComponent extends Vue {}

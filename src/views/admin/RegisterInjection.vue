@@ -87,7 +87,10 @@
                       class="form__input"></v-select>
                   </div>
                 </ValidationProvider>
-                <ValidationProvider name="healthInsurance" rules="required" v-slot="{ errors }">
+                <ValidationProvider
+                  name="healthInsurance"
+                  rules="required|numeric|requiredHealthInsurance"
+                  v-slot="{ errors }">
                   <div class="form__control d-flex flex-column">
                     <label for="">Số thẻ BHYT</label>
                     <v-text-field
