@@ -50,6 +50,10 @@ const router = new VueRouter({
           component: SearchInjections as ComponentOptions<Vue>
         },
         {
+          path: '/document',
+          component: PointInjection as ComponentOptions<Vue>
+        },
+        {
           path: '/admin',
           component: PointInjection as ComponentOptions<Vue>
         }

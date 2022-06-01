@@ -28,7 +28,7 @@
                   name="cmnd"
                   v-model="cmnd"
                   :error-messages="errors"
-                  class="form__input"></v-text-field>
+                  class="form__input form__input-width"></v-text-field>
               </div>
             </ValidationProvider>
             <div class="form__control-grid">
@@ -42,7 +42,7 @@
                     name="fullname"
                     v-model="fullname"
                     :error-messages="errors"
-                    class="form__input"></v-text-field>
+                    class="form__input form__input-width"></v-text-field>
                 </div>
               </ValidationProvider>
               <ValidationProvider name="birthday" :rules="required" v-slot="{ errors }" slim>
@@ -55,7 +55,7 @@
                     name="bỉthday"
                     v-model="birthday"
                     :error-messages="errors"
-                    class="form__input"></v-text-field>
+                    class="form__input form__input-width"></v-text-field>
                 </div>
               </ValidationProvider>
               <ValidationProvider name="gender" rules="required" v-slot="{ errors }">
@@ -69,7 +69,7 @@
                     name="gender"
                     v-model="gender"
                     :error-messages="errors"
-                    class="form__input"></v-select>
+                    class="form__input form__input-width"></v-select>
                 </div>
               </ValidationProvider>
               <ValidationProvider name="province" rules="required" v-slot="{ errors }">
@@ -86,7 +86,7 @@
                     item-text="name"
                     item-value="id"
                     :disabled="isFocusInFor"
-                    class="form__input"></v-select>
+                    class="form__input form__input-width"></v-select>
                 </div>
               </ValidationProvider>
               <ValidationProvider name="district" rules="required" v-slot="{ errors }">
@@ -103,7 +103,7 @@
                     return-object
                     :error-messages="errors"
                     :disabled="isFocusInFor"
-                    class="form__input"></v-select>
+                    class="form__input form__input-width"></v-select>
                 </div>
               </ValidationProvider>
               <ValidationProvider name="ward" rules="required" v-slot="{ errors }">
@@ -120,7 +120,7 @@
                     item-value="id"
                     :error-messages="errors"
                     :disabled="isFocusInFor"
-                    class="form__input"></v-select>
+                    class="form__input form__input-width"></v-select>
                 </div>
               </ValidationProvider>
             </div>
@@ -457,13 +457,13 @@ export default class UserComponent extends Vue {
   grid-template-columns: 1fr 1fr 1fr;
   grid-gap: 20px;
 }
-
-.form__input {
+.form__input-width {
   width: 318px;
+}
+.form__input {
   height: 40px;
   outline: none;
   border-radius: 4px;
-  border: 1px solid#C4C4C4;
   padding: 0px 8px;
 }
 .btn__form {

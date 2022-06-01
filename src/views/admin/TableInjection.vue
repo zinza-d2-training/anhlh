@@ -37,6 +37,7 @@
           <div class="content_table">
             <v-card>
               <v-data-table
+                :header-props="{ sortIcon: null }"
                 off-icon
                 :headers="headers"
                 :items="newDesserts"
@@ -62,22 +63,25 @@
       align-end
       :open-on-click="false"
       class="dialog-width">
-      <v-card :scrollable="false">
-        <div class="table__user-header d-flex align-center">
-          <div class="table__user-header__title"><p>Cập Nhật Điểm Tiêm</p></div>
-          <div>
-            <v-icon class="table__user-header__icon" @click="hiden = false">mdi-close</v-icon>
-          </div>
-        </div>
-        <v-divider></v-divider>
-        <ValidationObserver ref="form" v-slot="{ invalid }" @submit.prevent="onSubmit()">
-          <form action="">
-            <div class="table__user-center d-flex flex-column">
-              <div class="table__user-content">
+      <ValidationObserver ref="form" v-slot="{ invalid }" slim @submit.prevent="onSubmit()">
+        <v-card>
+          <v-card-title style="padding: 16px 24px">
+            <div class="d-flex align-center flex-grow-1 justify-space-between">
+              <div class=""><p>Cập Nhật Điểm Tiêm</p></div>
+              <v-btn icon>
+                <v-icon @click="hiden = false">mdi-close</v-icon>
+              </v-btn>
+            </div>
+          </v-card-title>
+          <v-divider />
+          <v-card-text style="padding: 24px">
+            <form action="">
+              <div class="d-flex flex-column" style="gap: 24px">
                 <ValidationProvider name="nameInjection" rules="required" v-slot="{ errors }">
                   <div class="form__control d-flex flex-column">
                     <label for="">Tên điểm tiêm</label>
                     <v-text-field
+                      width="100%"
                       dense
                       :items="provinces"
                       outlined
@@ -123,40 +127,40 @@
                   </div>
                 </ValidationProvider>
               </div>
-            </div>
-            <div></div>
-            <v-divider></v-divider>
-            <v-card-actions :scrollable="true">
-              <v-spacer></v-spacer>
-              <v-btn
-                class="btn-cancel"
-                text
-                @click="ClickCancel()"
-                outlined
-                color="#3F51B5"
-                :class="`pa-4 text-center  rounded-lg rounded-bl-0`">
-                HUỶ BỎ
-              </v-btn>
-              <v-btn
-                class="btn-continue"
-                color="white"
-                text
-                @click="ClickSave()"
-                outlined
-                :disabled="invalid"
-                :class="`pa-4 text-center  rounded-lg rounded-bl-0`">
-                XÁC NHẬN
-              </v-btn>
-            </v-card-actions>
-          </form>
-        </ValidationObserver>
-      </v-card>
+            </form>
+          </v-card-text>
+          <v-divider />
+          <v-card-actions>
+            <v-spacer></v-spacer>
+            <v-btn
+              class="btn-cancel"
+              text
+              @click="ClickCancel()"
+              outlined
+              color="#3F51B5"
+              :class="`pa-4 text-center  rounded-lg rounded-bl-0`">
+              HUỶ BỎ
+            </v-btn>
+            <v-btn
+              class="btn-continue"
+              color="white"
+              text
+              @click="ClickSave()"
+              outlined
+              :disabled="invalid"
+              :class="`pa-4 text-center  rounded-lg rounded-bl-0`">
+              XÁC NHẬN
+            </v-btn>
+          </v-card-actions>
+        </v-card>
+      </ValidationObserver>
     </v-dialog>
   </div>
 </template>
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
 import { Province, Desserts, PropertyWardDistrictProvince } from '../homes/type';
+import { HeadersDocument } from './type';
 @Component({})
 export default class UserComponent extends Vue {
   hiden: boolean = false;
@@ -174,38 +178,7 @@ export default class UserComponent extends Vue {
     id: 1,
     name: 'hà nội'
   };
-  ClickSave() {
-    this.hiden = false;
-    this.isSave = true;
-    let id: number = this.newUsers[0].id;
-    this.newDesserts = this.newDesserts.map((item: Desserts) => {
-      if (item.id == id) {
-        item = this.newUsers[0];
-      }
-      return { ...item };
-    });
-  }
-  ClickCancel() {
-    this.hiden = false;
-    let id: number = this.newUsers[0].id;
-    this.newDesserts.filter((item: Desserts) => {
-      if (item.id == id) {
-        this.newUsers[0].name = item.name;
-        this.newUsers[0].street = item.street;
-        this.newUsers[0].top = item.top;
-        this.newUsers[0].table = item.table;
-      }
-    });
-  }
-  handleClick(row: Desserts) {
-    this.newUsers = this.desserts.filter((item: Desserts) => {
-      if (item.id == row.id) {
-        return { ...item };
-      }
-    });
-    this.hiden = true;
-  }
-  headers = [
+  headers: HeadersDocument[] = [
     {
       text: 'STT',
       align: 'center',
@@ -453,8 +426,41 @@ export default class UserComponent extends Vue {
   });
   Search() {
     this.newDesserts = this.desserts.filter((item: Desserts) => {
-      return item.street == this.street && item.province.id == this.province?.id;
+      if (item.street == this.street && item.province.id == this.province?.id) {
+        return { ...item };
+      }
     });
+  }
+  ClickSave() {
+    this.hiden = false;
+    this.isSave = true;
+    let id: number = this.newUsers[0].id;
+    this.newDesserts = this.newDesserts.map((item: Desserts) => {
+      if (item.id == id) {
+        item = this.newUsers[0];
+      }
+      return { ...item };
+    });
+  }
+  ClickCancel() {
+    this.hiden = false;
+    let id: number = this.newUsers[0].id;
+    this.newDesserts.filter((item: Desserts) => {
+      if (item.id == id) {
+        this.newUsers[0].name = item.name;
+        this.newUsers[0].street = item.street;
+        this.newUsers[0].top = item.top;
+        this.newUsers[0].table = item.table;
+      }
+    });
+  }
+  handleClick(row: Desserts) {
+    this.newUsers = this.desserts.filter((item: Desserts) => {
+      if (item.id == row.id) {
+        return { ...item };
+      }
+    });
+    this.hiden = true;
   }
 }
 </script>
@@ -465,9 +471,6 @@ export default class UserComponent extends Vue {
 .table-admin tr {
   border-top: 1px solid rgba(38, 56, 150, 0.14);
 }
-.dialog-width .v-dialog {
-  width: 444px;
-}
 .btn-continue.v-btn--disabled {
   pointer-events: none;
   background: #bdbdbd !important;
@@ -475,10 +478,6 @@ export default class UserComponent extends Vue {
 .v-card__actions {
   height: 64px;
 }
-.v-dialog {
-  overflow-y: visible;
-}
-
 .btn-continue.v-btn {
   background: #3f51b5;
   width: 112px;
