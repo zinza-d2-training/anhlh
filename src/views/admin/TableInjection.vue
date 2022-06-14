@@ -1,71 +1,184 @@
 <template>
   <div class="main__table css-admin">
     <div class="container">
-      <div class="content__form d-flex">
-        <div class="content__search">
-          <v-text-field
-            dense
-            :items="provinces"
-            placeholder="Điểm tiểm"
-            outlined
-            hide-details="auto">
-          </v-text-field>
-        </div>
-        <div>
-          <v-text-field
-            dense
-            :items="districts"
-            placeholder="Địa chỉ"
-            v-model="selectDistrict"
-            outlined
-            hide-details="auto"></v-text-field>
-        </div>
-        <div>
-          <v-btn
-            color="deep-purple darken-4"
-            dark
-            @click="Search()"
-            :class="`pa-4 text-center  rounded-lg rounded-bl-0`">
-            <v-icon left> mdi-magnify </v-icon>
-            Tìm Kiếm
-          </v-btn>
-        </div>
-      </div>
-      <div class="content_table">
+      <ValidationObserver ref="form" @submit.prevent="onSubmit()">
+        <form action="">
+          <div class="content__form d-flex">
+            <div class="content__search">
+              <v-text-field
+                dense
+                :items="provinces"
+                placeholder="Điểm tiểm"
+                outlined
+                hide-details="auto">
+              </v-text-field>
+            </div>
+            <div>
+              <v-text-field
+                dense
+                :items="districts"
+                placeholder="Địa chỉ"
+                v-model="selectDistrict"
+                outlined
+                hide-details="auto"></v-text-field>
+            </div>
+            <div>
+              <v-btn
+                height="40px"
+                color="deep-purple darken-4"
+                dark
+                @click="Search()"
+                :class="`pa-4 text-center  rounded-lg rounded-bl-0`">
+                <v-icon left> mdi-magnify </v-icon>
+                Tìm Kiếm
+              </v-btn>
+            </div>
+          </div>
+          <div class="content_table">
+            <v-card>
+              <v-data-table
+                :header-props="{ sortIcon: null }"
+                off-icon
+                :headers="headers"
+                :items="newDesserts"
+                item-key="id"
+                hide-default-footer
+                :item-class="itemRowBackground"
+                class="table-admin"
+                @click:row="handleClick">
+                <!-- eslint-disable-next-line -->
+            <template v-slot:item.id="{ index }">
+                  <pre>{{ index + 1 }}</pre>
+                </template>
+              </v-data-table>
+            </v-card>
+          </div>
+        </form>
+      </ValidationObserver>
+    </div>
+    <v-dialog
+      v-model="hiden"
+      width="444px"
+      :overlay-opacity="0"
+      align-end
+      :open-on-click="false"
+      class="dialog-width">
+      <ValidationObserver ref="form" v-slot="{ invalid }" slim @submit.prevent="onSubmit()">
         <v-card>
-          <v-data-table
-            off-icon
-            :headers="headers"
-            :items="desserts"
-            item-key="id"
-            hide-default-footer
-            :item-class="itemRowBackground"
-            @click:row="handleClick()">
-            <!-- eslint-disable-next-line -->
-                <template v-slot:item.id="{ index }">
-              <pre>{{ index + 1 }}</pre>
-            </template>
-          </v-data-table>
+          <v-card-title style="padding: 16px 24px">
+            <div class="d-flex align-center flex-grow-1 justify-space-between">
+              <div class=""><p>Cập Nhật Điểm Tiêm</p></div>
+              <v-btn icon>
+                <v-icon @click="hiden = false">mdi-close</v-icon>
+              </v-btn>
+            </div>
+          </v-card-title>
+          <v-divider />
+          <v-card-text style="padding: 24px">
+            <form action="">
+              <div class="d-flex flex-column" style="gap: 24px">
+                <ValidationProvider name="nameInjection" rules="required" v-slot="{ errors }">
+                  <div class="form__control d-flex flex-column">
+                    <label for="">Tên điểm tiêm</label>
+                    <v-text-field
+                      width="100%"
+                      dense
+                      :items="provinces"
+                      outlined
+                      v-model="newUsers[0].name"
+                      name="nameInjection"
+                      :error-messages="errors"
+                      class="form__input"></v-text-field>
+                  </div>
+                </ValidationProvider>
+                <ValidationProvider name="street" rules="required" v-slot="{ errors }">
+                  <div class="form__control d-flex flex-column">
+                    <label for="">Địa chỉ</label>
+                    <v-text-field
+                      dense
+                      outlined
+                      v-model="newUsers[0].street"
+                      name="street"
+                      :error-messages="errors"
+                      class="form__input"></v-text-field>
+                  </div>
+                </ValidationProvider>
+                <ValidationProvider name="top" rules="required" v-slot="{ errors }">
+                  <div class="form__control d-flex flex-column">
+                    <label for="">Người đứng đầu cơ sở</label>
+                    <v-text-field
+                      dense
+                      outlined
+                      v-model="newUsers[0].top"
+                      name="top"
+                      :error-messages="errors"
+                      class="form__input"></v-text-field>
+                  </div>
+                </ValidationProvider>
+                <ValidationProvider name="table" rules="required" v-slot="{ errors }">
+                  <div class="form__control d-flex flex-column">
+                    <label for="">Số bàn tiêm</label>
+                    <v-text-field
+                      dense
+                      outlined
+                      v-model="newUsers[0].table"
+                      :error-messages="errors"
+                      class="form__input"></v-text-field>
+                  </div>
+                </ValidationProvider>
+              </div>
+            </form>
+          </v-card-text>
+          <v-divider />
+          <v-card-actions>
+            <v-spacer></v-spacer>
+            <v-btn
+              class="btn-cancel"
+              text
+              @click="ClickCancel()"
+              outlined
+              color="#3F51B5"
+              :class="`pa-4 text-center  rounded-lg rounded-bl-0`">
+              HUỶ BỎ
+            </v-btn>
+            <v-btn
+              class="btn-continue"
+              color="white"
+              text
+              @click="ClickSave()"
+              outlined
+              :disabled="invalid"
+              :class="`pa-4 text-center  rounded-lg rounded-bl-0`">
+              XÁC NHẬN
+            </v-btn>
+          </v-card-actions>
         </v-card>
-      </div>
-    </div>
-    <div class="form__item" v-if="disable">
-      <form action="">
-        <input type="text" />
-      </form>
-    </div>
+      </ValidationObserver>
+    </v-dialog>
   </div>
 </template>
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
-import { Province, Desserts } from '../homes/type';
+import { Province, Desserts, PropertyWardDistrictProvince } from '../homes/type';
+import { HeadersDocument } from './type';
 @Component({})
 export default class UserComponent extends Vue {
+  hiden: boolean = false;
   disable: boolean = false;
-  handleClick() {
-    this.disable = true;
-  }
-  headers = [
+  isCancel: boolean = false;
+  isSave: boolean = false;
+  street: string = '42-44 Nghĩa Dũng';
+  ward: PropertyWardDistrictProvince = {
+    id: 1,
+    name: 'diem dien'
+  };
+  top: string = 'Nguyễn Thị Kim L';
+  table: number = 1;
+  province: PropertyWardDistrictProvince = {
+    id: 1,
+    name: 'hà nội'
+  };
+  headers: HeadersDocument[] = [
     {
       text: 'STT',
       align: 'center',
@@ -78,7 +191,7 @@ export default class UserComponent extends Vue {
       filterable: false,
       value: 'name'
     },
-    { text: 'Địa chỉ', align: 'center', value: 'ward.name' },
+    { text: 'Địa chỉ', align: 'center', value: 'street' },
     { text: 'Người đứng đầu cơ sở tiêm chủng', align: 'center', value: 'top' },
     { text: 'Số bàn tiêm', align: 'center', value: 'table' }
   ];
@@ -305,14 +418,98 @@ export default class UserComponent extends Vue {
   itemRowBackground(item: any) {
     return item.id % 2 !== 0 ? 'style-1' : 'style-2';
   }
+  newDesserts: Desserts[] = this.desserts.map((item: Desserts) => {
+    return { ...item };
+  });
+  newUsers: Desserts[] = this.desserts.map((item: Desserts) => {
+    return { ...item };
+  });
+  Search() {
+    this.newDesserts = this.desserts.filter((item: Desserts) => {
+      if (item.street == this.street && item.province.id == this.province?.id) {
+        return { ...item };
+      }
+    });
+  }
+  ClickSave() {
+    this.hiden = false;
+    this.isSave = true;
+    let id: number = this.newUsers[0].id;
+    this.newDesserts = this.newDesserts.map((item: Desserts) => {
+      if (item.id == id) {
+        item = this.newUsers[0];
+      }
+      return { ...item };
+    });
+  }
+  ClickCancel() {
+    this.hiden = false;
+    let id: number = this.newUsers[0].id;
+    this.newDesserts.filter((item: Desserts) => {
+      if (item.id == id) {
+        this.newUsers[0].name = item.name;
+        this.newUsers[0].street = item.street;
+        this.newUsers[0].top = item.top;
+        this.newUsers[0].table = item.table;
+      }
+    });
+  }
+  handleClick(row: Desserts) {
+    this.newUsers = this.desserts.filter((item: Desserts) => {
+      if (item.id == row.id) {
+        return { ...item };
+      }
+    });
+    this.hiden = true;
+  }
 }
 </script>
 <style>
+.table-admin thead {
+  border-top: 1px solid rgba(38, 56, 150, 0.14);
+}
+.table-admin tr {
+  border-top: 1px solid rgba(38, 56, 150, 0.14);
+}
+.btn-continue.v-btn--disabled {
+  pointer-events: none;
+  background: #bdbdbd !important;
+}
+.v-card__actions {
+  height: 64px;
+}
+.btn-continue.v-btn {
+  background: #3f51b5;
+  width: 112px;
+}
+.btn-cancel.v-btn {
+  width: 89px;
+}
+.table__user-header {
+  height: 64px;
+}
+.table__user-header__title {
+  width: 430px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+  padding: 16px 24px;
+}
+.table__user-header__title p {
+  font-weight: 500;
+}
+.table__user-header__icon {
+  width: 70px;
+}
+.table__user-content {
+  display: flex;
+  flex-direction: column;
+  padding: 24px;
+  gap: 24px;
+}
 .form__item {
   display: none;
-}
-.disable {
-  display: block;
 }
 
 .style-1 {

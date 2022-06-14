@@ -16,7 +16,7 @@
             <router-link to="/register-person"> ĐĂNG KÝ TIÊM</router-link>
           </li>
           <li class="container__menu-item search">
-            <router-link to="">TRA CỨU </router-link>
+            <router-link to="/search-injections">TRA CỨU </router-link>
             <v-icon class="chevron-down">mdi-chevron-down</v-icon>
             <ul class="sub-menu">
               <li class="sub-item">
@@ -24,7 +24,9 @@
                   <div class="frame-57">
                     <div class="frame-54"><v-icon>mdi-account-multiple</v-icon></div>
                     <div class="frame-55">
-                      <span class="frame-55-top"> Tra cứu chứng nhận tiêm</span>
+                      <router-link to="/search-injections"
+                        ><span class="frame-55-top"> Tra cứu chứng nhận tiêm</span></router-link
+                      >
                       <span class="frame-55-bottom">Cập nhập nhanh và chính xác</span>
                     </div>
                   </div>
@@ -38,7 +40,9 @@
                   <div class="frame-57">
                     <div class="frame-54"><v-icon>mdi-account-multiple</v-icon></div>
                     <div class="frame-55">
-                      <span class="frame-55-top"> Tra cứu kết quả đăng ký</span>
+                      <router-link to="/search-injections/?pace=2"
+                        ><span class="frame-55-top"> Tra cứu kết quả đăng ký</span></router-link
+                      >
                       <span class="frame-55-bottom">Cập nhập nhanh và chính xác</span>
                     </div>
                   </div>
@@ -49,7 +53,7 @@
               </li>
             </ul>
           </li>
-          <li class="container__menu-item"><a href="">TÀI LIỆU</a></li>
+          <li class="container__menu-item"><router-link to="/document"> TÀI LIỆU </router-link></li>
           <li class="container__menu-item user" v-if="user.email">
             <span style="color: #ffffff">Xin chào {{ user.email }}</span>
             <v-icon class="chevron-down">mdi-chevron-down</v-icon>

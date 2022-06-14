@@ -9,7 +9,7 @@ export interface Result {
   birthday: string;
   gender: string;
   healthInsurance: number;
-  cmnd: number;
+  cmnd: string;
   state: string;
   province: string;
   district: string;

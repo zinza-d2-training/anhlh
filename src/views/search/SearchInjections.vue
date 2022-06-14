@@ -45,7 +45,7 @@ export default class SearchInjections extends Vue {
       birthday: '6/10/1994',
       gender: 'Nam',
       healthInsurance: 123456789,
-      cmnd: 345345334534,
+      cmnd: '030012345678',
       state: 'Đăng ký thành công',
       province: 'hà nội',
       district: 'hai bà trưng',

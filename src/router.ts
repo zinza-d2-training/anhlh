@@ -8,7 +8,8 @@ import SideBarTop from './views/homes/SideBarTop.vue';
 import Navbar from './views/registers/Navbar.vue';
 import Dasboard from './layouts/Dasboard.vue';
 import SearchInjections from './views/search/SearchInjections.vue';
-
+import PointInjection from './views/admin/PointInjection.vue';
+import Document from './views/document/Document.vue';
 Vue.use(VueRouter);
 
 const router = new VueRouter({
@@ -48,6 +49,14 @@ const router = new VueRouter({
         {
           path: '/search-injections',
           component: SearchInjections as ComponentOptions<Vue>
+        },
+        {
+          path: '/admin',
+          component: PointInjection as ComponentOptions<Vue>
+        },
+        {
+          path: '/document',
+          component: Document as ComponentOptions<Vue>
         }
       ]
     }
