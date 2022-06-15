@@ -16,7 +16,7 @@ const router = new VueRouter({
   mode: 'history',
   routes: [
     {
-      path: '/login',
+      path: '/auth/login',
       component: LoginComponent as ComponentOptions<Vue>
     },
     {
@@ -24,7 +24,7 @@ const router = new VueRouter({
       component: ForgotPassword as ComponentOptions<Vue>
     },
     {
-      path: '/register',
+      path: '/auth/register',
       component: RegisterComponent as ComponentOptions<Vue>
     },
     {

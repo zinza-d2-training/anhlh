@@ -87,8 +87,8 @@
             </ul>
           </li>
           <li class="container__menu-item btn-login">
-            <div class="container__menu-login" v-if="!user.email">
-              <router-link to="/login">ĐĂNG NHẬP</router-link>
+            <div class="container__menu-login" v-if="!getEmail">
+              <router-link to="/auth/login">ĐĂNG NHẬP</router-link>
             </div>
           </li>
         </ul>
@@ -99,10 +99,11 @@
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
 import { UserState } from '../../store/user/type';
-import { mapState } from 'vuex';
+import { mapState, mapGetters } from 'vuex';
 @Component({
   computed: {
-    ...mapState({ user: (state) => state })
+    ...mapState({ user: (state) => state }),
+    ...mapGetters(['getEmail'])
   }
 })
 export default class UserComponent extends Vue {
@@ -463,3 +464,6 @@ export default class UserComponent extends Vue {
   color: #1e88e5;
 }
 </style>
+
+function Getter() { throw new Error('Function not implemented.'); } function Getter() { throw new
+Error('Function not implemented.'); }

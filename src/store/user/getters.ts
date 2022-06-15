@@ -5,10 +5,7 @@ export const getters: GetterTree<UserState, any> = {
   getEmail(state): string {
     return state.email;
   },
-  getPassword(state): string {
-    return state.password;
-  },
-  getToken(state): string {
+  getToken(state): string | undefined {
     return state.token;
   }
 };
