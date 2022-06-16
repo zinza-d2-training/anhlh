@@ -4,6 +4,7 @@ import { RootState } from '..';
 import { getters } from './getters';
 import { mutations } from './mutations';
 const state: UserState = {
+  id: undefined,
   email: '',
   token: ''
 };

@@ -273,14 +273,14 @@ extend('requiredCmnd', {
 @Component({})
 export default class UserComponent extends Vue {
   $router: any;
-  menu = false;
-  identityCardNumber = '';
-  email = '';
-  password = '';
-  fullname = '';
-  birthday = '';
-  genders = [Gender.MALE, Gender.FEMALE];
-  gender = Gender.MALE;
+  menu: boolean = false;
+  identityCardNumber: number | null = null;
+  email: string = '';
+  password: string = '';
+  fullName: string = '';
+  birthday: string = '';
+  genders: Gender[] = [Gender.MALE, Gender.FEMALE];
+  gender: Gender = Gender.MALE;
   selectedWard: Ward | null = null;
   selectedProvince: Province | null = null;
   selectedDistrict: District | null = null;
@@ -289,19 +289,20 @@ export default class UserComponent extends Vue {
   wardsFromDB: Ward[] = [];
   districts: District[] = [];
   wards: Ward[] = [];
+
   async getDataAdministraviUnit() {
     await axios({
       method: 'get',
-      url: 'http://localhost:3000/auth/data-administrative-unit'
+      url: 'http://localhost:3000/data-administrative-unit'
     }).then((respone: AxiosResponse) => {
-      this.provinces = respone.data.provinces;
-      this.districtsFromDB = respone.data.districts;
-      this.wardsFromDB = respone.data.wards;
+      this.provinces = respone.data?.provinces;
+      this.districtsFromDB = respone.data?.districts;
+      this.wardsFromDB = respone.data?.wards;
     });
   }
 
-  created() {
-    this.getDataAdministraviUnit();
+  async created() {
+    await this.getDataAdministraviUnit();
   }
 
   getLabelGender(gender: Gender) {
@@ -341,7 +342,7 @@ export default class UserComponent extends Vue {
       data: {
         email: this.email,
         password: this.password,
-        fullname: this.fullname,
+        fullName: this.fullName,
         gender: this.gender,
         birthday: this.birthday,
         ward_id: this.selectedWard?.id,

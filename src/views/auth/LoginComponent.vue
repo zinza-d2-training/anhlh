@@ -125,7 +125,7 @@ extend('min', {
     ...mapState({ user: (state) => state })
   },
   methods: {
-    ...mapMutations([userMutation.SET_EMAIL, userMutation.SET_TOKEN])
+    ...mapMutations([userMutation.SET_USER, userMutation.SET_TOKEN])
   }
 })
 export default class LoginComponent extends Vue {
@@ -136,7 +136,7 @@ export default class LoginComponent extends Vue {
 
   loading: boolean = false;
   // eslint-disable-next-line no-unused-vars
-  [userMutation.SET_EMAIL]: (email: string) => void;
+  [userMutation.SET_USER]: (email: string) => void;
   // eslint-disable-next-line no-unused-vars
   [userMutation.SET_TOKEN]: (token: string) => void;
 
@@ -159,11 +159,11 @@ export default class LoginComponent extends Vue {
       }
     })
       .then(async (response) => {
-        let access_token = response.data?.access_token;
-        let email = response.data?.email;
-        localStorage.setItem('token', access_token);
-        this[userMutation.SET_EMAIL](email);
-        this[userMutation.SET_TOKEN](access_token);
+        let token = response.data?.access_token;
+        let email = response.data?.user?.email;
+        localStorage.setItem('token', token);
+        this[userMutation.SET_USER](email);
+        this[userMutation.SET_TOKEN](token);
         this.loading = false;
         this.$router.push('/');
       })
