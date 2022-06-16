@@ -125,7 +125,7 @@ extend('min', {
     ...mapState({ user: (state) => state })
   },
   methods: {
-    ...mapMutations([userMutation.SET_USER, userMutation.SET_TOKEN])
+    ...mapMutations([userMutation.SET_USER])
   }
 })
 export default class LoginComponent extends Vue {
@@ -137,8 +137,6 @@ export default class LoginComponent extends Vue {
   loading: boolean = false;
   // eslint-disable-next-line no-unused-vars
   [userMutation.SET_USER]: (user: UserState) => void;
-  // eslint-disable-next-line no-unused-vars
-  [userMutation.SET_TOKEN]: (token: UserState) => void;
 
   delay(time: number) {
     return new Promise<void>((resolve) => {
@@ -159,11 +157,9 @@ export default class LoginComponent extends Vue {
       }
     })
       .then(async (response) => {
-        let token = response.data?.access_token;
-        let email = response.data?.user?.email;
-        localStorage.setItem('token', token);
-        this[userMutation.SET_USER](email);
-        this[userMutation.SET_TOKEN](token);
+        let user = response.data?.user;
+        localStorage.setItem('token', user?.token);
+        this[userMutation.SET_USER](user);
         this.loading = false;
         this.$router.push('/');
       })
@@ -174,7 +170,6 @@ export default class LoginComponent extends Vue {
           // @ts-ignore
           this.$refs.form.setErrors(errorsBag);
         }
-        this.loading = false;
       });
   }
 }
