@@ -1,5 +1,5 @@
 export interface UserState {
-  id: number | undefined;
+  id: number | null;
   email: string;
   token?: string;
 }
