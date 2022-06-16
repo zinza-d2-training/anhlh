@@ -278,7 +278,7 @@ export default class UserComponent extends Vue {
   email: string = '';
   password: string = '';
   fullName: string = '';
-  birthday: string = '';
+  birthday: Date | null = null;
   genders: Gender[] = [Gender.MALE, Gender.FEMALE];
   gender: Gender = Gender.MALE;
   selectedWard: Ward | null = null;
