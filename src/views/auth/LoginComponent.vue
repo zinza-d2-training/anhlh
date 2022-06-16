@@ -138,7 +138,7 @@ export default class LoginComponent extends Vue {
   // eslint-disable-next-line no-unused-vars
   [userMutation.SET_USER]: (user: UserState) => void;
   // eslint-disable-next-line no-unused-vars
-  [userMutation.SET_TOKEN]: (token: string) => void;
+  [userMutation.SET_TOKEN]: (token: UserState) => void;
 
   delay(time: number) {
     return new Promise<void>((resolve) => {
