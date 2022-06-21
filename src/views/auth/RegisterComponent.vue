@@ -76,18 +76,18 @@
                   <span class="messageError">{{ errors[0] }}</span>
                 </v-col>
               </ValidationProvider>
-              <ValidationProvider name="fullname" rules="required" v-slot="{ errors }">
+              <ValidationProvider name="fullName" rules="required" v-slot="{ errors }">
                 <v-col cols="12" class="form__email css-form">
                   <label for="password" class="subtitle-1 font-weight-regular"
                     >Họ và tên <span class="start">(*)</span></label
                   >
                   <v-text-field
-                    name="fullname"
+                    name="fullName"
                     class="input input-cmnd"
                     type="text"
                     outlined
                     :error-messages="errors"
-                    v-model="fullname"
+                    v-model="fullName"
                     placeholder="Họ và tên"
                     hide-details="false"
                     hint="false"></v-text-field>
@@ -219,11 +219,14 @@
 </template>
 <script lang="ts">
 import { Component, Vue, Watch } from 'vue-property-decorator';
-import axios, { AxiosResponse } from 'axios';
+import { instance } from '../api/axios';
 import { required, min, email, numeric } from 'vee-validate/dist/rules';
 import { extend } from 'vee-validate';
-import { Province, Gender, labelFromGender } from '../../components/type';
-import { District, Ward } from './type';
+import { Gender, labelFromGender } from '../../components/type';
+import { District, Ward, Province } from './type';
+import { userApi } from '../api/users';
+import { UserRegister } from '../api/type';
+
 extend('numeric', {
   ...numeric,
   message: 'bắt buộc phải là số'
@@ -287,59 +290,43 @@ export default class UserComponent extends Vue {
   provinces: Province[] = [];
   districtsFromDB: District[] = [];
   wardsFromDB: Ward[] = [];
-  districts: District[] = [];
-  wards: Ward[] = [];
 
-  async getDataAdministraviUnit() {
-    await axios({
-      method: 'get',
-      url: 'http://localhost:3000/data-administrative-unit'
-    }).then((respone: AxiosResponse) => {
-      this.provinces = respone.data?.provinces;
-      this.districtsFromDB = respone.data?.districts;
-      this.wardsFromDB = respone.data?.wards;
-    });
+  async getUnitAdministrative() {
+    try {
+      const response = await instance.get<Province[]>(`/data-administrative-unit/`);
+      this.provinces = response.data;
+    } catch (error) {
+      return 'error server 500';
+    }
   }
 
   async created() {
-    await this.getDataAdministraviUnit();
+    await this.getUnitAdministrative();
   }
 
   getLabelGender(gender: Gender) {
     return labelFromGender(gender);
   }
-
+  get districts() {
+    return this.selectedProvince?.districts ?? [];
+  }
+  get wards(): Ward[] {
+    return this.selectedDistrict?.wards ?? [];
+  }
   @Watch('selectedProvince')
-  onchangeSlectedprovince() {
-    this.districts = this.districtsFromDB.filter(
-      (district: District) => district['province_id'] == this.selectedProvince?.id
-    );
+  onchangeSelectedProvince() {
     this.selectedDistrict = null;
     this.selectedWard = null;
   }
 
   @Watch('selectedDistrict')
   async onchangeSelectDistrict() {
-    this.wards = this.wardsFromDB.filter(
-      (ward: Ward) => ward['district_id'] == this.selectedDistrict?.id
-    );
     this.selectedWard = null;
   }
 
-  delay(time: number) {
-    return new Promise<void>((resolve) => {
-      setTimeout(() => {
-        resolve();
-      }, time);
-    });
-  }
-
   async onSubmit() {
-    await this.delay(2000);
-    await axios({
-      method: 'post',
-      url: 'http://localhost:3000/auth/register',
-      data: {
+    try {
+      const user: UserRegister = {
         email: this.email,
         password: this.password,
         fullName: this.fullName,
@@ -348,19 +335,24 @@ export default class UserComponent extends Vue {
         ward_id: this.selectedWard?.id,
         role: 'user',
         identity_card_number: this.identityCardNumber
+      };
+      const response = await userApi.postUserRegister(
+        `${process.env.VUE_APP_URL}/auth/register`,
+        user
+      );
+      if (response.data?.status === 200) {
+        this.$router.push('/user');
       }
-    })
-      .then(() => this.$router.push('/user'))
-      .catch((error) => {
-        const statusCode = error.response.status;
+    } catch (error: any) {
+      const statusCode = error.response.status;
 
-        if (statusCode === 422) {
-          const errorsBag = error.response.data;
+      if (statusCode === 422) {
+        const errorsBag = error.response.data;
 
-          // @ts-ignore
-          this.$refs.form.setErrors(errorsBag);
-        }
-      });
+        // @ts-ignore
+        this.$refs.form.setErrors(errorsBag);
+      }
+    }
   }
 }
 </script>

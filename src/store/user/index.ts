@@ -6,7 +6,7 @@ import { mutations } from './mutations';
 const state: UserState = {
   id: null,
   email: '',
-  token: ''
+  access_token: ''
 };
 
 export const user: Module<UserState, RootState> = {

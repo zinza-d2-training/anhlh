@@ -54,8 +54,8 @@
             </ul>
           </li>
           <li class="container__menu-item"><router-link to="/document"> TÀI LIỆU </router-link></li>
-          <li class="container__menu-item user" v-if="user.email">
-            <span style="color: #ffffff">Xin chào {{ user.email }}</span>
+          <li class="container__menu-item user" v-if="getEmail">
+            <span style="color: #ffffff">Xin chào {{ getEmail }}</span>
             <v-icon class="chevron-down">mdi-chevron-down</v-icon>
             <ul class="sub-menu">
               <li class="sub-item">

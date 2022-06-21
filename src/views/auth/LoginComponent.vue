@@ -90,7 +90,8 @@ import { required, min, email } from 'vee-validate/dist/rules';
 import { mapMutations, mapState } from 'vuex';
 import { userMutation } from '../../store/user/mutations';
 import { UserState } from '../../store/user/type';
-import axios from 'axios';
+import { userApi } from '../api/users';
+import { UserLogin } from '../api/type';
 
 extend('requiredPw', {
   ...required,
@@ -138,39 +139,27 @@ export default class LoginComponent extends Vue {
   // eslint-disable-next-line no-unused-vars
   [userMutation.SET_USER]: (user: UserState) => void;
 
-  delay(time: number) {
-    return new Promise<void>((resolve) => {
-      setTimeout(() => {
-        resolve();
-      }, time);
-    });
-  }
   async onSubmit() {
-    this.loading = true;
-    await this.delay(2000);
-    await axios({
-      method: 'post',
-      url: 'http://localhost:3000/auth/login',
-      data: {
+    try {
+      const user: UserLogin = {
         email: this.email,
         password: this.password
+      };
+      const response = await userApi.postUserLogin('/auth/login', user);
+      let userResponse = response.data;
+      localStorage.setItem('token', userResponse?.access_token);
+      this[userMutation.SET_USER](userResponse);
+      this.$router.push('/');
+    } catch (error: any) {
+      const statusCode = error.response.status;
+
+      if (statusCode === 422) {
+        const errorsBag = error.response.data;
+
+        // @ts-ignore
+        this.$refs.form.setErrors(errorsBag);
       }
-    })
-      .then(async (response) => {
-        let user = response.data?.user;
-        localStorage.setItem('token', user?.token);
-        this[userMutation.SET_USER](user);
-        this.loading = false;
-        this.$router.push('/');
-      })
-      .catch((error) => {
-        const statusCode = error.response?.status;
-        if (statusCode === 422) {
-          const errorsBag = error.response?.data;
-          // @ts-ignore
-          this.$refs.form.setErrors(errorsBag);
-        }
-      });
+    }
   }
 }
 </script>

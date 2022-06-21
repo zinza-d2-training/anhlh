@@ -5,6 +5,8 @@ import { ValidationObserver, ValidationProvider, extend } from 'vee-validate';
 import * as rules from 'vee-validate/dist/rules';
 import router from './router';
 import store from '@/store/index';
+// import * as dotenv from 'dotenv';
+// dotenv.config();
 for (const [rule, validation] of Object.entries(rules)) {
   extend(rule, {
     ...validation
