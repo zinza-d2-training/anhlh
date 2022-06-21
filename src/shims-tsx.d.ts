@@ -9,7 +9,7 @@ declare global {
     }
   }
 }
-declare var process: {
+declare let process: {
   env: {
     NODE_ENV: string;
   };
