@@ -464,6 +464,3 @@ export default class UserComponent extends Vue {
   color: #1e88e5;
 }
 </style>
-
-function Getter() { throw new Error('Function not implemented.'); } function Getter() { throw new
-Error('Function not implemented.'); }
