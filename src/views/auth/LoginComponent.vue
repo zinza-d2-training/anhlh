@@ -11,7 +11,11 @@
         <ValidationObserver ref="form" v-slot="{ invalid }">
           <form @submit.prevent="onSubmit">
             <div class="form mt">
-              <ValidationProvider name="email" rules="requiredEmail|email" v-slot="{ errors }">
+              <ValidationProvider
+                name="email"
+                rules="requiredEmail|email"
+                v-slot="{ errors }"
+                vid="email">
                 <v-col cols="12" class="form__cmnd">
                   <label for="email" class="subtitle-1 font-weight-regular"> Email</label>
                   <v-text-field
@@ -19,7 +23,7 @@
                     class="input input-cmnd"
                     placeholder="vd:anh@gmail.com"
                     hide-details="false"
-                    v-model="user.email"
+                    v-model="email"
                     :error-messages="errors"
                     outlined></v-text-field>
                   <span class="messageError">{{ errors[0] }}</span>
@@ -28,7 +32,8 @@
               <ValidationProvider
                 name="password"
                 rules="requiredPw|alphaSpaces|min:8"
-                v-slot="{ errors }">
+                v-slot="{ errors }"
+                vid="password">
                 <v-col cols="12" class="form__pw">
                   <label for="password" class="subtitle-1 font-weight-regular">Mật khẩu</label>
                   <v-text-field
@@ -37,7 +42,7 @@
                     outlined
                     placeholder="*************"
                     hide-details="false"
-                    v-model="user.password"
+                    v-model="password"
                     :error-messages="errors"
                     hint="false"></v-text-field>
                   <span class="messageError">{{ errors[0] }}</span>
@@ -85,6 +90,9 @@ import { required, min, email } from 'vee-validate/dist/rules';
 import { mapMutations, mapState } from 'vuex';
 import { userMutation } from '../../store/user/mutations';
 import { UserState } from '../../store/user/type';
+import { userApi } from '../api/users';
+import { UserLogin } from '../api/type';
+
 extend('requiredPw', {
   ...required,
   message: 'Bắt buộc phải nhập  password!'
@@ -118,34 +126,40 @@ extend('min', {
     ...mapState({ user: (state) => state })
   },
   methods: {
-    ...mapMutations([userMutation.SET_USER, userMutation.SET_TOKEN])
+    ...mapMutations([userMutation.SET_USER])
   }
 })
 export default class LoginComponent extends Vue {
   $router: any;
   user!: UserState;
+  email: string = '';
+  password: string = '';
+
   loading: boolean = false;
   // eslint-disable-next-line no-unused-vars
   [userMutation.SET_USER]: (user: UserState) => void;
-  // eslint-disable-next-line no-unused-vars
-  [userMutation.SET_TOKEN]: (token: string) => void;
 
-  delay(time: number) {
-    return new Promise<void>((resolve) => {
-      setTimeout(() => {
-        resolve();
-      }, time);
-    });
-  }
   async onSubmit() {
-    let token = '12345678';
-    localStorage.setItem('token', token);
-    this[userMutation.SET_USER](this.user);
-    this[userMutation.SET_TOKEN](token);
-    this.loading = true;
-    await this.delay(2000);
-    this.loading = false;
-    this.$router.push('/');
+    try {
+      const user: UserLogin = {
+        email: this.email,
+        password: this.password
+      };
+      const response = await userApi.postUserLogin('/auth/login', user);
+      let userResponse = response.data;
+      localStorage.setItem('token', userResponse?.access_token);
+      this[userMutation.SET_USER](userResponse);
+      this.$router.push('/');
+    } catch (error: any) {
+      const statusCode = error.response.status;
+
+      if (statusCode === 422) {
+        const errorsBag = error.response.data;
+
+        // @ts-ignore
+        this.$refs.form.setErrors(errorsBag);
+      }
+    }
   }
 }
 </script>

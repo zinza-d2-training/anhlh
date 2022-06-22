@@ -12,18 +12,19 @@
           <ValidationObserver ref="form" v-slot="{ invalid }" @submit.prevent="onSubmit()">
             <form>
               <ValidationProvider
-                name="cmnd"
+                name="identityCardNumber"
                 rules="required|numeric|requiredCmnd"
-                v-slot="{ errors }">
+                v-slot="{ errors }"
+                vid="identity_card_number">
                 <v-col cols="12" class="form__email css-form">
                   <label for="password" class="subtitle-1 font-weight-regular"
                     >Số CMND/CCCD <span class="start">(*)</span></label
                   >
                   <v-text-field
-                    name="cmnd"
+                    name="identityCardNumber"
                     class="input input-cmnd"
                     type="text"
-                    v-model="cmnd"
+                    v-model="identityCardNumber"
                     outlined
                     :error-messages="errors"
                     placeholder="Số CMND/CCCD"
@@ -32,7 +33,11 @@
                   <span class="messageError">{{ errors[0] }}</span>
                 </v-col>
               </ValidationProvider>
-              <ValidationProvider name="email" rules="requiredEmail|email" v-slot="{ errors }">
+              <ValidationProvider
+                name="email"
+                rules="requiredEmail|email"
+                v-slot="{ errors }"
+                vid="email">
                 <v-col cols="12" class="form__email css-form">
                   <label for="password" class="subtitle-1 font-weight-regular"
                     >Email <span class="start">(*)</span></label
@@ -71,18 +76,18 @@
                   <span class="messageError">{{ errors[0] }}</span>
                 </v-col>
               </ValidationProvider>
-              <ValidationProvider name="fullname" rules="required" v-slot="{ errors }">
+              <ValidationProvider name="fullName" rules="required" v-slot="{ errors }">
                 <v-col cols="12" class="form__email css-form">
                   <label for="password" class="subtitle-1 font-weight-regular"
                     >Họ và tên <span class="start">(*)</span></label
                   >
                   <v-text-field
-                    name="fullname"
+                    name="fullName"
                     class="input input-cmnd"
                     type="text"
                     outlined
                     :error-messages="errors"
-                    v-model="fullname"
+                    v-model="fullName"
                     placeholder="Họ và tên"
                     hide-details="false"
                     hint="false"></v-text-field>
@@ -172,7 +177,7 @@
                       label="Quận/Huyện"
                       outlined
                       data-name="district"
-                      v-model="selectDistrict"
+                      v-model="selectedDistrict"
                       :error-messages="errors"
                       return-object
                       item-text="name"
@@ -191,7 +196,7 @@
                       label="Xã/Phường"
                       outlined
                       data-name="ward"
-                      v-model="selectWard"
+                      v-model="selectedWard"
                       return-object
                       item-text="name"
                       item-value="id"
@@ -214,10 +219,14 @@
 </template>
 <script lang="ts">
 import { Component, Vue, Watch } from 'vue-property-decorator';
-
+import { instance } from '../api/axios';
 import { required, min, email, numeric } from 'vee-validate/dist/rules';
 import { extend } from 'vee-validate';
-import { Province, Gender, Ward, District, labelFromGender } from '../../components/type';
+import { Gender, labelFromGender } from '../../components/type';
+import { District, Ward, Province } from './type';
+import { userApi } from '../api/users';
+import { UserRegister } from '../api/type';
+
 extend('numeric', {
   ...numeric,
   message: 'bắt buộc phải là số'
@@ -267,117 +276,83 @@ extend('requiredCmnd', {
 @Component({})
 export default class UserComponent extends Vue {
   $router: any;
-  menu = false;
-  cmnd = '';
-  email = '';
-  password = '';
-  fullname = '';
-  birthday = '';
-  genders = [Gender.MALE, Gender.FEMALE];
-  gender = Gender.MALE;
-  selectWard: Ward | null = null;
+  menu: boolean = false;
+  identityCardNumber: number | null = null;
+  email: string = '';
+  password: string = '';
+  fullName: string = '';
+  birthday: Date | null = null;
+  genders: Gender[] = [Gender.MALE, Gender.FEMALE];
+  gender: Gender = Gender.MALE;
+  selectedWard: Ward | null = null;
   selectedProvince: Province | null = null;
-  selectDistrict: District | null = null;
+  selectedDistrict: District | null = null;
+  provinces: Province[] = [];
+  districtsFromDB: District[] = [];
+  wardsFromDB: Ward[] = [];
+
+  async getUnitAdministrative() {
+    try {
+      const response = await instance.get<Province[]>(`/data-administrative-unit/`);
+      this.provinces = response.data;
+    } catch (error) {
+      return 'error server 500';
+    }
+  }
+
+  async created() {
+    await this.getUnitAdministrative();
+  }
 
   getLabelGender(gender: Gender) {
     return labelFromGender(gender);
   }
-
-  provinces: Province[] = [
-    {
-      id: 1,
-      name: 'thaibinh',
-      districts: [
-        {
-          id: 1,
-          name: 'thaithuy',
-          wards: [
-            {
-              id: 1,
-              name: 'diem dien'
-            },
-            {
-              id: 2,
-              name: 'thuy truong'
-            }
-          ]
-        },
-        {
-          id: 2,
-          name: 'kienxuong',
-          wards: [
-            {
-              id: 1,
-              name: 'diem dien1'
-            },
-            {
-              id: 2,
-              name: 'thuy truong1'
-            }
-          ]
-        }
-      ]
-    },
-    {
-      id: 2,
-      name: 'hanoi',
-      districts: [
-        {
-          id: 1,
-          name: 'hk',
-          wards: [
-            {
-              id: 1,
-              name: 'truong dinh'
-            },
-            {
-              id: 2,
-              name: 'traica'
-            }
-          ]
-        },
-        {
-          id: 2,
-          name: 'caugiay',
-          wards: [
-            {
-              id: 1,
-              name: 'truong dinh1'
-            },
-            {
-              id: 2,
-              name: 'traica1'
-            }
-          ]
-        }
-      ]
-    }
-  ];
   get districts() {
     return this.selectedProvince?.districts ?? [];
   }
   get wards(): Ward[] {
-    return this.selectDistrict?.wards ?? [];
+    return this.selectedDistrict?.wards ?? [];
   }
   @Watch('selectedProvince')
-  onchangeSlectedprovince() {
-    this.selectDistrict = null;
-    this.selectWard = null;
+  onchangeSelectedProvince() {
+    this.selectedDistrict = null;
+    this.selectedWard = null;
   }
-  @Watch('selectDistrict')
-  onchangeSelectDistrict() {
-    this.selectWard = null;
+
+  @Watch('selectedDistrict')
+  async onchangeSelectDistrict() {
+    this.selectedWard = null;
   }
-  delay(time: number) {
-    return new Promise<void>((resolve) => {
-      setTimeout(() => {
-        resolve();
-      }, time);
-    });
-  }
+
   async onSubmit() {
-    await this.delay(2000);
-    this.$router.push('/user');
+    try {
+      const user: UserRegister = {
+        email: this.email,
+        password: this.password,
+        fullName: this.fullName,
+        gender: this.gender,
+        birthday: this.birthday,
+        ward_id: this.selectedWard?.id,
+        role: 'user',
+        identity_card_number: this.identityCardNumber
+      };
+      const response = await userApi.postUserRegister(
+        `${process.env.VUE_APP_URL}/auth/register`,
+        user
+      );
+      if (response.data?.status === 200) {
+        this.$router.push('/user');
+      }
+    } catch (error: any) {
+      const statusCode = error.response.status;
+
+      if (statusCode === 422) {
+        const errorsBag = error.response.data;
+
+        // @ts-ignore
+        this.$refs.form.setErrors(errorsBag);
+      }
+    }
   }
 }
 </script>
@@ -497,5 +472,3 @@ export default class UserComponent extends Vue {
   padding-top: 0;
 }
 </style>
-
-function onchangeSlectedprovince() { throw new Error('Function not implemented.'); }

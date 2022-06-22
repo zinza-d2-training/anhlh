@@ -1,5 +1,5 @@
 export interface UserState {
+  id: number | null;
   email: string;
-  password: string;
-  token: string;
+  access_token: string;
 }

@@ -4,9 +4,9 @@ import { RootState } from '..';
 import { getters } from './getters';
 import { mutations } from './mutations';
 const state: UserState = {
+  id: null,
   email: '',
-  password: '',
-  token: ''
+  access_token: ''
 };
 
 export const user: Module<UserState, RootState> = {
